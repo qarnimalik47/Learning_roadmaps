@@ -10,11 +10,20 @@ An interactive study roadmap for two careers at once:
 - Two-track timeline planner based on your weekly hours
 - CCNA video course: all 63 Jeremy's IT Lab Days, played on the page with watch tracking
 - Videos mark themselves done at 90% watched, and tick the CCNA topics they cover
-- **Progress page (every student):** CCNA readiness score with its breakdown, mastery per exam domain, study streak, a 20-week activity heatmap, hours per week, a 63-Day course map, practice-drill accuracy and personalised next steps. Students can download a progress report or print the page.
-- **Class dashboard (admin):** headline numbers, class study time, domain mastery across the class, where students drop off in the video course, the most active students, and a roster with On track / Needs a push / Inactive status, search, sorting and CSV export. Select a student to see their full dashboard and leave them a coach note.
+- **Progress page (every student):** CCNA readiness score with its breakdown, progress over the last 12 weeks, exactly what's done and what's left, mastery per exam domain, study streak, activity heatmap, hours per week, a 63-Day course map, practice-drill accuracy and personalised next steps. Students can download a progress report or print the page.
+- **Class dashboard (admin)**, in six sections:
+  - **Overview:** headline numbers, class study time with the most active students, and domain mastery across the class.
+  - **Progress:** a progress-over-time chart for every student, with the class average and any student highlighted. A progress board shows each student's videos, labs, quiz cards, notes and exam topics.
+  - **Work done:** a done-and-remaining grid of every student against every Day, lab or card set, plus where students drop off in the video course.
+  - **Activity:** when the class studies (weekday × hour), each student's usual start time, and a feed of recent sessions with sign-in times, length and what was done.
+  - **Students:** a roster with On track / Needs a push / Inactive status, last-seen times, search, sorting and CSV export, plus a message to the whole class.
+  - **Reports:** report-file import, the live-accounts setup guide and video links.
+  - Select any student for their full dashboard: progress over time, done and remaining, every sign-in and session, and a coach note.
+- The site records study sessions (start time, last activity, length) so the admin can see when each student signs in. Sessions are recorded from the first visit after this update.
 - The class dashboard works in two ways:
   - **Without accounts:** open `#admin` (there's a link in the footer) and drop in the report files students send you. Reports stay in that browser.
-  - **With accounts (Firebase):** every student appears live, and coach notes show at the top of their Progress page.
+  - **With accounts (Firebase):** every student appears live, and coach notes and class messages show at the top of their Progress page.
+- Light and dark modes in a premium theme: Archivo type, Arancio orange and Viola violet accents, chart colors checked for colour-blind readability.
 - Study notes for every CCNA Day, linked from each topic, with quiz cards
 - Anki flashcard decks (70) and Packet Tracer labs (48) on every CCNA topic, in the notes reader, and in Practice > Anki and labs, with a "lab done" tick that counts as progress
 - Skill map showing how the two tracks connect
