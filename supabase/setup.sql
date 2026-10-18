@@ -97,3 +97,40 @@ revoke all on public.admins from anon, authenticated;
 grant execute on function public.is_admin() to authenticated;
 grant select, insert, update, delete on public.profiles, public.progress, public.notes, public.settings to authenticated;
 revoke all on public.profiles, public.progress, public.notes, public.settings from anon;
+
+-- Leaderboard: every signed-in student sees each classmate's name, XP, level and progress counts.
+-- Nothing else (no emails, no detailed progress) leaves the database this way.
+-- Students who untick "Show me on the leaderboard" are left out.
+create or replace function public.lb_num(j jsonb, k text) returns integer
+language sql immutable as $$
+  select case when (j ->> k) ~ '^[0-9]{1,9}(\.[0-9]+)?$' then least((j ->> k)::numeric, 1000000000)::integer else 0 end;
+$$;
+
+create or replace function public.leaderboard()
+returns table (id uuid, name text, xp integer, week_xp integer, level integer, videos integer, labs integer,
+               cards integer, streak integer, ccna integer, is_me boolean)
+language sql stable security definer set search_path = public as $$
+  select p.id,
+         coalesce(nullif(trim(p.name), ''), 'Student'),
+         public.lb_num(p.summary, 'xp'),
+         -- weekly XP only counts if it was saved in the last 7 days
+         case when coalesce(p.summary ->> 'at', '') !~ '^[0-9]{1,15}$' then 0
+              when (p.summary ->> 'at')::bigint > (extract(epoch from now()) * 1000)::bigint - 7 * 86400000
+              then public.lb_num(p.summary, 'weekXp')
+              else 0 end,
+         greatest(public.lb_num(p.summary, 'level'), 1),
+         public.lb_num(p.summary, 'videos'),
+         public.lb_num(p.summary, 'labs'),
+         public.lb_num(p.summary, 'cards'),
+         public.lb_num(p.summary, 'streak'),
+         least(public.lb_num(p.summary, 'ccna'), 100),
+         p.id = auth.uid()
+  from public.profiles p
+  where auth.uid() is not null
+    and coalesce(p.summary ->> 'lb', 'true') <> 'false'
+  order by 3 desc
+  limit 500;
+$$;
+
+revoke all on function public.leaderboard() from public, anon;
+grant execute on function public.leaderboard() to authenticated;

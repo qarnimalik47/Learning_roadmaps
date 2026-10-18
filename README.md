@@ -11,7 +11,9 @@ An interactive study roadmap for two careers at once:
 - CCNA video course: all 63 Jeremy's IT Lab Days as one continuous series, played on the page with watch tracking
   - A line for the whole course shows every video watched, part watched or not started, and the next one up
   - Every video has a tracking line beneath it: how much you've watched and how much is left (for example "40% · 12:00 watched · 18:00 left")
-  - The player has an **Open notes** button for that Day, previous and next buttons (Shift+P and Shift+N), and a × that closes it. The next video plays automatically when one ends, and that can be switched off. Opening the notes closes the video and keeps your place, so "Resume" in the notes picks up where you stopped.
+  - The player is large, and only its × closes it (clicking the space around it doesn't). It has previous and next buttons (Shift+P and Shift+N), and the next video plays automatically when one ends (that can be switched off).
+  - **Open notes** opens that Day's notes beside the video while it keeps playing: on the right on a computer, below the video on a phone.
+  - A video picks up where you left off when you open it again, even after closing it by accident or leaving the page. "Start from the beginning" restarts it.
 - Ticked items always stay in view, with a tick and a line through them.
   - Under the video, the tracking line fills in the parts you've actually played and leaves gaps for the parts still left. Select any point on it to jump there.
 - Videos mark themselves done at 90% watched, and tick the CCNA topics they cover
@@ -34,7 +36,12 @@ An interactive study roadmap for two careers at once:
 - The class dashboard works in two ways:
   - **Without accounts:** open `#admin` (there's a link in the footer) and drop in the report files students send you. Reports stay in that browser.
   - **With accounts (Supabase, PostgreSQL):** every student appears live, and coach notes and class messages show at the top of their Progress page.
-- Light and dark modes in a premium theme: Archivo type, Arancio orange and Viola violet accents, chart colors checked for colour-blind readability.
+- Light and dark modes: light grey and white with calm blue (Networking) and soft pink (AI) accents, Archivo type, wide pages, and chart colors checked for colour-blind readability.
+- Easy-to-read text sizes, and a top bar that always fits every tab: on narrower screens it first shows Search and the account as icons, then moves the tabs to their own row, then shortens long tab names.
+- **Leaderboard (every student):** XP for every video (100), lab (75), notes read (25), quiz card known (10), exam topic ticked (15), practice question answered (2) and day studied (20), with ten levels from Cable Rookie to Network Engineer.
+  - Rank the class by **This week**, **All time** or **Course progress**, with a top-3 podium, your rank and level, and how far you are behind the next person.
+  - Classmates see only each other's name, XP, level and progress counts, never emails. Anyone can untick **Show me on the leaderboard**.
+  - XP is worked out in each student's browser from their own saved work.
 - Study notes for every CCNA Day, linked from each topic, with quiz cards
 - Anki flashcard decks (70, revised in the Revision tab) and Packet Tracer labs (48, downloaded) on every CCNA topic, in the notes reader, and in Practice > Anki and labs, with a "lab done" tick that counts as progress
 - Skill map showing how the two tracks connect
