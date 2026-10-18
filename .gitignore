@@ -1,0 +1,4 @@
+# The original slide decks stay private: the site only needs the images in slides/m1 to m6 and slides/text.js
+slides/*.pptx
+# Office lock files
+~$*

@@ -23,6 +23,14 @@ An interactive study roadmap for two careers at once:
   - Search every card, filter decks (watched Days, not finished, due for review), a "due for review" session and a shuffled mixed review
   - The Anki buttons on Networking topics, in the notes reader, in Practice > Anki and labs and next to each video all open the cards here. Packet Tracer labs still download as before.
   - Progress is saved with the rest of your progress (and to your account when accounts are on), and revision time counts toward your daily goal
+- **Slides (Revision > Slides):** the class slides for all six CCNA modules, 436 slides in 63 short topics, shown right on the page
+  - Pick a module, then a topic. Each topic card shows how many slides it has and how many you have seen.
+  - **Quick revision** shows only the 223 key slides: definitions, comparisons, summaries and the main commands. It skips title slides, photos, repeated worked examples, the extra routers in a lab, and assignments.
+  - The viewer moves with the arrow keys, Space, a tap or a swipe, shows a strip of the topic's slides, zooms (Z), goes full screen (F), switches to quick revision (Q), and carries on to the next topic at the end of one
+  - Search the words on every slide
+  - A **Slides** chip on each matching CCNA topic, and a **Module N slides** link under each exam domain, open the right slides
+  - Slides you have seen are saved with the rest of your progress, and time on slides counts toward your daily goal
+  - Slides 1 to 4 of modules 2 to 6 repeat the title and course outline, so they appear once, in Module 1. Four blank slides in Module 1 are left out.
 - **Progress page (every student):** CCNA readiness score with its breakdown, progress over the last 12 weeks, exactly what's done and what's left, mastery per exam domain, study streak, activity heatmap, hours per week, a 63-Day course map, practice-drill accuracy and personalised next steps. Students can download a progress report or print the page.
 - **Class dashboard (admin)**, in six sections:
   - **Overview:** headline numbers, class study time with the most active students, and domain mastery across the class.
@@ -59,8 +67,22 @@ An interactive study roadmap for two careers at once:
 | `supabase/setup.sql` | The PostgreSQL tables and security rules. Run it once in Supabase's SQL Editor |
 | `CCNA-Flashcards/` | Anki decks (`.apkg`), one or more per Day |
 | `CCNA-Labs/` | Packet Tracer labs (`.pkt`), one or more per Day |
+| `slides/` | Every slide of the six CCNA module decks as a web image (`m1/` to `m6/`, thumbnails in `t/`), and `text.js`, the words on each slide for search. The `.pptx` decks themselves are not published |
+| `.gitignore` | Keeps the original `.pptx` decks and Office lock files (`~$…`) out of the repository |
+| `tools/export_slides.ps1`, `tools/build_slides.py` | Rebuild `slides/` after a deck changes (see below) |
 
 Upload both folders and `flashcards.js` next to `index.html`, keeping the file names exactly as they are. The site links to each file by name. If you add or rename a deck or lab, update the `ANKI` or `LABF` list near the end of `index.html` to match. After changing a deck, run `python tools/build_flashcards.py` to rebuild `flashcards.js`.
+
+The original decks stay private: keep them in your own copy of `slides/`, where `.gitignore` stops git from committing them. If you upload files through GitHub's website instead, leave the `.pptx` files out.
+
+To update the slides after editing a deck, save the new `.pptx` into your local `slides/` with the same name, then run these two commands. The first needs Microsoft PowerPoint and the second needs `pip install pillow`:
+
+```
+powershell -ExecutionPolicy Bypass -File tools\export_slides.ps1 -Decks slides -Out C:\temp\slide-png
+python tools/build_slides.py --png C:/temp/slide-png --decks slides --out slides
+```
+
+If slides were added, removed or moved, update the topic list (`SLIDE_MODULES`) near the end of `index.html` so every topic still points at the right slides.
 
 Without Supabase settings in `config.js`, the site still works: everyone's progress is saved in their own browser, with no accounts.
 
