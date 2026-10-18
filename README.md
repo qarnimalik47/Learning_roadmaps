@@ -37,6 +37,7 @@ An interactive study roadmap for two careers at once:
   - **Without accounts:** open `#admin` (there's a link in the footer) and drop in the report files students send you. Reports stay in that browser.
   - **With accounts (Supabase, PostgreSQL):** every student appears live, and coach notes and class messages show at the top of their Progress page.
 - Light and dark modes in a premium theme: Archivo type, Arancio orange and Viola violet accents, chart colors checked for colour-blind readability.
+- Easy-to-read text sizes, and a top bar that always fits every tab: on narrower screens it first shows Search and the account as icons, then moves the tabs to their own row, then shortens long tab names.
 - Study notes for every CCNA Day, linked from each topic, with quiz cards
 - Anki flashcard decks (70, revised in the Revision tab) and Packet Tracer labs (48, downloaded) on every CCNA topic, in the notes reader, and in Practice > Anki and labs, with a "lab done" tick that counts as progress
 - Skill map showing how the two tracks connect
