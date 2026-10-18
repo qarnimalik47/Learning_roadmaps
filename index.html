@@ -276,7 +276,6 @@ main.route-wrap{padding:30px 0 96px}
 .items{list-style:none;margin:6px 0 0;padding:0}
 .items li .item{padding:9px 0}
 .no-why .item-why,.no-why .sec-why{display:none}
-.hide-done li.is-done{display:none}
 
 /* build */
 .proj{max-width:72ch}
@@ -1332,36 +1331,12 @@ button.mx-n:hover{color:var(--net-t)}
   .vs-line{gap:1px}
   .vsprint{padding-left:14px;padding-right:14px}
 }
-/* ---------- series player: the video, its tracking line and the whole series beside it ---------- */
-.pl-box{width:min(1240px,100%,calc((100dvh - 300px) * 16 / 9 + 340px));max-height:calc(100dvh - 40px);display:flex;flex-direction:column}
+/* ---------- video player: the video, its tracking line underneath, and the notes ---------- */
+.pl-box{width:min(960px,100%,max(320px,calc((100dvh - 290px) * 16 / 9)));max-height:calc(100dvh - 40px);display:flex;flex-direction:column}
 .pl-head{flex:none}
 .pl-nav{display:flex;gap:6px}
 .pl-nav .ibtn:disabled{opacity:.4;cursor:default}
-.pl-main{display:grid;grid-template-columns:minmax(0,1fr) 340px;min-height:0;overflow:auto}
-.pl-left{min-width:0}
-.pl-side{position:relative;border-left:1px solid var(--line);min-height:240px}
-.pl-side-in{position:absolute;inset:0;display:flex;flex-direction:column}
-.pl-sh{padding:14px 16px 12px;border-bottom:1px solid var(--line)}
-.pl-sh-t{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
-.pl-sh-t b{font-size:14px;font-weight:700}
-.pl-sh-t span{font-size:12.5px;font-weight:650;color:var(--muted);font-variant-numeric:tabular-nums}
-.pl-sbar{height:5px;border-radius:99px;background:var(--rail);margin-top:9px;overflow:hidden}
-.pl-sbar i{display:block;height:100%;width:0;background:var(--ok);border-radius:99px;transition:width .4s}
-.pl-list{position:relative;list-style:none;margin:0;padding:6px;overflow-y:auto;flex:1;min-height:0;overscroll-behavior:contain}
-.pl-it{width:100%;display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:10px;align-items:center;border:0;background:none;font:inherit;color:var(--ink);text-align:left;padding:7px 8px;border-radius:10px;cursor:pointer}
-.pl-it:hover{background:var(--sunk)}
-.pl-it.cur{background:color-mix(in srgb,var(--net) 11%,transparent)}
-.pl-n{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:700;background:var(--sunk);color:var(--muted);box-shadow:inset 0 0 0 1px var(--line);font-variant-numeric:tabular-nums}
-.pl-it.done .pl-n{background:var(--ok);color:#fff;box-shadow:none}
-.pl-it.cur .pl-n{background:var(--net);color:#17171C;box-shadow:none}
-.pl-t{min-width:0}
-.pl-t small{display:block;font-size:11.5px;font-weight:650;color:var(--faint)}
-.pl-t b{display:block;font-size:13.5px;font-weight:600;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pl-ib{display:block;height:3px;border-radius:99px;background:var(--rail);margin-top:5px;overflow:hidden}
-.pl-ib i{display:block;height:100%;width:0;background:var(--net)}
-.pl-it.done .pl-ib i{background:var(--ok)}
-.pl-st{font-size:12px;font-weight:650;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
-.pl-it.done .pl-st{color:var(--ok-t)}
+.pl-main{min-height:0;overflow:auto}
 .pl-foot{display:block;padding:14px 18px 16px}
 .pl-track{position:relative;height:12px;border-radius:99px;background-color:var(--rail);background-repeat:no-repeat;cursor:pointer;touch-action:manipulation}
 .pl-track.off{cursor:default}
@@ -1369,10 +1344,11 @@ button.mx-n:hover{color:var(--net-t)}
 .pl-ph[hidden]{display:none}
 .pl-tt{display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px 16px;margin-top:10px;font-size:13.5px;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums}
 .pl-tt b{color:var(--ink);font-weight:700}
-.pl-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 18px;margin-top:12px}
+.pl-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;margin-top:14px}
+.pl-row #plYT{margin-left:auto}
 .pl-auto{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;color:var(--muted);cursor:pointer}
 .pl-auto input{accent-color:var(--net);width:16px;height:16px;margin:0}
-.pl-foot .pl-note{margin-top:10px}
+.pl-foot .pl-note{margin-top:12px}
 .pl-up{position:absolute;inset:0;z-index:2;display:grid;place-items:center;text-align:center;padding:24px;background:rgba(12,12,16,.88);color:#fff}
 .pl-up[hidden]{display:none}
 .pl-up small{display:block;font-size:13px;font-weight:650;color:rgba(255,255,255,.7)}
@@ -1380,13 +1356,6 @@ button.mx-n:hover{color:var(--net-t)}
 .pl-up .dact{justify-content:center;margin-top:0}
 .pl-up .btn.ghost{background:transparent;color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.45)}
 .pl-up p{margin-top:12px;font-size:13px;color:rgba(255,255,255,.7);font-variant-numeric:tabular-nums}
-@media (max-width:1000px){
-  .pl-box{width:min(960px,100%)}
-  .pl-main{grid-template-columns:1fr}
-  .pl-side{border-left:0;border-top:1px solid var(--line);min-height:0}
-  .pl-side-in{position:static}
-  .pl-list{max-height:300px}
-}
 @media (max-width:820px){.pl-box{max-height:100dvh}.pl-foot{padding:12px 14px 14px}}
 /* ---------- revision: every Anki deck as flashcards on the page ---------- */
 body[data-view="revision"]{--accent:var(--anki)}
@@ -1500,18 +1469,15 @@ body[data-view="revision"] .tab[aria-selected="true"]::after{background:var(--an
 
 <div class="pl" id="pl" hidden role="dialog" aria-modal="true" aria-labelledby="plTitle">
  <div class="pl-box">
-  <div class="pl-head"><h2 id="plTitle"></h2><div class="pl-nav"><button class="ibtn" id="plPrev" aria-label="Previous video in the series" title="Previous video (Shift+P)"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M9 2.5L4.5 7 9 11.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="ibtn" id="plNext" aria-label="Next video in the series" title="Next video (Shift+N)"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M5 2.5L9.5 7 5 11.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><button class="pl-x" id="plClose" aria-label="Close video">×</button></div>
+  <div class="pl-head"><h2 id="plTitle"></h2><div class="pl-nav"><button class="ibtn" id="plPrev" aria-label="Previous video" title="Previous video (Shift+P)"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M9 2.5L4.5 7 9 11.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="ibtn" id="plNext" aria-label="Next video" title="Next video (Shift+N)"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M5 2.5L9.5 7 5 11.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><button class="pl-x" id="plClose" aria-label="Close video">×</button></div>
   <div class="pl-main">
-   <div class="pl-left">
-    <div class="pl-frame"><div id="plMount"></div><div class="pl-up" id="plUp" hidden></div></div>
-    <div class="pl-foot">
-     <div class="pl-track" id="plTrack" role="slider" tabindex="0" aria-label="Watch tracking: the parts of this video you’ve watched" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0"><i class="pl-ph" id="plPh" hidden></i></div>
-     <div class="pl-tt"><span id="plTxt">0% watched</span><span id="plLeft"></span></div>
-     <div class="pl-row"><label class="pl-auto"><input type="checkbox" id="plAuto" checked>Play the next video in the series automatically</label><a id="plYT" target="_blank" rel="noopener">Open on YouTube</a></div>
-     <p class="pl-note">The line fills in as you watch, and the gaps are the parts still left. Only parts you actually play count, and a video marks itself done at 90%. Select any point on the line to jump there. Watching on youtube.com isn’t tracked.</p>
-    </div>
+   <div class="pl-frame"><div id="plMount"></div><div class="pl-up" id="plUp" hidden></div></div>
+   <div class="pl-foot">
+    <div class="pl-track" id="plTrack" role="slider" tabindex="0" aria-label="Watch tracking: the parts of this video you’ve watched" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0"><i class="pl-ph" id="plPh" hidden></i></div>
+    <div class="pl-tt"><span id="plTxt">0% watched</span><span id="plLeft"></span></div>
+    <div class="pl-row"><button class="btn ghost sm" id="plNotes" data-notes="1">Open notes</button><label class="pl-auto"><input type="checkbox" id="plAuto" checked>Play the next video automatically</label><a id="plYT" target="_blank" rel="noopener">Open on YouTube</a></div>
+    <p class="pl-note">The line fills in as you watch, and the gaps are the parts still left. Only parts you actually play count, and a video marks itself done at 90%. Select any point on the line to jump there. Opening the notes closes the video and keeps your place. Watching on youtube.com isn’t tracked.</p>
    </div>
-   <aside class="pl-side" aria-label="CCNA video series"><div class="pl-side-in"><div class="pl-sh"><div class="pl-sh-t"><b>CCNA series</b><span id="plSum"></span></div><div class="pl-sbar"><i id="plSbar"></i></div></div><ol class="pl-list" id="plList"></ol></div></aside>
   </div>
  </div>
 </div>
@@ -2741,7 +2707,6 @@ function buildTrack(tk){
   // toolbar
   $(`[data-toolbar="${tk}"]`).innerHTML=`
     <div class="tgroup"><button class="tbtn" data-act="why" aria-pressed="false">Show reasons</button>
-    <button class="tbtn" data-act="hide" aria-pressed="false">Hide done</button>
     <button class="tbtn" data-act="all">Expand all</button>
     <button class="tbtn" data-act="reset">Reset</button></div>
     <div class="prog"><div class="prog-track"><div class="prog-fill" data-fill="${tk}"></div></div><span class="prog-txt" data-txt="${tk}"></span></div>`;
@@ -2929,7 +2894,6 @@ document.addEventListener("click",e=>{
     const tk=act.closest("[data-toolbar]").dataset.toolbar, panel=$(`[data-panel="${tk}"]`), a=act.dataset.act;
     const pref=state["_pref_"+tk]=state["_pref_"+tk]||{};
     if(a==="why")pref.showWhy=!pref.showWhy;
-    if(a==="hide")pref.hide=!pref.hide;
     if(a==="all"){const hops=$$(`#${tk}Route .hop`),anyClosed=hops.some(h=>!h.classList.contains("open"));hops.forEach(h=>toggleHop(h,anyClosed));}
     if(a==="reset"){if(!confirm(`Clear every ticked item in the ${TRACKS[tk].name} track?`))return;
       Object.keys(state).forEach(k=>{if(k.startsWith(tk+"-"))delete state[k]});}
@@ -2945,9 +2909,9 @@ function selPane(hop,k,anim){
 function applyPrefs(){
   ["net","ai"].forEach(tk=>{
     const pref=state["_pref_"+tk]||{}, panel=$(`[data-panel="${tk}"]`), tb=$(`[data-toolbar="${tk}"]`);
-    panel.classList.toggle("no-why",!pref.showWhy); panel.classList.toggle("hide-done",!!pref.hide);
+    /* ticked items always stay in view; an old "Hide done" setting is ignored */
+    panel.classList.toggle("no-why",!pref.showWhy);
     $('[data-act="why"]',tb).setAttribute("aria-pressed",!!pref.showWhy);
-    $('[data-act="hide"]',tb).setAttribute("aria-pressed",!!pref.hide);
     const anyClosed=$$(`#${tk}Route .hop`).some(h=>!h.classList.contains("open"));
     $('[data-act="all"]',tb).textContent=anyClosed?"Expand all":"Collapse all";
   });
@@ -3268,7 +3232,6 @@ function videoRefresh(){
   }
   SPRINT_DAYS.forEach(([a,b],k)=>{const n=range(a,b).filter(vDone).length;const el=$(`[data-vgc="${k}"]`);if(el)el.textContent=`${n} of ${b-a+1} done`;});
   const sum=$("#vsSum"); if(sum)sum.innerHTML=`<b>${done}</b> of ${NDAYS} watched · <b>${NDAYS-done}</b> remaining · ${Math.round(done/NDAYS*100)}%`;
-  if(!$("#pl").hidden)plList();
   $("#vsDone").textContent=`${done} of ${NDAYS}`;
   $("#vsTime").textContent=dur(state._watch);
   $("#vsToday").textContent=dur((state._daily[today()]||{}).sec);
@@ -3319,27 +3282,6 @@ function plUpdate(){
   tr.setAttribute("aria-valuetext",D?`At ${hms(t)} of ${hms(D)}. ${p}% watched, ${hms(D-w)} left`:"Not started");
   $("#plTxt").innerHTML=dn?`<b>Done</b>${p?`, ${p}% watched`:""}`:`<b>${p}%</b> watched${D?` · ${hms(w)} of ${hms(D)}`:""}`;
   $("#plLeft").textContent=!D?"":D-w>=1?`${hms(D-w)} ${dn?"not played yet":"left to watch"}`:"Every part watched";
-  const it=document.querySelector(`#plList [data-pli="${curDay}"]`); if(it)plItem(it,curDay);
-}
-/* the series beside the player: every video in order, the current one highlighted */
-function plItem(b,d){
-  const v=state._v[d]||{}, dn=vDone(d), p=dn?100:pctOf(d), cur=d===curDay;
-  b.classList.toggle("done",dn); b.classList.toggle("cur",cur);
-  if(cur)b.setAttribute("aria-current","true"); else b.removeAttribute("aria-current");
-  b.querySelector("b").textContent=T(d);
-  b.querySelector(".pl-ib i").style.width=p+"%";
-  b.querySelector(".pl-st").textContent=dn?"✓":p?p+"%":v.d?hms(v.d):"";
-  b.title=`Day ${d}: ${T(d)}. ${progTxt(d)}`;
-}
-function plList(scroll){
-  const ol=$("#plList");
-  if(!ol.firstChild)ol.innerHTML=range(1,NDAYS).map(d=>`<li><button class="pl-it" data-play="${d}" data-pli="${d}"><span class="pl-n">${d}</span><span class="pl-t"><small>Day ${d}</small><b></b><span class="pl-ib"><i></i></span></span><span class="pl-st"></span></button></li>`).join("");
-  let done=0;
-  $$(".pl-it",ol).forEach(b=>{const d=+b.dataset.pli;if(vDone(d))done++;plItem(b,d);});
-  $("#plSum").textContent=`${done} of ${NDAYS} watched · ${NDAYS-done} left`;
-  $("#plSbar").style.width=done/NDAYS*100+"%";
-  $("#plPrev").disabled=curDay<=1; $("#plNext").disabled=curDay>=NDAYS;
-  if(scroll){const it=ol.querySelector(".cur");if(it)ol.scrollTop=it.parentNode.offsetTop-ol.clientHeight/2+it.offsetHeight/2;}
 }
 function seekTo(sec){
   const v=state._v[curDay]||{}, D=v.d||0;
@@ -3348,13 +3290,13 @@ function seekTo(sec){
   try{player.seekTo(sec,true);}catch(e){return;}
   V(curDay).t=Math.round(sec); plUpdate();
 }
-/* when a video ends: offer the next one in the series, and play it automatically unless that's switched off */
+/* when a video ends: offer the next one, and play it automatically unless that's switched off */
 function hideUp(){clearInterval(upT);upT=null;const b=$("#plUp");b.hidden=true;b.innerHTML="";}
 function ended(d){
   hideUp();
-  if(d>=NDAYS){toast("That was the last video in the series.");return;}
+  if(d>=NDAYS){toast("That was the last video in the course.");return;}
   const nx=d+1, b=$("#plUp");
-  b.innerHTML=`<div><small>Up next in the series</small><b>Day ${nx}: ${esc(T(nx))}</b><div class="dact"><button class="btn" data-play="${nx}">${autoNext?"Play now":`Play Day ${nx}`}</button><button class="btn ghost" id="plUpX" data-again="${autoNext?"":"1"}">${autoNext?"Cancel":"Watch again"}</button></div><p id="plUpC"></p></div>`;
+  b.innerHTML=`<div><small>Up next</small><b>Day ${nx}: ${esc(T(nx))}</b><div class="dact"><button class="btn" data-play="${nx}">${autoNext?"Play now":`Play Day ${nx}`}</button><button class="btn ghost" id="plUpX" data-again="${autoNext?"":"1"}">${autoNext?"Cancel":"Watch again"}</button></div><p id="plUpC"></p></div>`;
   b.hidden=false;
   if(!autoNext)return;
   let n=8;
@@ -3364,10 +3306,12 @@ function ended(d){
 function openVideo(d){
   d=+d; if(!DAYS[d])return;
   closeVideo(true); curDay=d;
-  $("#plTitle").innerHTML=`<small>Day ${d} · ${d} of ${NDAYS} in the series</small>${esc(T(d))}`;
+  $("#plTitle").innerHTML=`<small>Day ${d} of ${NDAYS}</small>${esc(T(d))}`;
   const id=LINKS[d]; const mount=$("#plMount");
   $("#plYT").href=id?`https://www.youtube.com/watch?v=${id}`:search(d);
-  $("#pl").hidden=false; document.body.style.overflow="hidden"; plList(true); plUpdate();
+  $("#plNotes").dataset.notes=d; $("#plNotes").title=`Read the Day ${d} notes`;
+  $("#plPrev").disabled=d<=1; $("#plNext").disabled=d>=NDAYS;
+  $("#pl").hidden=false; document.body.style.overflow="hidden"; plUpdate();
   if(!id&&!openVideo.retried){
     mount.innerHTML=`<div class="pl-empty"><div><p>Finding Day ${d} in Jeremy’s playlist…</p></div></div>`;
     autoDiscover(true).then(()=>{if(curDay===d&&!$("#pl").hidden){openVideo.retried=true;openVideo(d);openVideo.retried=false;}});
@@ -3428,8 +3372,10 @@ function closeVideo(silent){
 document.addEventListener("click",e=>{
   const p=e.target.closest("[data-play]");
   if(p){e.preventDefault();e.stopPropagation();openVideo(p.dataset.play);return;}
-  if(e.target.id==="plClose"||e.target.id==="pl")closeVideo();
+  if(e.target.closest("#plClose")||e.target.id==="pl")closeVideo();
 },true);
+/* the notes never open on top of a playing video: opening them closes the video, which keeps its place */
+new MutationObserver(()=>{if(!$("#nr").hidden&&!$("#pl").hidden){closeVideo();document.body.style.overflow="hidden";}}).observe($("#nr"),{attributes:true,attributeFilter:["hidden"]});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("#pl").hidden)closeVideo();});
 /* move through the series */
 $("#plPrev").addEventListener("click",()=>{if(curDay>1)openVideo(curDay-1);});
@@ -4211,9 +4157,6 @@ $("#vCheat").addEventListener("click",()=>openNotes([], "cheat"));
   const list=document.querySelector('#net-s0 [data-pane="watch"] .crs-list'); if(!list)return;
   list.insertAdjacentHTML("beforeend",`<li class="crs"><label class="item"><input type="checkbox" data-id="net-notes" aria-label="CCNA notes finished"><span class="badge" style="--c:var(--gold)" aria-hidden="true">NT</span><span><span class="item-t">CCNA study notes: Days 1–63</span><span class="crs-d">Easy-language notes for every Day: tables, IOS commands, exam traps, a lab and a quick quiz. Read each Day right after its video.</span></span></label><a class="crs-link" href="#" data-notes="${Array.from({length:63},(_,i)=>i+1).join(",")}">Open notes</a></li>`);
 })();
-// player footer
-$("#plYT").insertAdjacentHTML("beforebegin",'<a href="#" id="plNotes">Read the notes</a>');
-$("#plNotes").addEventListener("click",e=>{e.preventDefault();const t=$("#plTitle small");const d=t?+t.textContent.replace(/\D/g,""):1;openNotes([d],d);});
 function refreshMarks(){
   $$("[data-nr]").forEach(a=>a.classList.toggle("rd",isRead(a.dataset.nr)));
 }

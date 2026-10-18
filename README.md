@@ -11,7 +11,8 @@ An interactive study roadmap for two careers at once:
 - CCNA video course: all 63 Jeremy's IT Lab Days as one continuous series, played on the page with watch tracking
   - A line for the whole course shows every video watched, part watched or not started, and the next one up
   - Every video has a tracking line beneath it: how much you've watched and how much is left (for example "40% · 12:00 watched · 18:00 left")
-  - The player shows the whole series beside the video, with previous and next buttons (Shift+P and Shift+N). The next video plays automatically when one ends, and that can be switched off.
+  - The player has an **Open notes** button for that Day, previous and next buttons (Shift+P and Shift+N), and a × that closes it. The next video plays automatically when one ends, and that can be switched off. Opening the notes closes the video and keeps your place, so "Resume" in the notes picks up where you stopped.
+- Ticked items always stay in view, with a tick and a line through them.
   - Under the video, the tracking line fills in the parts you've actually played and leaves gaps for the parts still left. Select any point on it to jump there.
 - Videos mark themselves done at 90% watched, and tick the CCNA topics they cover
 - **Revision tab:** all 2,135 flashcards from the 70 Anki decks, revised right on the page with no download and no Anki app
