@@ -84,3 +84,4 @@ What visitors see once accounts are on:
 - **Names** come from the email address and can be changed on the Progress page.
 - **Forgot password** sends a reset link that opens a "Set a new password" screen on the site.
 - **Data:** students can only read and change their own data. Admins, listed in the `admins` table, see everyone and can write coach notes and the class message.
+- **More admins:** have them create an account, then run `insert into public.admins (email) values ('their-email@example.com');` (lowercase) in the SQL Editor. Admins show the title **Admin** on the leaderboard and in their profile instead of a level.
