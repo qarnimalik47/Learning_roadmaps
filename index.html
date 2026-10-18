@@ -1277,6 +1277,37 @@ button.mx-n:hover{color:var(--net-t)}
 .acct-nav a{text-decoration:none;font-size:14px;font-weight:600;padding:8px 10px;border-radius:10px;color:var(--ink)}
 .acct-nav a:hover{background:var(--sunk)}
 .acct-nav a[hidden]{display:none}
+.acct-nav button{border:0;background:none;font:inherit;text-align:left;font-size:14px;font-weight:600;padding:8px 10px;border-radius:10px;color:var(--ink);cursor:pointer}
+.acct-nav button:hover{background:var(--sunk)}
+.acct-btn i svg{display:block}
+.acct-menu .btn[hidden]{display:none}
+/* profile window */
+.pf{position:fixed;inset:0;z-index:36;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(18,18,24,.45)}
+.pf[hidden]{display:none}
+.pf-card{position:relative;width:min(560px,100%);max-height:calc(100dvh - 40px);overflow:auto;padding:28px;border-radius:26px}
+.pf-x{position:absolute;top:16px;right:16px}
+.pf-head{display:grid;grid-template-columns:72px minmax(0,1fr);gap:18px;align-items:center;padding-right:40px}
+.pf-av{width:72px;height:72px;border-radius:50%;display:grid;place-items:center;background:var(--net);color:#17171C;font-size:26px;font-weight:800;font-stretch:118%}
+.pf-head h2{font-size:24px;font-stretch:112%;letter-spacing:-.02em;overflow-wrap:anywhere}
+.pf-head p{color:var(--muted);font-size:14px;margin-top:2px;overflow-wrap:anywhere}
+.pf-head .dsh-pills{margin-top:10px}
+.pf-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:22px 0 4px}
+.pf-stats div{padding:12px 14px;border-radius:14px;background:var(--sunk)}
+.pf-stats small{display:block;font-size:12px;color:var(--muted);font-weight:600}
+.pf-stats b{display:block;font-size:19px;font-stretch:112%;margin-top:2px;font-variant-numeric:tabular-nums}
+.pf-sec{padding:18px 0 4px;border-top:1px solid var(--line);margin-top:16px}
+.pf-sec h3{font-size:15px;font-stretch:108%}
+.pf-sec p{color:var(--muted);font-size:13.5px;margin-top:3px;line-height:1.5}
+.pf-row{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+.pf-row input{flex:1 1 220px;min-width:0;border:1px solid var(--line);background:var(--sunk);border-radius:999px;padding:10px 16px;font-size:16px;color:var(--ink)}
+.pf-card:focus{outline:none}
+/* 16px text fields so phones don't zoom in when one is focused */
+.gate input{font-size:16px}
+.pf-msg{display:block;font-size:13px;font-weight:600;margin-top:8px;color:var(--ok-t)}
+.pf-msg.err{color:var(--bad-t)}
+.pf-msg:empty{display:none}
+.pf-acts{display:flex;flex-wrap:wrap;gap:8px;padding-top:18px;border-top:1px solid var(--line);margin-top:18px}
+@media (max-width:560px){.pf-card{padding:22px}.pf-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.pf-head{grid-template-columns:56px minmax(0,1fr);gap:14px}.pf-av{width:56px;height:56px;font-size:21px}}
 .acct-menu .btn+.btn{margin-top:8px}
 @media (max-width:1180px){.acct-btn{padding:3px}.acct-btn span{display:none}}
 .ss-all{margin-top:12px}
@@ -1328,6 +1359,7 @@ button.mx-n:hover{color:var(--net-t)}
 <div class="toast" id="toast" role="status"></div>
 <div class="sd" id="sd" hidden><div class="sd-box" role="dialog" aria-modal="true" aria-labelledby="sdTitle"><div class="sd-top"><div id="sdHead"></div><button class="ibtn" id="sdClose" aria-label="Close student details"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div><div class="sd-body" id="sdBody"></div></div></div>
 <div class="dtip" id="dtTip" role="tooltip" hidden></div>
+<div class="pf" id="pf" hidden><div class="pf-card card" role="dialog" aria-modal="true" aria-labelledby="pfTitle" tabindex="-1"><button class="ibtn pf-x" id="pfClose" aria-label="Close profile"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button><div id="pfBody"></div></div></div>
 <div class="nr" id="nr" hidden role="dialog" aria-modal="true" aria-labelledby="nrTitle">
  <div class="nr-box">
   <div class="nr-head">
@@ -1386,7 +1418,7 @@ button.mx-n:hover{color:var(--net-t)}
   </div>
   <div class="acct" id="acct" hidden>
    <button class="acct-btn" id="acctBtn" aria-haspopup="true" aria-expanded="false" aria-label="Account"></button>
-   <div class="acct-menu card" id="acctMenu" hidden><b id="acctName"></b><small id="acctEmail"></small><span class="role" id="acctRole"></span><nav class="acct-nav"><a href="#me">Your progress</a><a href="#admin" id="acctAdmin" hidden>Class dashboard</a></nav><button class="btn" id="switchAcct">Switch account</button><button class="btn ghost" id="signOut">Sign out</button></div>
+   <div class="acct-menu card" id="acctMenu" hidden><b id="acctName"></b><small id="acctEmail"></small><span class="role" id="acctRole"></span><nav class="acct-nav"><button type="button" id="acctProfile">Profile and settings</button><a href="#me">Your progress</a><a href="#admin" id="acctAdmin" hidden>Class dashboard</a></nav><button class="btn" id="switchAcct">Switch account</button><button class="btn ghost" id="signOut">Sign out</button></div>
   </div>
  </div>
 </div>
@@ -3329,7 +3361,7 @@ function enter(){
   const r=$("#acctRole"); r.textContent=isAdmin?"Admin":"Student"; r.classList.toggle("admin",isAdmin);
   $("#adminTab").hidden=!isAdmin; $("#acctAdmin").hidden=!isAdmin;
   VIEWS_EXTRA();
-  window.DT_ME={uid:me.uid,name,email:me.email,live:true};
+  window.DT_ME={uid:me.uid,name,email:me.email,live:true,created:Date.parse((me.metadata||{}).creationTime)||0};
   document.dispatchEvent(new Event("dt:me"));
   if(isAdmin)initAdmin();
   if(location.hash==="#admin"||window.DT_HASH0==="#admin")setView("admin",true);
@@ -3345,6 +3377,8 @@ function showName(name){
 $("#acctBtn").addEventListener("click",e=>{e.stopPropagation();const m=$("#acctMenu");m.hidden=!m.hidden;$("#acctBtn").setAttribute("aria-expanded",!m.hidden);});
 document.addEventListener("click",e=>{if(!e.target.closest("#acct")||e.target.closest("#acctMenu a"))$("#acctMenu").hidden=true;});
 async function leave(){await push(true);try{localStorage.removeItem(UIDK);}catch(_){}await A.signOut(auth);location.reload();}
+/* used by the profile window */
+window.DT_AUTH={leave,setPassword:p=>A.setPassword(p)};
 $("#signOut").addEventListener("click",leave);
 /* switching account signs this one out and opens the sign-in screen */
 $("#switchAcct").addEventListener("click",leave);
@@ -4624,6 +4658,7 @@ $("#meBody").addEventListener("input",e=>{
   clearTimeout(renderMe.t);
   if(window.DT_ME&&window.DT_ME.live){renderMe.t=setTimeout(()=>{if(v.trim()&&window.DT_CLASS)DT_CLASS.setName(v).then(()=>toast("Name saved")).catch(()=>toast("Couldn’t save your name. Try again."));},800);return;}
   state._profile=Object.assign({},state._profile,{name:v});renderMe.t=setTimeout(save,600);
+  if(window.DT_paintProfile)window.DT_paintProfile();
 });
 $("#meBody").addEventListener("focusout",e=>{if(e.target.id==="meName")setTimeout(renderMe,0);});
 document.addEventListener("click",e=>{
@@ -4886,6 +4921,67 @@ document.addEventListener("click",hideTip,true);
 /* ---------- views, refresh and search ---------- */
 if(!VIEWS.includes("me"))VIEWS.push("me");
 if(!window.DT_CLOUD&&!VIEWS.includes("admin"))VIEWS.push("admin");
+/* ---------- profile: the pill at the top right, its menu and the profile window ---------- */
+const personIcon='<svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><circle cx="9" cy="6.5" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3 15.5c.8-3 3.2-4.6 6-4.6s5.2 1.6 6 4.6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>';
+const isLive=()=>!!(window.DT_ME&&window.DT_ME.live);
+const pfName=()=>isLive()?(window.DT_ME.name||""):((state._profile||{}).name||"").trim();
+/* without accounts the pill still appears, for a profile kept in this browser */
+function paintLocal(){
+  if(window.DT_CLOUD)return;
+  const n=pfName();
+  $("#acctBtn").innerHTML=`<i aria-hidden="true">${n?esc(n[0].toUpperCase()):personIcon}</i><span>${esc(n?n.split(/\s+/)[0]:"Profile")}</span>`;
+  $("#acctBtn").setAttribute("aria-label",n?`Profile: ${n}`:"Profile");
+  $("#acctName").textContent=n||"Your profile"; $("#acctEmail").textContent="Saved in this browser"; $("#acctRole").textContent="No account yet";
+}
+window.DT_paintProfile=paintLocal;
+if(!window.DT_CLOUD){
+  $("#acct").hidden=false; $("#switchAcct").hidden=true; $("#signOut").hidden=true; paintLocal();
+  $("#acctBtn").addEventListener("click",e=>{e.stopPropagation();const m=$("#acctMenu");m.hidden=!m.hidden;$("#acctBtn").setAttribute("aria-expanded",!m.hidden);});
+  document.addEventListener("click",e=>{if(!e.target.closest("#acct")||e.target.closest("#acctMenu a"))$("#acctMenu").hidden=true;});
+}
+let pfReturn=null;
+function openProfile(){
+  $("#acctMenu").hidden=true; pfReturn=document.activeElement;
+  const live=isLive(), name=pfName(), m=metrics(state), admin=!!window.DT_ADMIN;
+  const ini=name?name.split(/\s+/).map(w=>w[0]).join("").slice(0,2).toUpperCase():"";
+  $("#pfBody").innerHTML=`<div class="pf-head"><span class="pf-av" aria-hidden="true">${ini?esc(ini):personIcon}</span><div><h2 id="pfTitle">${esc(name||"Your profile")}</h2><p>${live?esc(window.DT_ME.email):"Saved in this browser"}</p>
+    <div class="dsh-pills"><span class="dsh-pill plain">${live?(admin?"Admin":"Student"):"No account yet"}</span>${live&&window.DT_ME.created?`<span class="dsh-pill plain">Member since ${shortDate(window.DT_ME.created)}</span>`:""}${m.streak?`<span class="dsh-pill" style="--c:var(--gold)">${IC.fire}${m.streak}-day streak</span>`:""}</div></div></div>
+    <div class="pf-stats">${[["CCNA readiness",`${m.readiness}%`],["Videos",`${m.videos}/${NDAYS}`],["Labs",`${m.labs}/${P.L.length}`],["Quiz cards",`${m.cardsKnown}/${QTOTAL}`]].map(([k,v])=>`<div><small>${k}</small><b>${v}</b></div>`).join("")}</div>
+    <form class="pf-sec" id="pfNameForm"><h3>Your name</h3><p>Shown to your teacher${live?" on the class dashboard":" in your progress reports"}.</p><div class="pf-row"><input id="pfName" value="${esc(name)}" maxlength="60" autocomplete="name" placeholder="Your full name" aria-label="Your name"><button class="btn" type="submit">Save name</button></div><span class="pf-msg" id="pfNameMsg" role="status"></span></form>
+    ${live?`<form class="pf-sec" id="pfPassForm"><h3>Password</h3><p>Choose a new password of at least 6 characters.</p><div class="pf-row"><input id="pfPass" type="password" minlength="6" autocomplete="new-password" placeholder="New password" aria-label="New password"><button class="btn ghost" type="submit">Change password</button></div><span class="pf-msg" id="pfPassMsg" role="status"></span></form>`
+      :`<div class="pf-sec"><h3>Account</h3><p>Sign-in isn’t switched on for this site yet, so your progress is saved in this browser. When accounts are turned on, you create one with just an email and a password, and this progress comes with you.</p></div>`}
+    <div class="pf-acts"><a class="btn ghost" href="#me">Open your progress</a>${admin?`<a class="btn ghost" href="#admin">Class dashboard</a>`:""}${live?`<button class="btn ghost" type="button" id="pfSwitch">Switch account</button><button class="btn ghost" type="button" id="pfOut">Sign out</button>`:`<button class="btn ghost" type="button" id="pfReport">Download progress report</button>`}</div>`;
+  $("#pf").hidden=false; document.body.style.overflow="hidden"; $(".pf-card").focus();
+}
+function closeProfile(){if($("#pf").hidden)return;$("#pf").hidden=true;if($("#nr").hidden&&$("#pl").hidden&&$("#sd").hidden)document.body.style.overflow="";if(pfReturn&&pfReturn.focus)pfReturn.focus();}
+$("#acctProfile").addEventListener("click",openProfile);
+$("#pf").addEventListener("click",e=>{
+  if(e.target.id==="pf"||e.target.closest("#pfClose")){closeProfile();return;}
+  if(e.target.closest(".pf-acts a")){closeProfile();return;}
+  if(e.target.closest("#pfReport")){downloadReport();return;}
+  if(e.target.closest("#pfSwitch,#pfOut")&&window.DT_AUTH){window.DT_AUTH.leave();}
+});
+$("#pf").addEventListener("submit",async e=>{
+  e.preventDefault();
+  if(e.target.id==="pfNameForm"){
+    const v=$("#pfName").value.trim().slice(0,60), msg=$("#pfNameMsg"); msg.classList.remove("err");
+    if(!v){msg.textContent="Type your name first.";msg.classList.add("err");return;}
+    try{
+      if(isLive())await DT_CLASS.setName(v);
+      else{state._profile=Object.assign({},state._profile,{name:v});save();paintLocal();}
+      msg.textContent="Name saved."; $("#pfTitle").textContent=v; renderMe();
+    }catch(err){msg.textContent="Couldn’t save your name. Try again.";msg.classList.add("err");}
+  }
+  if(e.target.id==="pfPassForm"){
+    const p=$("#pfPass").value, msg=$("#pfPassMsg"); msg.classList.remove("err");
+    if(p.length<6){msg.textContent="Use at least 6 characters.";msg.classList.add("err");return;}
+    try{await window.DT_AUTH.setPassword(p);$("#pfPass").value="";msg.textContent="Password changed. Use it next time you sign in.";}
+    catch(err){msg.textContent="Couldn’t change your password. Sign out, sign in again, then try once more.";msg.classList.add("err");}
+  }
+});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("#pf").hidden){closeProfile();e.stopPropagation();}},true);
+document.addEventListener("dt:me",()=>{if(!$("#pf").hidden)openProfile();});
+
 /* students never see the teacher link once accounts are on */
 const ftSet=()=>{const f=$(".ft-teach");if(f)f.hidden=!!window.DT_CLOUD&&!window.DT_ADMIN;};
 ftSet(); document.addEventListener("dt:me",ftSet);
