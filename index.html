@@ -5594,7 +5594,7 @@ function openProfile(){
   const ini=name?name.split(/\s+/).map(w=>w[0]).join("").slice(0,2).toUpperCase():"";
   $("#pfBody").innerHTML=`<div class="pf-head"><span class="pf-av" aria-hidden="true">${ini?esc(ini):personIcon}</span><div><h2 id="pfTitle">${esc(name||"Your profile")}</h2><p>${live?esc(window.DT_ME.email):"Saved in this browser"}</p>
     <div class="dsh-pills"><span class="dsh-pill plain">${live?(admin?"Admin":"Student"):"No account yet"}</span>${live&&window.DT_ME.created?`<span class="dsh-pill plain">Member since ${shortDate(window.DT_ME.created)}</span>`:""}${m.streak?`<span class="dsh-pill" style="--c:var(--gold)">${IC.fire}${m.streak}-day streak</span>`:""}</div></div></div>
-    <div class="pf-stats">${[["CCNA readiness",`${m.readiness}%`],["XP",fmtN(xpOf(state,m).xp)],["Level",`${xpOf(state,m).level.n}, ${xpOf(state,m).level.name}`],["Videos",`${m.videos}/${NDAYS}`]].map(([k,v])=>`<div><small>${k}</small><b>${v}</b></div>`).join("")}</div>
+    <div class="pf-stats">${[["CCNA readiness",`${m.readiness}%`],["XP",fmtN(xpOf(state,m).xp)],admin?["Title","Admin"]:["Level",`${xpOf(state,m).level.n}, ${xpOf(state,m).level.name}`],["Videos",`${m.videos}/${NDAYS}`]].map(([k,v])=>`<div><small>${k}</small><b>${v}</b></div>`).join("")}</div>
     <form class="pf-sec" id="pfNameForm"><h3>Your name</h3><p>Shown to your teacher${live?" on the class dashboard":" in your progress reports"}.</p><div class="pf-row"><input id="pfName" value="${esc(name)}" maxlength="60" autocomplete="name" placeholder="Your full name" aria-label="Your name"><button class="btn" type="submit">Save name</button></div><span class="pf-msg" id="pfNameMsg" role="status"></span></form>
     ${live?`<form class="pf-sec" id="pfPassForm"><h3>Password</h3><p>Choose a new password of at least 6 characters.</p><div class="pf-row"><input id="pfPass" type="password" minlength="6" autocomplete="new-password" placeholder="New password" aria-label="New password"><button class="btn ghost" type="submit">Change password</button></div><span class="pf-msg" id="pfPassMsg" role="status"></span></form>`
       :`<div class="pf-sec"><h3>Account</h3><p>Sign-in isn’t switched on for this site yet, so your progress is saved in this browser. When accounts are turned on, you create one with just an email and a password, and this progress comes with you.</p></div>`}
@@ -5660,8 +5660,11 @@ const MEDAL=["#E3A008","#9AA4B2","#B4652B"];
 function renderLeaders(){
   const box=$("#lbBody"); if(!box||document.body.dataset.view!=="leaders")return;
   const live=isLive(), m=metrics(state), mine=xpOf(state,m), lv=mine.level, hidden=state._lb===false;
-  const meRow={id:"me",name:pfName()||"You",xp:mine.xp,week:mine.week,level:lv.n,videos:m.videos,labs:m.labs,streak:m.streak,ccna:Math.round(m.videos/NDAYS*100),me:true};
-  const rows=(lbRows||[]).filter(r=>!r.is_me).map(r=>({id:r.id,name:r.name||"Student",xp:+r.xp||0,week:+r.week_xp||0,level:+r.level||1,videos:+r.videos||0,labs:+r.labs||0,streak:+r.streak||0,ccna:+r.ccna||0,me:false}));
+  const adm=!!window.DT_ADMIN;
+  const meRow={id:"me",name:pfName()||"You",xp:mine.xp,week:mine.week,level:lv.n,videos:m.videos,labs:m.labs,streak:m.streak,ccna:Math.round(m.videos/NDAYS*100),me:true,admin:adm};
+  const rows=(lbRows||[]).filter(r=>!r.is_me).map(r=>({id:r.id,name:r.name||"Student",xp:+r.xp||0,week:+r.week_xp||0,level:+r.level||1,videos:+r.videos||0,labs:+r.labs||0,streak:+r.streak||0,ccna:+r.ccna||0,me:false,admin:!!r.is_admin}));
+  /* admins show their role instead of a level title */
+  const lvTitle=r=>r.admin?"Admin":`Level ${r.level}, ${levelOf(r.xp).name}`;
   if(!hidden)rows.push(meRow);
   const key={week:"week",all:"xp",course:"ccna"}[lbMode];
   rows.sort((a,b)=>b[key]-a[key]||b.xp-a.xp||a.name.localeCompare(b.name));
@@ -5673,7 +5676,7 @@ function renderLeaders(){
   const lvPct=lv.to?(mine.xp-lv.from)/(lv.to-lv.from):1;
   let html=`<div class="lb-me card">
     <div class="lb-rank"><small>Your rank</small><b>${me&&live?`#${me.rank}`:"–"}</b><span>${me&&live?`of ${rows.length}`:hidden?"Hidden":""}</span></div>
-    <div class="lb-lv"><span class="dsh-eyebrow">Level ${lv.n} of ${LEVELS.length}</span><h2>${esc(lv.name)}</h2><p>${fmtN(mine.xp)} XP in total. ${lv.to?`${fmtN(lv.to-mine.xp)} XP to ${esc(lv.next)}.`:"Top level reached."}</p>${meter(lvPct)}</div>
+    ${adm?`<div class="lb-lv"><span class="dsh-eyebrow">Your title</span><h2>Admin</h2><p>You check the class’s progress, so you have a title instead of a level. Students see you as Admin on the leaderboard.</p></div>`:`<div class="lb-lv"><span class="dsh-eyebrow">Level ${lv.n} of ${LEVELS.length}</span><h2>${esc(lv.name)}</h2><p>${fmtN(mine.xp)} XP in total. ${lv.to?`${fmtN(lv.to-mine.xp)} XP to ${esc(lv.next)}.`:"Top level reached."}</p>${meter(lvPct)}</div>`}
     <div class="lb-side"><div><small>This week</small><b>${fmtN(mine.week)} XP</b></div><div><small>Streak</small><b>${m.streak} ${m.streak===1?"day":"days"}</b></div>
       <p>${!live?"Sign in to see your rank in the class.":hidden?"You’re hidden from the leaderboard.":me&&me.rank===1&&rows.length>1?`You’re leading ${modeLabel}. Keep it up.`:ahead?`${gap} behind ${esc(ahead.name)} (#${ahead.rank}).`:""}</p></div></div>
   <div class="lb-bar"><div class="tog" id="lbMode" role="group" aria-label="Rank by">${[["week","This week"],["all","All time"],["course","Course progress"]].map(([k,t])=>`<button data-k="${k}" aria-pressed="${lbMode===k}">${t}</button>`).join("")}</div>
@@ -5683,8 +5686,8 @@ function renderLeaders(){
   else if(lbBusy&&!lbRows) html+=`<p class="dsh-empty">Loading the leaderboard…</p>`;
   else{
     const podium=rows.slice(0,3), rest=rows.slice(3), mx=Math.max(1,rows.length?rows[0][key]:1);
-    html+=`<div class="lb-podium">${[1,0,2].filter(i=>podium[i]).map(i=>{const r=podium[i];return `<div class="lb-p lb-p${i+1}${r.me?" me":""}"><span class="lb-medal" style="--m:${MEDAL[Math.min(r.rank,3)-1]}">${r.rank}</span><span class="dsh-av lb-av" aria-hidden="true">${esc(initials(r.name))}</span><b>${esc(r.name)}${r.me?"<em>You</em>":""}</b><small>Level ${r.level}, ${esc(levelOf(r.xp).name)}</small><strong>${val(r)}</strong></div>`;}).join("")}</div>`;
-    if(rest.length) html+=`<ol class="lb-list">${rest.map(r=>`<li class="${r.me?"me":""}"><span class="lb-n">${r.rank}</span><span class="dsh-av" aria-hidden="true">${esc(initials(r.name))}</span><span class="lb-who"><b>${esc(r.name)}${r.me?"<em>You</em>":""}</b><small>Level ${r.level}, ${esc(levelOf(r.xp).name)}${r.streak?`, ${r.streak}-day streak`:""}</small></span>${meter(r[key]/mx)}<span class="lb-v">${val(r)}<small>${r.videos} videos, ${r.labs} labs</small></span></li>`).join("")}</ol>`;
+    html+=`<div class="lb-podium">${[1,0,2].filter(i=>podium[i]).map(i=>{const r=podium[i];return `<div class="lb-p lb-p${i+1}${r.me?" me":""}"><span class="lb-medal" style="--m:${MEDAL[Math.min(r.rank,3)-1]}">${r.rank}</span><span class="dsh-av lb-av" aria-hidden="true">${esc(initials(r.name))}</span><b>${esc(r.name)}${r.me?"<em>You</em>":""}</b><small>${esc(lvTitle(r))}</small><strong>${val(r)}</strong></div>`;}).join("")}</div>`;
+    if(rest.length) html+=`<ol class="lb-list">${rest.map(r=>`<li class="${r.me?"me":""}"><span class="lb-n">${r.rank}</span><span class="dsh-av" aria-hidden="true">${esc(initials(r.name))}</span><span class="lb-who"><b>${esc(r.name)}${r.me?"<em>You</em>":""}</b><small>${esc(lvTitle(r))}${r.streak?`, ${r.streak}-day streak`:""}</small></span>${meter(r[key]/mx)}<span class="lb-v">${val(r)}<small>${r.videos} videos, ${r.labs} labs</small></span></li>`).join("")}</ol>`;
     else if(rows.length<=1) html+=`<p class="dsh-empty">You’re the first one here. Share the site link with your classmates to start the race.</p>`;
   }
   html+=`<section class="card dsh-c lb-how"><div class="dsh-ch"><h2>How to earn XP</h2><span>${lbMode==="week"?"This week counts work done in the last 7 days":"Every piece of work counts"}</span></div>

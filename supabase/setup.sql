@@ -8,8 +8,10 @@ create table if not exists public.admins (
   email text primary key check (email = lower(email))
 );
 
+-- Nothing is added while the line still has the example address, so nobody can sign up with it and become an admin.
 insert into public.admins (email)
-values ('your-email@example.com')  -- ADMIN EMAIL: your own email, in lowercase
+select e from (values ('your-email@example.com')) as v(e)  -- ADMIN EMAIL: your own email, in lowercase
+where e <> 'your-email@example.com'
 on conflict do nothing;
 
 create or replace function public.is_admin() returns boolean
@@ -106,9 +108,12 @@ language sql immutable as $$
   select case when (j ->> k) ~ '^[0-9]{1,9}(\.[0-9]+)?$' then least((j ->> k)::numeric, 1000000000)::integer else 0 end;
 $$;
 
+-- is_admin lets the page show admins with the title "Admin" instead of a level.
+-- The return type changed, so the old function is dropped first; the grants below are set again.
+drop function if exists public.leaderboard();
 create or replace function public.leaderboard()
 returns table (id uuid, name text, xp integer, week_xp integer, level integer, videos integer, labs integer,
-               cards integer, streak integer, ccna integer, is_me boolean)
+               cards integer, streak integer, ccna integer, is_me boolean, is_admin boolean)
 language sql stable security definer set search_path = public as $$
   select p.id,
          coalesce(nullif(trim(p.name), ''), 'Student'),
@@ -124,7 +129,8 @@ language sql stable security definer set search_path = public as $$
          public.lb_num(p.summary, 'cards'),
          public.lb_num(p.summary, 'streak'),
          least(public.lb_num(p.summary, 'ccna'), 100),
-         p.id = auth.uid()
+         p.id = auth.uid(),
+         exists (select 1 from public.admins a where a.email = lower(p.email))
   from public.profiles p
   where auth.uid() is not null
     and coalesce(p.summary ->> 'lb', 'true') <> 'false'
