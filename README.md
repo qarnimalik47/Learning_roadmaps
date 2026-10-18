@@ -10,7 +10,11 @@ An interactive study roadmap for two careers at once:
 - Two-track timeline planner based on your weekly hours
 - CCNA video course: all 63 Jeremy's IT Lab Days, played on the page with watch tracking
 - Videos mark themselves done at 90% watched, and tick the CCNA topics they cover
-- Student and admin accounts (Firebase): admins see every student's progress, daily watch time and videos
+- **Progress page (every student):** CCNA readiness score with its breakdown, mastery per exam domain, study streak, a 20-week activity heatmap, hours per week, a 63-Day course map, practice-drill accuracy and personalised next steps. Students can download a progress report or print the page.
+- **Class dashboard (admin):** headline numbers, class study time, domain mastery across the class, where students drop off in the video course, the most active students, and a roster with On track / Needs a push / Inactive status, search, sorting and CSV export. Select a student to see their full dashboard and leave them a coach note.
+- The class dashboard works in two ways:
+  - **Without accounts:** open `#admin` (there's a link in the footer) and drop in the report files students send you. Reports stay in that browser.
+  - **With accounts (Firebase):** every student appears live, and coach notes show at the top of their Progress page.
 - Study notes for every CCNA Day, linked from each topic, with quiz cards
 - Anki flashcard decks (70) and Packet Tracer labs (48) on every CCNA topic, in the notes reader, and in Practice > Anki and labs, with a "lab done" tick that counts as progress
 - Skill map showing how the two tracks connect
@@ -23,7 +27,7 @@ An interactive study roadmap for two careers at once:
 | `index.html` | The whole app |
 | `notes.js` | CCNA study notes for Days 1–63, opened from topics, videos and search |
 | `config.js` | Your Firebase settings, admin emails and optional video links |
-| `firestore.rules` | Database security rules to paste into Firebase |
+| `firestore.rules` | Database security rules to paste into Firebase (includes coach notes) |
 | `CCNA-Flashcards/` | Anki decks (`.apkg`), one or more per Day |
 | `CCNA-Labs/` | Packet Tracer labs (`.pkt`), one or more per Day |
 
