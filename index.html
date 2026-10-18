@@ -1554,6 +1554,166 @@ body[data-view="leaders"]{--accent:var(--net)}
 .lb-levels li.on b{background:var(--net);color:var(--on-net);box-shadow:none}
 @media (max-width:900px){.lb-me{grid-template-columns:auto minmax(0,1fr)}.lb-side{grid-column:1/-1;border-left:0;padding-left:0;border-top:1px solid var(--line);padding-top:16px}.lb-how-g{grid-template-columns:1fr}}
 @media (max-width:620px){.lb-me{grid-template-columns:1fr;padding:22px;gap:18px}.lb-rank{text-align:left}.lb-podium{grid-template-columns:1fr}.lb-p1{order:-1}.lb-list li{grid-template-columns:28px 32px minmax(0,1fr) auto;gap:10px;padding:10px}.lb-list li .dsh-meter{display:none}.lb-levels{grid-template-columns:1fr}}
+/* ---------- Revision: Flashcards | Slides ---------- */
+:root{--slide:#C2410C}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--slide:#F97316}}
+:root[data-theme="dark"]{--slide:#F97316}
+:root{--slide-t:color-mix(in srgb,var(--slide) 82%,var(--ink))}
+.rvtabs{display:inline-flex;gap:2px;padding:4px;margin-top:28px;border-radius:999px;background:var(--sunk);box-shadow:inset 0 0 0 1px var(--line);max-width:100%}
+.rvtabs button{border:0;background:none;font:inherit;font-size:16px;font-weight:680;color:var(--muted);padding:9px 20px;border-radius:999px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+.rvtabs button:hover{color:var(--ink)}
+.rvtabs button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(23,23,28,.1),0 0 0 1px var(--line)}
+.rvtabs svg{flex:none}
+.rvtabs button[aria-selected="true"][data-k="cards"] svg{color:var(--anki)}
+.rvtabs button[aria-selected="true"][data-k="slides"] svg{color:var(--slide)}
+#rvCards[hidden],#rvSlides[hidden]{display:none}
+
+/* ---------- Slides tab ---------- */
+.sl-search:focus-within{box-shadow:inset 0 0 0 2px var(--slide)}
+.sl-mode{flex:none}
+.sl-qnote{color:var(--muted);font-size:15px;max-width:70ch;margin:-4px 0 16px}
+.sl-qnote[hidden]{display:none}
+.sl-bar{display:block;height:5px;border-radius:9px;background:color-mix(in srgb,var(--ink) 8%,transparent);overflow:hidden}
+.sl-bar i{display:block;height:100%;border-radius:9px;background:var(--slide);transition:width .3s}
+.sl-bar i.full{background:var(--ok)}
+.sl-mods{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin-bottom:14px}
+.sl-mods[hidden]{display:none}
+.sl-mods button{display:flex;flex-direction:column;gap:2px;min-width:0;text-align:left;border:0;cursor:pointer;font:inherit;color:var(--ink);background:var(--surface);border-radius:16px;padding:12px 14px 14px;box-shadow:inset 0 0 0 1px var(--line);transition:box-shadow .15s}
+.sl-mods button:hover{box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--slide) 50%,var(--line))}
+.sl-mods button[aria-current="true"]{box-shadow:inset 0 0 0 2px var(--slide);background:color-mix(in srgb,var(--slide) 5%,var(--surface))}
+.sl-mods small{font-size:13px;font-weight:650;color:var(--faint)}
+.sl-mods button[aria-current="true"] small{color:var(--slide-t)}
+.sl-mods b{font-size:15px;font-weight:700;line-height:1.25;letter-spacing:-.01em;margin-bottom:10px}
+.sl-mods .sl-bar{margin-top:auto}
+.sl-mod{padding:26px 28px 30px;margin-bottom:96px}
+.sl-mod[hidden],.sl-res[hidden]{display:none}
+.sl-mh{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px 28px;padding-bottom:22px;margin-bottom:22px;border-bottom:1px solid var(--line)}
+.sl-mh small{font-size:14px;font-weight:700;color:var(--slide-t)}
+.sl-mh h2{font-size:clamp(1.55rem,3vw,2.1rem);font-weight:780;font-stretch:112%;letter-spacing:-.025em;line-height:1.1;margin-top:2px}
+.sl-mh p{color:var(--muted);font-size:15.5px;margin-top:6px;max-width:62ch}
+.sl-acts{display:flex;flex-wrap:wrap;gap:8px}
+.sl-acts .btn{padding:9px 17px;font-size:15px}
+.sl-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.sl-t{display:flex;flex-direction:column;width:100%;height:100%;border:0;padding:0;margin:0;font:inherit;color:inherit;text-align:left;cursor:pointer;border-radius:16px;overflow:hidden;background:var(--surface);box-shadow:0 0 0 1px var(--line);transition:box-shadow .15s,transform .15s}
+.sl-t:hover{box-shadow:0 0 0 1px color-mix(in srgb,var(--slide) 55%,var(--line)),0 14px 30px -20px rgba(23,23,28,.4);transform:translateY(-1px)}
+.sl-t:focus-visible{outline:2px solid var(--focus);outline-offset:3px}
+.sl-th{position:relative;display:block;aspect-ratio:16/9;background:var(--sunk);border-bottom:1px solid var(--line)}
+.sl-th img{display:block;width:100%;height:100%;object-fit:cover}
+.sl-th em{position:absolute;right:8px;bottom:8px;font-style:normal;font-size:12.5px;font-weight:700;padding:2px 9px;border-radius:999px;background:rgba(17,24,39,.8);color:#fff;font-variant-numeric:tabular-nums}
+.sl-tb{display:flex;flex-direction:column;gap:4px;flex:1;padding:13px 15px 15px}
+.sl-tb b{font-size:16px;font-weight:700;line-height:1.3;letter-spacing:-.01em}
+.sl-tb small{font-size:14px;line-height:1.45;color:var(--muted)}
+.sl-tp{display:flex;align-items:center;gap:10px;margin-top:auto;padding-top:12px}
+.sl-tp .sl-bar{flex:1}
+.sl-tn{flex:none;font-size:13px;font-weight:650;color:var(--faint);font-variant-numeric:tabular-nums}
+.sl-t.done .sl-tn{color:var(--ok-t)}
+.sl-res{padding:8px 10px 10px;margin-bottom:96px}
+.sl-rh{padding:12px 12px 6px;color:var(--muted);font-size:15px}
+.sl-res-l{list-style:none;margin:0;padding:0}
+.sl-res-l button{display:grid;grid-template-columns:150px minmax(0,1fr);gap:16px;align-items:start;width:100%;border:0;background:none;font:inherit;color:inherit;text-align:left;padding:12px;border-radius:14px;cursor:pointer}
+.sl-res-l button:hover{background:var(--sunk)}
+.sl-res-l img{width:150px;height:auto;aspect-ratio:16/9;border-radius:8px;box-shadow:0 0 0 1px var(--line);background:var(--sunk);object-fit:cover}
+.sl-res-l small{display:block;font-size:13.5px;font-weight:650;color:var(--slide-t)}
+.sl-res-l b{display:block;font-size:16px;line-height:1.3;margin-top:2px}
+.sl-res-l p{font-size:14.5px;line-height:1.5;color:var(--muted);margin-top:4px}
+.sl-res-l em{display:block;font-style:normal;font-size:13px;color:var(--faint);margin-top:4px}
+.sl-res-l mark{background:color-mix(in srgb,var(--slide) 20%,transparent);color:var(--ink);border-radius:3px;padding:0 2px}
+@media (max-width:980px){.sl-mods{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:620px){
+  .sl-mods{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin:0 -16px 14px;padding:2px 16px}
+  .sl-mods::-webkit-scrollbar{display:none}
+  .sl-mods button{flex:0 0 44%;scroll-snap-align:start}
+  .sl-mod{padding:20px 16px 22px}
+  .sl-acts{width:100%}.sl-acts .btn{flex:1 1 auto;justify-content:center}
+  .sl-res-l button{grid-template-columns:104px minmax(0,1fr);gap:12px;padding:10px}
+  .sl-res-l img{width:104px}
+}
+
+/* ---------- Slides chips on the CCNA topics ---------- */
+.vchip.slc{background:color-mix(in srgb,var(--slide) 11%,transparent);color:var(--slide-t)}
+.vchip.slc:hover{background:color-mix(in srgb,var(--slide) 19%,transparent)}
+.vchip.slc.done{background:color-mix(in srgb,var(--ok) 12%,transparent);color:var(--ok-t)}
+.vchips.sl-secrow{padding:2px 0 10px}
+.slm ul{list-style:none;margin:0 0 6px;padding:0}
+.slm li button{display:grid;grid-template-columns:76px minmax(0,1fr) auto;gap:11px;align-items:center;width:100%;border:0;background:none;font:inherit;color:var(--ink);text-align:left;padding:7px;border-radius:10px;cursor:pointer}
+.slm li button:hover,.slm li button:focus-visible{background:var(--sunk)}
+.slm img{width:76px;height:auto;aspect-ratio:16/9;border-radius:5px;box-shadow:0 0 0 1px var(--line);background:var(--sunk);object-fit:cover}
+.slm b{display:block;font-size:14.5px;line-height:1.3}
+.slm small{display:block;font-size:12.5px;color:var(--faint);margin-top:2px}
+.slm em{font-style:normal;font-size:12.5px;font-weight:700;color:var(--ok-t);white-space:nowrap}
+.slm em.part{color:var(--faint)}
+
+/* ---------- Slide viewer: a dark stage in both themes, like a presentation ---------- */
+html.sv-open{overflow:hidden}
+.sv{position:fixed;inset:0;z-index:31;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto;outline:none;
+  --bg:#0E0F13;--surface:#1D2027;--sunk:#16181D;--ink:#F3F4F6;--muted:#A3A9B6;--faint:#80879A;--line:#2C303A;
+  background:#0B0C0F;color:var(--ink);animation:svIn .18s ease}
+.sv[hidden]{display:none}
+.sv > *{min-width:0}
+@keyframes svIn{from{opacity:0}to{opacity:1}}
+.sv-head{display:flex;align-items:center;gap:12px;padding:calc(10px + env(safe-area-inset-top,0px)) 14px 10px 20px;background:#111318;border-bottom:1px solid var(--line)}
+.sv-ttl{flex:1;min-width:0}
+.sv-ttl small{display:block;font-size:13px;font-weight:650;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sv-ttl h2{font-size:18px;font-weight:700;letter-spacing:-.01em;line-height:1.3;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sv-tools{display:flex;align-items:center;gap:4px;flex:none}
+.sv-tools .tog{margin-right:6px}
+.sv-ib{width:38px;height:38px;flex:none;border:0;border-radius:11px;background:none;color:var(--muted);display:grid;place-items:center;cursor:pointer;text-decoration:none}
+.sv-ib:hover,.sv-ib[aria-pressed="true"]{background:var(--surface);color:var(--ink)}
+.sv-ib:focus-visible,.sv-nav:focus-visible,.sv-tb:focus-visible,.sv-strip button:focus-visible{outline:2px solid #93C5FD;outline-offset:2px}
+.sv-ib[hidden]{display:none}
+.sv-stage{position:relative;min-height:0}
+.sv-scroll{position:absolute;inset:0;display:grid;place-items:center;overflow:hidden;touch-action:pan-y pinch-zoom;-webkit-user-select:none;user-select:none}
+.sv-scroll.zoomed{display:block;overflow:auto;touch-action:auto}
+.sv-img{display:block;max-width:none;border-radius:4px;background:#fff;box-shadow:0 0 0 1px rgba(255,255,255,.09),0 26px 70px -26px rgba(0,0,0,.9);cursor:pointer;-webkit-user-drag:none}
+.sv-img[hidden]{display:none}
+.sv-scroll.zoomed .sv-img{margin:16px auto;cursor:grab}
+.sv-msg{max-width:44ch;padding:20px;text-align:center;color:var(--muted);font-size:16px;line-height:1.5}
+.sv-msg[hidden]{display:none}
+.sv-nav{position:absolute;top:50%;z-index:2;width:46px;height:46px;margin-top:-23px;border:0;border-radius:50%;display:grid;place-items:center;cursor:pointer;color:#fff;background:rgba(255,255,255,.08);transition:background .15s,opacity .15s}
+.sv-nav:hover{background:rgba(255,255,255,.17)}
+.sv-nav:disabled{opacity:.22;cursor:default}
+.sv-nav.prev{left:14px}.sv-nav.next{right:14px}
+.sv-stage.zoomed .sv-nav{background:rgba(11,12,15,.7)}
+.sv-hint{display:none}
+.sv-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.sv-foot{padding:10px 18px calc(10px + env(safe-area-inset-bottom,0px));background:#111318;border-top:1px solid var(--line)}
+.sv-bar{display:flex;align-items:center;gap:14px;font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.sv-bar #svPos{color:var(--ink);font-weight:650}
+.sv-prog{flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,.09);overflow:hidden}
+.sv-prog i{display:block;height:100%;border-radius:4px;background:var(--slide);transition:width .2s}
+.sv-strip{display:flex;gap:8px;overflow-x:auto;padding:10px 2px 8px;scrollbar-width:thin;scrollbar-color:#3A3F4B transparent}
+.sv-strip button{position:relative;flex:none;width:112px;aspect-ratio:16/9;padding:0;border:0;border-radius:6px;overflow:hidden;cursor:pointer;background:var(--sunk);box-shadow:0 0 0 1px var(--line);opacity:.6;transition:opacity .15s}
+.sv-strip button:hover{opacity:.9}
+.sv-strip button[aria-current="true"]{opacity:1;box-shadow:0 0 0 2px #fff}
+.sv-strip img{display:block;width:100%;height:100%;object-fit:cover}
+.sv-strip span{position:absolute;left:4px;bottom:4px;padding:0 5px;border-radius:5px;font-size:11.5px;font-weight:700;background:rgba(0,0,0,.75);color:#fff}
+.sv-strip button.seen::after{content:"";position:absolute;right:5px;top:5px;width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 2px rgba(0,0,0,.55)}
+.sv-nav2{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.sv-tb{flex:1 1 0;min-width:0;border:0;background:none;font:inherit;font-size:14.5px;font-weight:650;color:var(--muted);padding:7px 10px;border-radius:9px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:left}
+#svNextT{text-align:right}
+.sv-tb:hover{background:var(--surface);color:var(--ink)}
+.sv-tb:disabled{visibility:hidden}
+.sv-nav2 select{flex:0 1 auto;max-width:44%;height:36px;padding:0 12px;border:0;border-radius:999px;font:inherit;font-size:14.5px;font-weight:650;color:var(--ink);background:var(--surface);box-shadow:inset 0 0 0 1px var(--line);color-scheme:dark}
+@media (max-width:700px){
+  .sv-head{flex-wrap:wrap;gap:6px 8px;padding-left:14px;padding-right:8px}
+  .sv-ttl{flex:1 1 calc(100% - 52px)}
+  .sv-ttl h2{font-size:16px}
+  #svClose{order:2}
+  .sv-tools{order:3;width:100%;overflow-x:auto;scrollbar-width:none}
+  .sv-nav{width:38px;height:38px;margin-top:-19px;background:rgba(11,12,15,.6)}
+  .sv-nav.prev{left:4px}.sv-nav.next{right:4px}
+  .sv-foot{padding-left:12px;padding-right:12px}
+  .sv-strip button{width:84px}
+  .sv-nav2 select{display:none}
+  .sv-tb{font-size:14px;padding:6px 4px}
+}
+@media (max-width:700px) and (orientation:portrait){.sv-hint{display:block;position:absolute;left:0;right:0;bottom:10px;text-align:center;font-size:13.5px;color:var(--faint);pointer-events:none}}
+@media (prefers-reduced-motion:reduce){.sv{animation:none}.sl-t,.sl-t:hover{transition:none;transform:none}}
+/* home page background: a 3D network of nodes and links behind the headline */
+.panel[data-panel="plan"]{position:relative;isolation:isolate}
+.panel[data-panel="plan"] > .wrap{position:relative;z-index:1}
+.hero-net{position:absolute;left:0;top:0;width:100%;height:min(860px,100vh);z-index:0;pointer-events:none;-webkit-mask-image:linear-gradient(to bottom,#000 58%,transparent);mask-image:linear-gradient(to bottom,#000 58%,transparent)}
+@media (max-width:820px){.hero-net{height:600px;opacity:.6}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.lanes.pre .seg{transform:none}}
 </style>
 <script src="config.js"></script>
@@ -1596,6 +1756,25 @@ body[data-view="leaders"]{--accent:var(--net)}
 <div class="sd" id="sd" hidden><div class="sd-box" role="dialog" aria-modal="true" aria-labelledby="sdTitle"><div class="sd-top"><div id="sdHead"></div><button class="ibtn" id="sdClose" aria-label="Close student details"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div><div class="sd-body" id="sdBody"></div></div></div>
 <div class="dtip" id="dtTip" role="tooltip" hidden></div>
 <div class="pf" id="pf" hidden><div class="pf-card card" role="dialog" aria-modal="true" aria-labelledby="pfTitle" tabindex="-1"><button class="ibtn pf-x" id="pfClose" aria-label="Close profile"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button><div id="pfBody"></div></div></div>
+<div class="sv" id="sv" hidden role="dialog" aria-modal="true" aria-labelledby="svTitle" tabindex="-1">
+ <div class="sv-head">
+  <div class="sv-ttl"><small id="svMod"></small><h2 id="svTitle"></h2></div>
+  <div class="sv-tools"><div class="tog" id="svMode" role="group" aria-label="Which slides"><button type="button" data-q="0" aria-pressed="true">All slides</button><button type="button" data-q="1" aria-pressed="false">Quick revision</button></div><button type="button" class="sv-ib" id="svZoom" aria-pressed="false" aria-label="Zoom in" title="Zoom in (Z)"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><circle cx="8" cy="8" r="5.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12.2 12.2L16 16M8 5.6v4.8M5.6 8h4.8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></button><button type="button" class="sv-ib" id="svFull" aria-pressed="false" aria-label="Full screen" title="Full screen (F)"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2.5 6.5v-4h4M11.5 2.5h4v4M15.5 11.5v4h-4M6.5 15.5h-4v-4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+  <button type="button" class="sv-ib" id="svClose" aria-label="Close the slides" title="Close (Esc)"><svg width="16" height="16" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+ </div>
+ <div class="sv-stage" id="svStage">
+  <div class="sv-scroll" id="svScroll"><img class="sv-img" id="svImg" alt="" width="1600" height="900" draggable="false" aria-describedby="svDesc"><p class="sv-msg" id="svMsg" hidden></p></div>
+  <button type="button" class="sv-nav prev" id="svPrev" aria-label="Previous slide" title="Previous slide (Left arrow)"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M11.5 3.5L6 9l5.5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <button type="button" class="sv-nav next" id="svNext" aria-label="Next slide" title="Next slide (Right arrow or Space)"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M6.5 3.5L12 9l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <p class="sv-hint">Turn your phone sideways, or zoom in, for bigger slides.</p>
+  <div class="sv-sr" id="svDesc"></div>
+ </div>
+ <div class="sv-foot">
+  <div class="sv-bar"><span id="svPos" aria-live="polite"></span><span class="sv-prog" aria-hidden="true"><i id="svProg"></i></span><span id="svSeen"></span></div>
+  <div class="sv-strip" id="svStrip"></div>
+  <div class="sv-nav2"><button type="button" class="sv-tb" id="svPrevT"></button><select id="svJump" aria-label="Go to a topic"></select><button type="button" class="sv-tb" id="svNextT"></button></div>
+ </div>
+</div>
 <div class="nr" id="nr" hidden role="dialog" aria-modal="true" aria-labelledby="nrTitle">
  <div class="nr-box">
   <div class="nr-head">
@@ -1663,6 +1842,7 @@ body[data-view="leaders"]{--accent:var(--net)}
 
 <!-- PLAN -->
 <section class="panel" data-panel="plan">
+ <canvas class="hero-net" id="heroNet" aria-hidden="true"></canvas>
  <div class="wrap">
   <header class="hero">
    <h1><span class="l-net">Route the packets.</span><span class="l-ai">Automate the work.</span><span>One plan for both.</span></h1>
@@ -1822,7 +2002,10 @@ body[data-view="leaders"]{--accent:var(--net)}
  <div class="wrap">
   <header class="thead">
    <h1>Revision</h1>
-   <p>Every flashcard from the 70 Anki decks, ready to revise right here, by Day: no download and no Anki app. Flip a card, say whether you knew it, and the cards you miss come back sooner. Time spent here counts toward your daily goal.</p>
+   <p>Revise right here, with nothing to download. Flip the flashcards from all 70 Anki decks, and the ones you miss come back sooner. Or go through the class slides for all six CCNA modules, topic by topic, with a quick-revision set of the key slides. Time spent here counts toward your daily goal.</p>
+   <div class="rvtabs" role="tablist" aria-label="What to revise"><button type="button" role="tab" id="rvTabCards" data-k="cards" aria-selected="true" aria-controls="rvCards"><svg width="16" height="16" viewBox="0 0 12 12" aria-hidden="true"><rect x="1.5" y="3" width="7" height="7.5" rx="1.3" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M4 1.5h5.2c.7 0 1.3.6 1.3 1.3V9" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>Flashcards</button><button type="button" role="tab" id="rvTabSlides" data-k="slides" aria-selected="false" aria-controls="rvSlides" tabindex="-1"><svg width="16" height="16" viewBox="0 0 12 12" aria-hidden="true"><rect x="1" y="1.5" width="10" height="7" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M4.2 3.6v2.8L6.8 5z" fill="currentColor"/><path d="M6 8.5v2M4 10.5h4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>Slides</button></div>
+  </header>
+  <div id="rvCards" role="tabpanel" aria-labelledby="rvTabCards">
    <div class="pstats card">
     <div class="vstat"><small>Cards known</small><b id="rsKnown">–</b></div>
     <div class="vstat"><small>Due for review</small><b id="rsDue">–</b></div>
@@ -1830,7 +2013,6 @@ body[data-view="leaders"]{--accent:var(--net)}
     <div class="vstat"><small>Decks finished</small><b id="rsDecks">–</b></div>
    </div>
    <div class="vcont"><button class="btn" id="rvGo" disabled>Loading the flashcards…</button><button class="btn ghost" id="rvMix" disabled>Shuffle 20 cards</button><p id="rvGoTxt"></p></div>
-  </header>
   <div id="rvHome">
    <div class="rv-tools">
     <label class="rv-search"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><input type="search" id="rvQ" placeholder="Search every flashcard" autocomplete="off" spellcheck="false" aria-label="Search every flashcard"></label>
@@ -1839,6 +2021,8 @@ body[data-view="leaders"]{--accent:var(--net)}
    <div class="rv-days card" id="rvList"><p class="rv-empty">Loading the flashcards…</p></div>
   </div>
   <div class="rv-study card" id="rvStudy" hidden></div>
+  </div>
+  <div id="rvSlides" role="tabpanel" aria-labelledby="rvTabSlides" hidden></div>
  </div>
 </section>
 
@@ -4146,7 +4330,7 @@ fRender();
 let IDX=null, sel=0, res=[];
 function buildIndex(){
   const out=[];
-  const tabs=[["plan","Plan","Today, timeline, weekly plan, skill map, badges"],["net","Networking","Network engineer track"],["ai","AI Automation","AI automation track"],["videos","Videos","CCNA video course"],["revision","Revision","Every Anki flashcard, revised on the page"],["practice","Practice","Subnetting, binary and port drills"],["courses","Courses","Your study stack"]];
+  const tabs=[["plan","Plan","Today, timeline, weekly plan, skill map, badges"],["net","Networking","Network engineer track"],["ai","AI Automation","AI automation track"],["videos","Videos","CCNA video course"],["revision","Revision","Flashcards and class slides, revised on the page"],["practice","Practice","Subnetting, binary and port drills"],["courses","Courses","Your study stack"]];
   if(!$("#adminTab").hidden)tabs.push(["admin","Admin","Class progress and video links"]);
   tabs.forEach(([v,t,s])=>out.push({type:"Page",c:"var(--ink)",t,s,go:()=>setView(v,true)}));
   [["sub","Subnetting practice"],["bin","Binary and hex practice"],["port","Port numbers practice"]].forEach(([k,t])=>out.push({type:"Practice",c:"var(--ok)",t,s:"Practice",go:()=>{setView("practice",true);$(`.pseg [data-drill="${k}"]`).click();}}));
@@ -5723,6 +5907,624 @@ window.DT_extraIndex=()=>{
   return out;
 };
 {const h=(location.hash||window.DT_HASH0||"").slice(1);if((h==="me"||h==="admin"||h==="leaders")&&VIEWS.includes(h))setView(h,true);if(!window.DT_CLOUD)try{sessionStorage.removeItem("dt-hash0");}catch(e){}}
+})();
+
+</script>
+<script>
+
+/* =========================================================
+   Revision › Slides: the class slides for the six CCNA modules, topic by topic
+   ========================================================= */
+(function(){
+const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const num=n=>n.toLocaleString("en-US");
+const plural=(n,w)=>`${num(n)} ${w}${n===1?"":"s"}`;
+const pad=n=>String(n).padStart(2,"0");
+const TODAY=()=>{const d=new Date();return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;};
+const day=()=>{state._daily=state._daily||{};const k=TODAY();return (state._daily[k]=state._daily[k]||{sec:0,ticks:0,vids:0});};
+const ls={get(k){try{return localStorage.getItem(k);}catch(_){return null;}},set(k,v){try{localStorage.setItem(k,v);}catch(_){}}};
+const DIR="slides/";
+const src=(m,n,thumb)=>`${DIR}m${m}/${thumb?"t/":""}${String(n).padStart(3,"0")}.webp`;
+const range=s=>String(s).split(",").flatMap(p=>{const [a,b]=p.split("-").map(Number);return b?Array.from({length:b-a+1},(_,i)=>a+i):[a];});
+
+/* Which slides make up each topic: [id, title, what it covers, slides, quick-revision slides].
+   Quick revision keeps the definitions, comparisons, summaries and main commands, and skips title
+   slides, photos, repeated worked examples, the extra routers in a lab, and assignments.
+   Slides 1 to 4 of modules 2 to 6 repeat Module 1's title and course outline, so they're shown once,
+   in Module 1. Module 1 slides 77, 83, 88 and 101 are blank. */
+const SLIDE_MODULES=[
+ {m:1,name:"Network fundamentals",skip:[77,83,88,101],topics:[
+  ["outline","Course outline and CCNA","The six CCNA 200-301 modules, what this module covers, and the exam itself","1-6","5"],
+  ["types","Networks and network types","LAN, WLAN, CAN, MAN, PAN, SAN, VPN and WAN","7-19","9-11,13,15,18"],
+  ["switching","Hubs, switches and MAC addresses","The Ethernet frame, hub vs switch, and managed vs unmanaged switches","20-30","21,24,26,27,29,30"],
+  ["routers","Routers","What a router does, the IP packet header, router ports, and modular vs fixed routers","31-36","31,33,35,36"],
+  ["wireless","Repeaters, bridges, access points and WLCs","Extending and joining networks, and controlling wireless access","37-44","37,39,42,44"],
+  ["security","Firewalls, IPS, endpoints and servers","What each one does and where it sits","45-49","46,48,49"],
+  ["ip","IP addresses, public and private, and classes","Unicast to anycast, IPv4 vs IPv6, RFC 1918 ranges, classes A to E, and subnet masks","50-60","50,53-55,57,60"],
+  ["netid","Network ID and broadcast: worked examples","Find the network, broadcast and mask for classes A, B and C","61-65","61,63,64"],
+  ["binary","Binary and subnetting basics","Binary conversion, why we subnet, and FLSM vs VLSM","66-70","66,69,70"],
+  ["flsm-c","FLSM with Class C","Four worked questions, each built in Packet Tracer with RIPv2 or OSPF","71-93","72,74,79,85"],
+  ["flsm-b","FLSM with Class B","A worked question and its RIPv2 lab, plus practice questions","94-100","95,96"],
+  ["flsm-a","FLSM with Class A","Two worked questions and their RIPv2 labs, plus practice questions","102-113","103,104,108,109"],
+  ["vlsm","VLSM","Biggest network first: two worked questions, plus practice","114-124","115-118"],
+  ["cheat","Classful vs classless, and a subnetting cheat sheet","Which protocols carry the mask, and a full CIDR reference table","125-126","125,126"],
+  ["ipv6","IPv6 addressing","Why IPv6, shortening rules, unicast, multicast, anycast, prefix length, and a RIPng lab","127-136","127-131"],
+  ["osi","The OSI model","All seven layers with examples, and one message traced down and back up","137-149","139,140,148,149"],
+  ["tcpip","The TCP/IP model, TCP and UDP","Four layers, TCP/IP vs OSI, and when to use TCP or UDP","150-155","150,153,154"],
+  ["cables","Cables and an office network","Why we network, Ethernet cable categories and fiber, and a typical office design","156-161","159,160"]]},
+ {m:2,name:"Router basics and LAN switching",topics:[
+  ["overview","What this module covers","Module 2’s topic list","5","5"],
+  ["console","Connecting to a router or switch","Console cable and terminal software first, then remote access","6-9","6,9"],
+  ["basics","Router modes and basic setup","User, privileged and global modes, hostname, banner, line and enable passwords, and encryption","10-17","10,12,14,16,17"],
+  ["reset","Saving, resetting and password recovery","Running vs startup config, factory reset, and ROMmon password recovery","18-24","18,19,22,24"],
+  ["backup","Interface IPs and configuration backups","Address LAN and WAN interfaces, then back up to TFTP, flash or a text file","25-29","25,26,28"],
+  ["ssh","Point-to-point links, Telnet and SSH","Remote access to a router, and why SSH replaced Telnet","30-37","30,31,33-35"],
+  ["cdp","CDP and LLDP","Discover neighbours, the timers, and turning each one on or off","38-43","38,39,42,43"],
+  ["switch","Switch basics and remote management","The MAC table, switch passwords, Telnet and SSH, SVIs and routed ports","44-50","44,48-50"],
+  ["vlan","VLANs and trunks","Create VLANs, assign ports, and 802.1Q vs ISL trunks","51-60","51-53,56,57"],
+  ["stp","Spanning Tree Protocol (STP)","Loops and broadcast storms, root bridge election, port roles, path cost and port states","61-72","63-66,68,72"],
+  ["pvst","PVST+ and Rapid STP","A root bridge per VLAN, bridge priority, RSTP and PortFast","73-81","73,74,78,80,81"],
+  ["etherchannel","EtherChannel: PAgP and LACP","Bundle links into one, the mode combinations, and both labs","82-90","82-84,89,90"],
+  ["wireless","Wireless architecture and AP modes","Controllers, access points, AP modes, and connecting devices through an AP","91-96","91,92"],
+  ["wlc","Configure a WLC and AP in the GUI","Step by step in Packet Tracer","97-101","97,98"]]},
+ {m:3,name:"IP routing",topics:[
+  ["overview","What this module covers","Module 3’s topic list","5","5"],
+  ["static","Routing basics and static routes","What routing is, static vs dynamic, two static routing labs, and administrative distance","6-15","7-9,11,15"],
+  ["default","Floating static and default routes","Backup routes, and the gateway of last resort","16-22","16,17,20"],
+  ["dynamic","Dynamic routing protocols","IGP vs EGP, autonomous systems, metrics, and distance vector, link state and path vector","23-31","24,26,27,29,31"],
+  ["areas","OSPF areas","Single area vs multi-area, and why Area 0 matters","32-34","32,33"],
+  ["ospf","Configure single-area OSPF","Wildcard masks, neighbour rules, the LSDB, and a four-router lab","35-46","35,36,38,40,41,43"],
+  ["dr","DR/BDR election, router ID and point-to-point","Election rules, the router ID, loopbacks, and links with no election","47-59","48,49,52,56,58,59"]]},
+ {m:4,name:"IP services",topics:[
+  ["overview","What this module covers","Module 4’s topic list","5","5"],
+  ["nat","NAT: why, types and terms","Static NAT, dynamic NAT, PAT, and inside and outside, local and global","6-16","8-11,13,16"],
+  ["static-nat","Static NAT configuration","The lab, the commands, and how one packet is translated","17-23","18,20,22"],
+  ["dynamic-nat","Dynamic NAT configuration","With the interface address, and with a pool of public addresses","24-33","25,27,30,32"],
+  ["pat","PAT (NAT overload) configuration","Many hosts sharing one public address","34-39","35,37,39"],
+  ["ntp","NTP","Why time matters, and setting up servers and clients","40-46","40,41,44,45"],
+  ["services","DNS, SNMP, syslog, FTP and TFTP","What each service does, with common tools","47-49","47-49"],
+  ["dhcp","DHCP","A router as a DHCP server, and excluded addresses","50","50"],
+  ["hsrp","First-hop redundancy and HSRP","Why a backup gateway is needed, and setting up HSRP","51-57","51,53,55-57"],
+  ["vrrp","VRRP","The open-standard option, and HSRP vs VRRP","58-63","59,60,62,63"],
+  ["glbp","GLBP","The AVG and AVFs, load-balancing methods, and setup","64-70","65-67,69"]]},
+ {m:5,name:"Security fundamentals",topics:[
+  ["overview","What this module covers","Module 5’s topic list","5","5"],
+  ["acl","Access control lists","What ACLs do, and standard vs extended","6-11","6,7,9,10"],
+  ["acl-lab","Standard and extended ACLs in practice","Block a host, block a service, block ping, and remove an ACL","12-17","13,14,16,17"],
+  ["vpn","VPN technologies","Site-to-site, remote access, MP-VPN and the VPN protocols","18-20","18,20"],
+  ["aaa","AAA","Authentication, authorization and accounting, with and without AAA","21-23","21,22"],
+  ["port","Port security","Limit the devices on a switch port","24-26","24,26"],
+  ["snoop","DHCP snooping","Stop rogue DHCP servers with trusted ports","27-30","27,30"],
+  ["dai","Dynamic ARP inspection","ARP spoofing, and how DAI blocks it","31-37","31-33,35"]]},
+ {m:6,name:"Automation and programmability",topics:[
+  ["overview","What this module covers","Module 6’s topic list","5","5"],
+  ["automation","How automation changes network management","Benefits, automatic fault fixing, new skills for engineers, and AI","6-15","8,10,12-14"],
+  ["controller","Traditional vs controller-based networking","Device by device vs central control, the control plane, scale and security","16-23","17-19,22"],
+  ["dna","Traditional campus vs Cisco DNA Center","Manual vs automated campus management, and security","24-28","25-27"],
+  ["recap","Module 6 recap","The three objectives in plain words","29-32","29-32"]]}
+];
+const MODS=SLIDE_MODULES.map(M=>{
+  const skip=new Set(M.skip||[]), mod={m:M.m,name:M.name};
+  mod.topics=M.topics.map(([id,title,covers,s,q],i)=>{const slides=range(s).filter(n=>!skip.has(n));return {key:`${M.m}-${id}`,m:M.m,mod,i,title,covers,slides,quick:range(q).filter(n=>slides.includes(n))};});
+  mod.all=mod.topics.reduce((a,t)=>a+t.slides.length,0); mod.keys=mod.topics.reduce((a,t)=>a+t.quick.length,0);
+  return mod;
+});
+const TOP=MODS.flatMap(M=>M.topics), byKey={}; TOP.forEach(t=>byKey[t.key]=t);
+const ALL=TOP.reduce((a,t)=>a+t.slides.length,0), KEYS=TOP.reduce((a,t)=>a+t.quick.length,0);
+const slideIcon='<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><rect x="1" y="1.5" width="10" height="7" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M4.2 3.6v2.8L6.8 5z" fill="currentColor"/><path d="M6 8.5v2M4 10.5h4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>';
+
+/* ---------- progress: the slides seen in each topic, and time on slides ---------- */
+const seen=t=>{const a=(state._sl||{})[t.key];const s=new Set(Array.isArray(a)?a:[]);return t.slides.filter(n=>s.has(n));};
+const seenQ=t=>{const s=new Set(seen(t));return t.quick.filter(n=>s.has(n));};
+const done=t=>seen(t).length===t.slides.length;
+let dirty=false;
+function markSeen(t,n){
+  state._sl=state._sl||{}; const a=Array.isArray(state._sl[t.key])?state._sl[t.key]:(state._sl[t.key]=[]);
+  if(a.includes(n))return false;
+  a.push(n); a.sort((x,y)=>x-y); const d=day(); d.sl=(d.sl||0)+1; dirty=true; return true;
+}
+/* time counts while the viewer is open and the page is visible, up to 3 minutes a slide, like flashcards */
+let tOn=0, acc=0, lastSave=0;
+function tick(){const now=Date.now();if(tOn)acc+=Math.min(180,(now-tOn)/1000);tOn=V.open&&!document.hidden?now:0;}
+function commit(force){
+  tick(); const s=Math.floor(acc);
+  if(s>=1){const d=day();d.prac=(d.prac||0)+s;d.slt=(d.slt||0)+s;acc-=s;dirty=true;}
+  if(dirty&&(force||Date.now()-lastSave>15000)){save();lastSave=Date.now();dirty=false;}
+}
+document.addEventListener("visibilitychange",()=>{if(V.open)commit(document.hidden);});
+window.addEventListener("pagehide",()=>{if(V.open)commit(true);});
+
+/* ---------- slide text (for search and screen readers), loaded on first use ---------- */
+let textP=null;
+function loadText(){
+  if(window.DT_SLIDE_TEXT)return Promise.resolve(window.DT_SLIDE_TEXT);
+  if(!textP)textP=new Promise((res,rej)=>{const s=document.createElement("script");s.src=DIR+"text.js";s.onload=()=>window.DT_SLIDE_TEXT?res(window.DT_SLIDE_TEXT):rej();s.onerror=()=>{textP=null;rej();};document.head.appendChild(s);});
+  return textP;
+}
+const textOf=(m,n)=>((window.DT_SLIDE_TEXT||{})[m]||[])[n-1]||"";
+
+/* =========================================================
+   Viewer
+   ========================================================= */
+const V={open:false,mod:null,q:false,list:[],i:0,zoom:false,ret:null,stripFor:null};
+const sv=$("#sv"), svImg=$("#svImg"), svScroll=$("#svScroll"), svMsg=$("#svMsg");
+const cur=()=>V.list[V.i];
+const seq=(mod,q)=>mod.topics.flatMap(t=>(q?t.quick:t.slides).map(n=>({t,n})));
+function open(t,n,q){
+  if(!t)return;
+  V.mod=MODS[t.m-1]; V.q=!!q; V.list=seq(V.mod,V.q);
+  let i=V.list.findIndex(x=>x.t===t&&(n==null||x.n===n));
+  if(i<0&&n!=null)i=V.list.findIndex(x=>x.t===t&&x.n>=n);
+  if(i<0)i=V.list.findIndex(x=>x.t===t);
+  V.i=Math.max(0,i); V.stripFor=null;
+  if(!V.open){
+    closeMenu();
+    V.open=true; V.ret=document.activeElement; V.zoom=false;
+    sv.hidden=false; document.documentElement.classList.add("sv-open");
+    tOn=0; tick();
+    loadText().then(desc).catch(()=>{});
+  }
+  show(); requestAnimationFrame(()=>{layout();sv.focus({preventScroll:true});});
+}
+/* open a topic where you left it: the first slide you haven't seen yet, or the start */
+function openTopic(t,q){
+  if(!t)return; const list=q?t.quick:t.slides, s=new Set(seen(t));
+  const next=list.find(n=>!s.has(n)); open(t,next!==undefined&&s.size?next:list[0],q);
+}
+function close(){
+  if(!V.open)return;
+  commit(true); V.open=false; tOn=0;
+  if(document.fullscreenElement===sv&&document.exitFullscreen)document.exitFullscreen().catch(()=>{});
+  sv.hidden=true; document.documentElement.classList.remove("sv-open"); setZoom(false);
+  const r=V.ret, k=r&&r.dataset&&r.dataset.slt; V.ret=null;
+  update();
+  /* the topic grid redraws on update, so find the same topic card again */
+  const el=r&&document.contains(r)?r:k?$(`[data-slt="${k}"]`):null; if(el&&el.focus)el.focus({preventScroll:true});
+}
+function show(){
+  const c=cur(); if(!c)return; const t=c.t, M=V.mod;
+  commit(false);
+  const tl=V.list.filter(x=>x.t===t), k=tl.indexOf(c);
+  $("#svMod").textContent=`Module ${M.m}: ${M.name}`;
+  $("#svTitle").textContent=t.title;
+  svImg.dataset.k=`${t.m}/${c.n}`; svMsg.hidden=true; svImg.hidden=false;
+  svImg.alt=`${t.title}, ${V.q?"key slide":"slide"} ${k+1} of ${tl.length}`;
+  svImg.src=src(t.m,c.n);
+  if(svImg.complete&&svImg.naturalWidth)loaded();
+  $("#svPos").textContent=`${V.q?"Key slide":"Slide"} ${k+1} of ${tl.length}`;
+  $("#svProg").style.width=`${(k+1)/tl.length*100}%`;
+  $$("#svMode button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.q==="1"===V.q)));
+  $("#svPrev").disabled=V.i===0; $("#svNext").disabled=V.i===V.list.length-1;
+  /* filmstrip: the slides of this topic */
+  const sk=`${t.key}/${V.q}`;
+  if(V.stripFor!==sk){
+    V.stripFor=sk;
+    $("#svStrip").innerHTML=tl.map((x,j)=>`<button type="button" data-svi="${V.list.indexOf(x)}" aria-label="${V.q?"Key slide":"Slide"} ${j+1}"><img src="${src(t.m,x.n,true)}" alt="" loading="lazy" width="400" height="225"><span>${j+1}</span></button>`).join("");
+    const opts=M.topics.map(x=>`<option value="${x.key}">${esc(x.title)}</option>`).join("");
+    if($("#svJump").dataset.m!==String(M.m)){$("#svJump").innerHTML=opts;$("#svJump").dataset.m=M.m;}
+  }
+  $("#svJump").value=t.key;
+  stripState(); const on=$('#svStrip [aria-current="true"]'); if(on)on.scrollIntoView({block:"nearest",inline:"center"});
+  /* previous and next topic, then on to the next module */
+  const pt=M.topics[t.i-1], nt=M.topics[t.i+1], nm=MODS[M.m];
+  const pb=$("#svPrevT"), nb=$("#svNextT");
+  pb.disabled=!pt; pb.textContent=pt?`‹ ${pt.title}`:""; pb.title=pt?`Previous topic: ${pt.title}`:"";
+  nb.disabled=!nt&&!nm; nb.textContent=nt?`${nt.title} ›`:nm?`Module ${nm.m}: ${nm.name} ›`:""; nb.title=nt?`Next topic: ${nt.title}`:nm?`Next module: ${nm.name}`:"";
+  const L=state._slLast; if(!L||L.k!==t.key||L.n!==c.n||L.q!==(V.q?1:0)){state._slLast={k:t.key,n:c.n,q:V.q?1:0};dirty=true;}
+  desc();
+  [V.i+1,V.i-1,V.i+2].forEach(j=>{const x=V.list[j];if(x){const im=new Image();im.src=src(x.t.m,x.n);}});
+  if(V.zoom){svScroll.scrollTop=0;svScroll.scrollLeft=(svScroll.scrollWidth-svScroll.clientWidth)/2;}
+}
+function stripState(){
+  const c=cur(); if(!c)return; const s=new Set(seen(c.t));
+  $$("#svStrip button").forEach(b=>{const x=V.list[+b.dataset.svi];b.setAttribute("aria-current",String(+b.dataset.svi===V.i));b.classList.toggle("seen",!!x&&s.has(x.n));});
+  const tl=V.q?c.t.quick:c.t.slides, n=tl.filter(x=>s.has(x)).length;
+  $("#svSeen").textContent=n===tl.length?"Topic done ✓":`${n} of ${tl.length} seen`;
+}
+function desc(){const c=cur();if(!c)return;const tx=textOf(c.t.m,c.n);$("#svDesc").textContent=tx?`Text on this slide: ${tx.replace(/\n/g,". ")}`:"";}
+function loaded(){
+  const c=cur(); if(!c||svImg.dataset.k!==`${c.t.m}/${c.n}`)return;
+  if(markSeen(c.t,c.n))stripState();
+}
+svImg.addEventListener("load",loaded);
+svImg.addEventListener("error",()=>{
+  const c=cur(); if(!c||svImg.dataset.k!==`${c.t.m}/${c.n}`)return;
+  svImg.hidden=true; svMsg.hidden=false;
+  svMsg.textContent=navigator.onLine===false?"This slide couldn’t load because you’re offline. Reconnect, then try again.":"This slide image isn’t on the site yet. Upload the slides folder next to index.html in your GitHub repository, then reload the page.";
+});
+function go(d){const j=V.i+d;if(j<0||j>=V.list.length)return;V.i=j;show();}
+function goTopic(d){
+  const c=cur(); if(!c)return; const M=V.mod, t=M.topics[c.t.i+d];
+  if(t){open(t,null,V.q);return;}
+  if(d>0&&MODS[M.m])open(MODS[M.m].topics[0],null,V.q);
+}
+function setQuick(q){
+  const c=cur(); if(!c||q===V.q)return;
+  V.q=q; V.list=seq(V.mod,q); V.stripFor=null;
+  let i=V.list.findIndex(x=>x.t===c.t&&x.n===c.n);
+  if(i<0)i=V.list.findIndex(x=>x.t===c.t&&x.n>=c.n);
+  if(i<0)i=V.list.findIndex(x=>x.t===c.t);
+  V.i=Math.max(0,i); ls.set("dualTrack.slQuick",q?"1":"0"); quick=q; show();
+}
+/* size the slide to fit the space, or 2 to 3 times bigger when zoomed */
+function layout(){
+  if(!V.open)return; const r=$("#svStage").getBoundingClientRect(), small=innerWidth<700;
+  const fw=Math.max(160,Math.min(r.width-(small?16:150),(r.height-(small?16:32))*16/9));
+  const w=V.zoom?Math.min(2400,Math.max(fw*1.75,Math.min(1600,fw*3))):fw;
+  svImg.style.width=Math.round(w)+"px"; svImg.style.height=Math.round(w*9/16)+"px";
+}
+function setZoom(z){
+  V.zoom=z; svScroll.classList.toggle("zoomed",z); $("#svStage").classList.toggle("zoomed",z);
+  const b=$("#svZoom"); b.setAttribute("aria-pressed",String(z)); b.setAttribute("aria-label",z?"Zoom out":"Zoom in"); b.title=z?"Zoom out (Z)":"Zoom in (Z)";
+  layout(); if(z){svScroll.scrollTop=0;svScroll.scrollLeft=(svScroll.scrollWidth-svScroll.clientWidth)/2;}
+}
+function fullscreen(){
+  if(document.fullscreenElement){document.exitFullscreen().catch(()=>{});return;}
+  if(sv.requestFullscreen)sv.requestFullscreen().catch(()=>{});
+}
+if(!document.fullscreenEnabled||!sv.requestFullscreen)$("#svFull").hidden=true;
+document.addEventListener("fullscreenchange",()=>{const on=document.fullscreenElement===sv,b=$("#svFull");b.setAttribute("aria-pressed",String(on));b.setAttribute("aria-label",on?"Leave full screen":"Full screen");b.title=on?"Leave full screen (F)":"Full screen (F)";requestAnimationFrame(layout);});
+if("ResizeObserver" in window)new ResizeObserver(()=>layout()).observe($("#svStage")); else window.addEventListener("resize",layout);
+
+$("#svClose").addEventListener("click",close);
+$("#svPrev").addEventListener("click",()=>go(-1));
+$("#svNext").addEventListener("click",()=>go(1));
+$("#svPrevT").addEventListener("click",()=>goTopic(-1));
+$("#svNextT").addEventListener("click",()=>goTopic(1));
+$("#svZoom").addEventListener("click",()=>setZoom(!V.zoom));
+$("#svFull").addEventListener("click",fullscreen);
+$("#svMode").addEventListener("click",e=>{const b=e.target.closest("[data-q]");if(b)setQuick(b.dataset.q==="1");});
+$("#svStrip").addEventListener("click",e=>{const b=e.target.closest("[data-svi]");if(b){V.i=+b.dataset.svi;show();}});
+$("#svJump").addEventListener("change",e=>{const t=byKey[e.target.value];if(t)open(t,null,V.q);});
+/* swipe, or tap the slide: the left third goes back, the rest goes forward */
+let px=null;
+svScroll.addEventListener("pointerdown",e=>{if(V.zoom||e.button!==0)return;px={x:e.clientX,y:e.clientY};});
+svScroll.addEventListener("pointercancel",()=>{px=null;});
+svScroll.addEventListener("pointerup",e=>{
+  if(!px)return; const dx=e.clientX-px.x, dy=e.clientY-px.y; px=null;
+  if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)*1.3){go(dx<0?1:-1);return;}
+  if(Math.abs(dx)<8&&Math.abs(dy)<8&&e.target===svImg){const r=svImg.getBoundingClientRect();go(e.clientX<r.left+r.width/3?-1:1);}
+});
+document.addEventListener("keydown",e=>{
+  if(!V.open)return;
+  if(e.ctrlKey||e.metaKey||e.altKey)return;
+  const tg=e.target, ctl=/^(BUTTON|A|SELECT|INPUT|TEXTAREA)$/.test(tg.tagName);
+  if(e.key==="Tab"){
+    const f=$$('button:not([disabled]),a[href],select',sv).filter(x=>x.offsetParent!==null&&!x.hidden); if(!f.length)return;
+    const a=f[0], b=f[f.length-1];
+    if(e.shiftKey&&(document.activeElement===a||document.activeElement===sv)){e.preventDefault();b.focus();}
+    else if(!e.shiftKey&&document.activeElement===b){e.preventDefault();a.focus();}
+    return;
+  }
+  if(tg.tagName==="SELECT"&&/^Arrow|^Home$|^End$/.test(e.key))return;
+  let h=true;
+  if(e.key==="Escape"){if(document.fullscreenElement)h=false;else if(V.zoom)setZoom(false);else close();}
+  else if(e.key==="ArrowRight"||e.key==="PageDown"||(e.key===" "&&!e.shiftKey&&!ctl)||e.key==="n")go(1);
+  else if(e.key==="ArrowLeft"||e.key==="PageUp"||(e.key===" "&&e.shiftKey&&!ctl)||e.key==="p")go(-1);
+  else if(e.key==="Home"){const c=cur();V.i=V.list.findIndex(x=>x.t===c.t);show();}
+  else if(e.key==="End"){const c=cur();V.i=V.list.map(x=>x.t).lastIndexOf(c.t);show();}
+  else if(e.key==="z"||e.key==="Z")setZoom(!V.zoom);
+  else if((e.key==="f"||e.key==="F")&&!$("#svFull").hidden)fullscreen();
+  else if(e.key==="q"||e.key==="Q")setQuick(!V.q);
+  else h=false;
+  if(h){e.preventDefault();e.stopPropagation();}
+},true);
+
+/* =========================================================
+   The Slides tab in Revision
+   ========================================================= */
+const pane=$("#rvSlides");
+let quick=ls.get("dualTrack.slQuick")==="1", selM=0, built=false, q="";
+function build(){
+  if(built)return; built=true;
+  const last=state._slLast&&byKey[state._slLast.k]; selM=last?last.m:1;
+  pane.innerHTML=`<div class="pstats card">
+    <div class="vstat"><small>Slides seen</small><b id="slsSeen">–</b></div>
+    <div class="vstat"><small>Topics finished</small><b id="slsTopics">–</b></div>
+    <div class="vstat"><small>Key slides seen</small><b id="slsKey">–</b></div>
+    <div class="vstat"><small>Slide time today</small><b id="slsToday">0 min</b></div>
+   </div>
+   <div class="vcont"><button class="btn" id="slGo"></button><p id="slGoTxt"></p></div>
+   <div class="rv-tools">
+    <label class="rv-search sl-search"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><input type="search" id="slQ" placeholder="Search the words on every slide" autocomplete="off" spellcheck="false" aria-label="Search the words on every slide"></label>
+    <div class="tog sl-mode" id="slMode" role="group" aria-label="Which slides to show"><button type="button" data-q="0">All slides</button><button type="button" data-q="1">Quick revision</button></div>
+   </div>
+   <p class="sl-qnote" id="slQNote">Quick revision shows only the key slides in each topic: the definitions, comparisons, summaries and main commands. It skips title slides, photos, repeated worked examples and assignments.</p>
+   <nav class="sl-mods" id="slMods" aria-label="Modules"></nav>
+   <section class="sl-mod card" id="slMod"></section>
+   <section class="sl-res card" id="slRes" hidden></section>`;
+  $("#slGo").addEventListener("click",()=>{const L=state._slLast,t=L&&byKey[L.k];if(t)open(t,L.n,!!L.q);else openTopic(TOP[0],quick);});
+  $("#slMode").addEventListener("click",e=>{const b=e.target.closest("[data-q]");if(!b)return;quick=b.dataset.q==="1";ls.set("dualTrack.slQuick",quick?"1":"0");render();});
+  $("#slMods").addEventListener("click",e=>{const b=e.target.closest("[data-slmod]");if(!b)return;selM=+b.dataset.slmod;render();});
+  $("#slMods").addEventListener("keydown",e=>{
+    if(!/^Arrow(Left|Right)$/.test(e.key))return; const bs=$$("#slMods button"), i=bs.indexOf(document.activeElement); if(i<0)return;
+    e.preventDefault(); const b=bs[(i+(e.key==="ArrowRight"?1:-1)+bs.length)%bs.length]; b.focus(); b.click();
+  });
+  pane.addEventListener("click",e=>{
+    const t=e.target.closest("[data-slt]"); if(t){openTopic(byKey[t.dataset.slt],quick);return;}
+    const p=e.target.closest("[data-slplay]"); if(p){const M=MODS[+p.dataset.slplay-1],nt=M.topics.find(x=>!done(x));openTopic(nt||M.topics[0],false);return;}
+    const k=e.target.closest("[data-slquick]"); if(k){open(MODS[+k.dataset.slquick-1].topics[0],null,true);return;}
+    const r=e.target.closest("[data-slhit]"); if(r){const [key,n]=r.dataset.slhit.split("|");open(byKey[key],+n,false);}
+  });
+  let qT; $("#slQ").addEventListener("input",e=>{clearTimeout(qT);qT=setTimeout(()=>{q=e.target.value.trim();render();},120);});
+}
+function bar(n,of){const p=of?n/of*100:0;return `<span class="sl-bar" aria-hidden="true"><i class="${n&&n===of?"full":""}" style="width:${p}%"></i></span>`;}
+function render(){
+  if(!built||pane.hidden)return;
+  let s=0,k=0,tf=0; TOP.forEach(t=>{const n=seen(t).length;s+=n;k+=seenQ(t).length;if(n===t.slides.length)tf++;});
+  $("#slsSeen").textContent=`${num(s)} of ${num(ALL)}`; $("#slsTopics").textContent=`${tf} of ${TOP.length}`; $("#slsKey").textContent=`${num(k)} of ${num(KEYS)}`;
+  const today=(state._daily||{})[TODAY()]||{}; $("#slsToday").textContent=`${Math.round((today.slt||0)/60)} min`;
+  const L=state._slLast, lt=L&&byKey[L.k];
+  if(lt){const list=L.q?lt.quick:lt.slides,p=list.indexOf(L.n)+1;$("#slGo").textContent=`Continue: ${lt.title}`;$("#slGoTxt").textContent=`Module ${lt.m}${p?`, ${L.q?"key slide":"slide"} ${p} of ${list.length}`:""}. You’ve seen ${num(s)} of ${num(ALL)} slides.`;}
+  else{$("#slGo").textContent="Start with Module 1";$("#slGoTxt").textContent=`${num(ALL)} slides in ${TOP.length} short topics across the six CCNA modules, with ${num(KEYS)} key slides for quick revision.`;}
+  $$("#slMode button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.q==="1"===quick)));
+  $("#slQNote").hidden=!quick;
+  const searching=!!q;
+  $("#slMods").hidden=searching; $("#slMod").hidden=searching; $("#slRes").hidden=!searching;
+  if(searching){results();return;}
+  const hadF=$("#slMods").contains(document.activeElement);
+  $("#slMods").innerHTML=MODS.map(M=>{const n=M.topics.reduce((a,t)=>a+(quick?seenQ(t):seen(t)).length,0),of=quick?M.keys:M.all;
+    return `<button type="button" data-slmod="${M.m}" aria-current="${M.m===selM}" title="${n} of ${of} ${quick?"key slides":"slides"} seen"><small>Module ${M.m}</small><b>${esc(M.name)}</b>${bar(n,of)}</button>`;}).join("");
+  if(hadF){const b=$(`#slMods [data-slmod="${selM}"]`);if(b)b.focus();}
+  const M=MODS[selM-1], ms=M.topics.reduce((a,t)=>a+seen(t).length,0), started=ms>0, fin=ms===M.all;
+  $("#slMod").innerHTML=`<div class="sl-mh"><div><small>Module ${M.m}</small><h2>${esc(M.name)}</h2><p>${plural(M.topics.length,"topic")}, ${num(M.all)} slides, ${num(M.keys)} of them key slides for quick revision.${started?` You’ve seen ${num(ms)}.`:""}</p></div>`
+    +`<div class="sl-acts"><button class="btn" data-slplay="${M.m}">${fin?"Go through it again":started?"Continue this module":"Start this module"}</button><button class="btn ghost" data-slquick="${M.m}">Quick revision: ${M.keys} key slides</button></div></div>`
+    +`<ul class="sl-grid">${M.topics.map(t=>{
+      const list=quick?t.quick:t.slides, n=(quick?seenQ(t):seen(t)).length, all=n===list.length;
+      return `<li><button type="button" class="sl-t${all?" done":""}" data-slt="${t.key}"><span class="sl-th"><img src="${src(t.m,t.slides[0],true)}" alt="" loading="lazy" width="400" height="225"><em>${plural(list.length,quick?"key slide":"slide")}</em></span>`
+        +`<span class="sl-tb"><b>${esc(t.title)}</b><small>${esc(t.covers)}</small><span class="sl-tp">${bar(n,list.length)}<span class="sl-tn">${all?"Done ✓":n?`${n} of ${list.length} seen`:"Not started"}</span></span></span></button></li>`;}).join("")}</ul>`;
+}
+/* search the words on every slide (and the topic names) */
+function results(){
+  const box=$("#slRes"), words=q.toLowerCase().split(/\s+/).filter(Boolean);
+  if(!window.DT_SLIDE_TEXT){
+    box.innerHTML='<p class="rv-empty">Loading the slide text…</p>';
+    loadText().then(()=>{if(q)render();}).catch(()=>{box.innerHTML='<p class="rv-empty">The slide text (slides/text.js) couldn’t load. Check your connection, or upload the slides folder to your site, then reload.</p>';});
+    return;
+  }
+  const hits=[];
+  TOP.forEach(t=>t.slides.forEach(n=>{
+    const tx=textOf(t.m,n), hay=(t.title+"\n"+tx).toLowerCase();
+    if(words.every(w=>hay.includes(w)))hits.push({t,n,tx,head:words.every(w=>(tx.split("\n")[0]||"").toLowerCase().includes(w))});
+  }));
+  hits.sort((a,b)=>(b.head-a.head));
+  const re=new RegExp(`(${words.map(w=>esc(w).replace(/[.*+?^${}()|[\]\\]/g,"\\$&")).join("|")})`,"gi");
+  const snip=tx=>{const lines=tx.split("\n");const i=Math.max(0,lines.findIndex(l=>words.some(w=>l.toLowerCase().includes(w))));const s=lines.slice(i,i+2).join(" ");return esc(s.length>220?s.slice(0,220)+"…":s).replace(re,"<mark>$1</mark>");};
+  box.innerHTML=hits.length?`<p class="sl-rh">${plural(hits.length,"slide")} mention “${esc(q)}”${hits.length>60?". Showing the first 60: add another word to narrow it down.":""}</p><ul class="sl-res-l">${hits.slice(0,60).map(h=>{
+      const list=h.t.slides, p=list.indexOf(h.n)+1;
+      return `<li><button type="button" data-slhit="${h.t.key}|${h.n}"><img src="${src(h.t.m,h.n,true)}" alt="" loading="lazy" width="400" height="225"><span><small>Module ${h.t.m}: ${esc(h.t.title)}</small><b>${esc((h.tx.split("\n")[0]||h.t.title).slice(0,120))}</b><p>${snip(h.tx)}</p><em>Slide ${p} of ${list.length}</em></span></button></li>`;}).join("")}</ul>`
+    :`<p class="rv-empty">No slide mentions “${esc(q)}”. Try a shorter or different word.</p>`;
+}
+
+/* ---------- Flashcards | Slides switch ---------- */
+const tabs=[$("#rvTabCards"),$("#rvTabSlides")];
+function showTab(k,focus){
+  const sl=k==="slides";
+  tabs.forEach(b=>{const on=(b===tabs[1])===sl;b.setAttribute("aria-selected",String(on));b.tabIndex=on?0:-1;});
+  $("#rvCards").hidden=sl; pane.hidden=!sl; ls.set("dualTrack.rvTab",sl?"slides":"cards");
+  if(sl){build();render();if(document.body.dataset.view==="revision")loadText().catch(()=>{});}
+  if(focus)tabs[sl?1:0].focus();
+}
+tabs.forEach(b=>b.addEventListener("click",()=>showTab(b===tabs[1]?"slides":"cards")));
+$(".rvtabs").addEventListener("keydown",e=>{
+  if(!/^Arrow(Left|Right)$|^Home$|^End$/.test(e.key))return; e.preventDefault();
+  showTab(e.key==="Home"?"cards":e.key==="End"?"slides":tabs[0].getAttribute("aria-selected")==="true"?"slides":"cards",true);
+});
+const _svw=setView; setView=function(v,top){_svw(v,top);if(v==="revision"&&!pane.hidden){render();loadText().catch(()=>{});}};
+showTab(ls.get("dualTrack.rvTab")==="slides"?"slides":"cards");
+/* flashcards always open on the Flashcards side */
+new MutationObserver(()=>{if(!$("#rvStudy").hidden&&!pane.hidden)showTab("cards");}).observe($("#rvStudy"),{attributes:true,attributeFilter:["hidden"]});
+if(window.DT_REV)["open","home","day"].forEach(k=>{const f=window.DT_REV[k];if(typeof f==="function")window.DT_REV[k]=function(){showTab("cards");return f.apply(this,arguments);};});
+/* the flashcard keys (Space, 1, 2) don't act on cards hidden behind the Slides tab */
+document.addEventListener("keydown",e=>{
+  if(pane.hidden||V.open||document.body.dataset.view!=="revision")return;
+  if((e.key===" "||e.key==="1"||e.key==="2")&&!/INPUT|TEXTAREA|SELECT|BUTTON/.test(e.target.tagName))e.stopPropagation();
+},true);
+function openModule(m){
+  setView("revision",true); showTab("slides"); selM=m; q=""; const i=$("#slQ"); if(i)i.value=""; render();
+  requestAnimationFrame(()=>{const b=$(`#slMods [data-slmod="${m}"]`);if(b)b.scrollIntoView({block:"center",behavior:"smooth"});});
+}
+
+/* =========================================================
+   Slides chips on the CCNA topics
+   ========================================================= */
+const CHIPS=[
+ [/^Binary, decimal and hex/,["1-binary"]],
+ [/^How a PC connects/,["1-ip"]],
+ [/^OSI 7-layer model/,["1-osi","1-tcpip"]],
+ [/^Encapsulation and PDUs/,["1-osi","1-switching","1-routers"]],
+ [/^TCP vs UDP/,["1-tcpip"]],
+ [/^Roles of routers/,["1-switching","1-routers","1-wireless","1-security"]],
+ [/^Topologies:/,["1-types","1-cables"]],
+ [/^Cabling:/,["1-cables"]],
+ [/^IPv4 addressing and subnetting/,["1-ip","1-netid","1-binary","1-flsm-c","1-flsm-b","1-flsm-a","1-vlsm","1-cheat"]],
+ [/^Private addressing/,["1-ip"]],
+ [/^IPv6:/,["1-ipv6"]],
+ [/^Switching concepts/,["1-switching","2-switch"]],
+ [/^VLANs, access ports/,["2-vlan"]],
+ [/^802\.1Q trunks/,["2-vlan"]],
+ [/^CDP and LLDP/,["2-cdp"]],
+ [/^EtherChannel/,["2-etherchannel"]],
+ [/^Rapid PVST\+/,["2-stp","2-pvst"]],
+ [/^Wireless architectures/,["2-wireless"]],
+ [/^Management access/,["2-console","2-basics","2-ssh"]],
+ [/^Configure a WLAN/,["2-wlc"]],
+ [/^Read a routing table/,["3-static","3-dynamic"]],
+ [/^Forwarding decisions/,["3-dynamic"]],
+ [/^Static routing IPv4/,["3-static","3-default"]],
+ [/^Single-area OSPFv2/,["3-areas","3-ospf","3-dr"]],
+ [/^First-hop redundancy/,["4-hsrp","4-vrrp","4-glbp"]],
+ [/^NAT and PAT/,["4-nat","4-static-nat","4-dynamic-nat","4-pat"]],
+ [/^NTP$/,["4-ntp"]],
+ [/^DHCP, DHCP relay/,["4-dhcp","4-services"]],
+ [/^SNMP and syslog/,["4-services"]],
+ [/^Configure SSH; know TFTP/,["2-ssh","2-backup","4-services"]],
+ [/^Device password security/,["2-basics","2-reset"]],
+ [/^Remote-access and site-to-site VPN/,["5-vpn"]],
+ [/^Standard and extended ACLs/,["5-acl","5-acl-lab"]],
+ [/^Layer 2 security/,["5-port","5-snoop","5-dai"]],
+ [/^AAA:/,["5-aaa"]],
+ [/^Traditional vs controller-based/,["6-controller","6-dna"]],
+ [/^SDN:/,["6-controller"]],
+ [/^AI and machine learning/,["6-automation"]]
+];
+const chipInner=keys=>{const n=keys.filter(k=>done(byKey[k])).length,all=n===keys.length;return `${slideIcon}Slides${keys.length>1?` <span class="pxn">${all?"✓":n?`${n}/${keys.length}`:keys.length}</span>`:all?" ✓":""}`;};
+const hop=$$("#netRoute .hop").find(h=>/^CCNA \(200-301\)/.test((h.querySelector(".hop-head h2")||{}).textContent||""));
+if(hop){
+  $$("li",hop).forEach(li=>{
+    const tEl=li.querySelector(".item-t"); if(!tEl||tEl.closest("li")!==li)return;
+    const title=tEl.textContent.trim(), hit=CHIPS.find(([re])=>re.test(title)); if(!hit)return;
+    const keys=hit[1].filter(k=>byKey[k]); if(!keys.length)return;
+    let row=[...li.children].find(c=>c.classList.contains("vchips"));
+    if(!row){row=document.createElement("div");row.className="vchips";li.appendChild(row);}
+    row.insertAdjacentHTML("beforeend",`<button type="button" class="vchip slc" data-sl="${keys.join(",")}" data-sltitle="${esc(title)}"${keys.length>1?' aria-haspopup="true" aria-expanded="false"':""} title="Class slides: ${keys.length>1?`${keys.length} topics`:esc(byKey[keys[0]].title)}">${chipInner(keys)}</button>`);
+  });
+  /* each exam domain links to its whole module */
+  $$(".sec",hop).forEach(sec=>{
+    const h=sec.querySelector(".sec-head h3"), m=/^(\d)\.\s/.exec(h?h.textContent:""), M=m&&MODS[+m[1]-1]; if(!M)return;
+    (sec.querySelector(".sec-why")||sec.querySelector(".sec-head")).insertAdjacentHTML("afterend",`<div class="vchips sl-secrow"><button type="button" class="vchip slc" data-slm="${M.m}" title="Open Module ${M.m} in the Revision tab">${slideIcon}Module ${M.m} slides <span class="pxn">${plural(M.topics.length,"topic")}</span></button></div>`);
+  });
+}
+function refreshChips(){$$(".vchip[data-sl]").forEach(b=>{const keys=b.dataset.sl.split(",");b.innerHTML=chipInner(keys);b.classList.toggle("done",keys.every(k=>done(byKey[k])));});}
+refreshChips();
+
+/* a chip with several topics opens a short list of them */
+const menu=document.createElement("div"); menu.className="pxm slm"; menu.hidden=true; menu.setAttribute("role","dialog"); document.body.appendChild(menu);
+let menuFor=null;
+const menuOpen=()=>!menu.hidden;
+function openMenu(btn){
+  const keys=btn.dataset.sl.split(",");
+  if(menuFor===btn&&!menu.hidden){closeMenu();return;}
+  closeMenu(); menuFor=btn;
+  menu.setAttribute("aria-label",`Class slides: ${btn.dataset.sltitle}`);
+  menu.innerHTML=`<h4>Class slides</h4><ul>${keys.map(k=>{const t=byKey[k],n=seen(t).length;return `<li><button type="button" data-slopen="${k}"><img src="${src(t.m,t.slides[0],true)}" alt="" width="400" height="225"><span><b>${esc(t.title)}</b><small>Module ${t.m}, ${plural(t.slides.length,"slide")}</small></span>${n===t.slides.length?"<em>Done ✓</em>":n?`<em class="part">${n}/${t.slides.length}</em>`:""}</button></li>`;}).join("")}</ul><p class="pxm-hint">Opens the slides right here. <a href="#revision" data-slm="${byKey[keys[0]].m}">See all of Module ${byKey[keys[0]].m}</a></p>`;
+  menu.hidden=false; btn.setAttribute("aria-expanded","true");
+  const r=btn.getBoundingClientRect(), mw=menu.offsetWidth, mh=menu.offsetHeight;
+  let top=r.bottom+6; if(top+mh>innerHeight-8&&r.top-mh-6>8)top=r.top-mh-6;
+  menu.style.top=Math.max(8,Math.min(top,innerHeight-mh-8))+"px";
+  menu.style.left=Math.max(8,Math.min(r.left,innerWidth-mw-8))+"px";
+  const f=menu.querySelector("button"); if(f)f.focus({preventScroll:true});
+}
+function closeMenu(){if(menu.hidden)return;menu.hidden=true;if(menuFor){menuFor.setAttribute("aria-expanded","false");if(menu.contains(document.activeElement))menuFor.focus({preventScroll:true});}menuFor=null;}
+document.addEventListener("click",e=>{
+  const o=e.target.closest("[data-slopen]"); if(o){e.preventDefault();closeMenu();openTopic(byKey[o.dataset.slopen],false);return;}
+  const m=e.target.closest("[data-slm]"); if(m){e.preventDefault();closeMenu();openModule(+m.dataset.slm);return;}
+  const b=e.target.closest("[data-sl]");
+  if(b){e.preventDefault();e.stopPropagation();const keys=b.dataset.sl.split(",");if(keys.length===1){closeMenu();openTopic(byKey[keys[0]],false);}else openMenu(b);return;}
+  if(!menu.contains(e.target))closeMenu();
+},true);
+window.addEventListener("keydown",e=>{if(e.key==="Escape"&&!menu.hidden){closeMenu();e.stopPropagation();}},true);
+window.addEventListener("scroll",e=>{if(!menu.hidden&&!menu.contains(e.target))closeMenu();},true);
+window.addEventListener("resize",closeMenu);
+
+/* ---------- search entries (Ctrl+K) ---------- */
+const _ix3=window.DT_extraIndex;
+window.DT_extraIndex=()=>{
+  const out=_ix3?_ix3():[];
+  MODS.forEach(M=>out.push({type:"Slides",c:"var(--slide)",t:`Module ${M.m} slides: ${M.name}`,s:`${plural(M.topics.length,"topic")}, in the Revision tab`,go:()=>openModule(M.m)}));
+  TOP.forEach(t=>out.push({type:"Slides",c:"var(--slide)",t:t.title,s:`Module ${t.m} slides: ${t.covers}`,go:()=>openTopic(t,false)}));
+  return out;
+};
+
+window.DT_SLIDES={open:(key,n,q)=>open(byKey[key],n,q),openTopic:key=>openTopic(byKey[key],false),openModule,modules:MODS};
+const _u8=update; update=function(){_u8();refreshChips();if(document.body.dataset.view==="revision")render();};
+})();
+
+</script>
+<script>
+
+/* =========================================================
+   Home page background: a slowly turning 3D network of nodes and links
+   ========================================================= */
+(function(){
+const cv=document.getElementById("heroNet"); if(!cv||!cv.getContext)return;
+const ctx=cv.getContext("2d"), panel=cv.closest(".panel");
+const still=matchMedia("(prefers-reduced-motion: reduce)");
+let W=0,H=0,dpr=1,count=0,nodes=[],edges=[],packets=[],col={},raf=0,inView=true,born=performance.now(),last=0,spawn=0;
+let tx=0,ty=0,gx=0,gy=0;
+
+/* a repeatable pseudo-random sequence, so the network has the same shape on every visit */
+let seed=7; const rnd=()=>{seed=(seed*16807)%2147483647;return (seed-1)/2147483646;};
+/* nodes spread over a sphere (with a few inside), each linked to its nearest neighbours */
+function build(n){
+  seed=7; count=n; nodes=[]; edges=[]; packets=[];
+  for(let i=0;i<n;i++){
+    const k=i+.5, phi=Math.acos(1-2*k/n), th=Math.PI*(1+Math.sqrt(5))*k, inner=i%6===0, r=inner?.35+rnd()*.45:.92+rnd()*.16;
+    nodes.push({x:r*Math.cos(th)*Math.sin(phi),y:r*Math.sin(th)*Math.sin(phi),z:r*Math.cos(phi),hub:i%9===0});
+  }
+  const seen=new Set();
+  nodes.forEach((a,i)=>{
+    nodes.map((b,j)=>[j,(a.x-b.x)**2+(a.y-b.y)**2+(a.z-b.z)**2]).filter(p=>p[0]!==i).sort((p,q)=>p[1]-q[1]).slice(0,a.hub?5:3)
+      .forEach(([j])=>{const key=i<j?i+"-"+j:j+"-"+i;if(!seen.has(key)){seen.add(key);edges.push([i,j]);}});
+  });
+}
+/* colors come from the theme, so the network follows light and dark mode */
+const rgb=v=>{v=String(v).trim();if(/^#[0-9a-f]{6}$/i.test(v))return [1,3,5].map(i=>parseInt(v.slice(i,i+2),16));const m=v.match(/\d+/g);return m?m.slice(0,3).map(Number):[120,120,120];};
+function readColors(){const s=getComputedStyle(document.documentElement);col={net:rgb(s.getPropertyValue("--net")),ai:rgb(s.getPropertyValue("--ai")),dot:rgb(s.getPropertyValue("--muted")),dark:document.documentElement.style.colorScheme==="dark"||getComputedStyle(document.documentElement).colorScheme==="dark"};}
+const rgba=(c,a)=>`rgba(${c[0]},${c[1]},${c[2]},${Math.max(0,Math.min(1,a)).toFixed(3)})`;
+
+function size(){
+  const w=cv.clientWidth, h=cv.clientHeight; if(!w||!h)return false;
+  dpr=Math.min(2,window.devicePixelRatio||1);
+  if(w!==W||h!==H){W=w;H=h;cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);}
+  const n=W<700?44:W<1100?64:84; if(n!==count)build(n);
+  return true;
+}
+function draw(now){
+  const t=still.matches?0:(now-born)/1000, small=W<820;
+  gx+=(tx-gx)*.05; gy+=(ty-gy)*.05;
+  const ry=.7+t*.07+gx*.6, rx=-.32+gy*.35, cy=Math.cos(ry),sy=Math.sin(ry),cx=Math.cos(rx),sx=Math.sin(rx);
+  const R=Math.min(W*(small?.46:.3),H*.46), CX=small?W*.5:W*.72, CY=H*(small?.42:.44), cam=3.4;
+  const fadeIn=still.matches?1:Math.min(1,(now-born)/1400);
+  /* the network fades out towards the headline on the left */
+  const side=x=>small?1:Math.max(.18,Math.min(1,(x-W*.32)/(W*.28)));
+  const P=nodes.map(p=>{const x=p.x*cy+p.z*sy, z=-p.x*sy+p.z*cy, y=p.y*cx-z*sx, z2=p.y*sx+z*cx, s=cam/(cam-z2);return {x:CX+x*R*s,y:CY+y*R*s,z:z2,s};});
+  ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,W,H);
+  const k=(col.dark?1.25:1)*fadeIn;
+  ctx.lineWidth=1;
+  for(const [a,b] of edges){const A=P[a],B=P[b],d=((A.z+B.z)/2+1)/2;ctx.strokeStyle=rgba(col.net,(.05+.26*d)*k*side((A.x+B.x)/2));ctx.beginPath();ctx.moveTo(A.x,A.y);ctx.lineTo(B.x,B.y);ctx.stroke();}
+  /* packets travelling along the links: blue for networking, pink for AI */
+  for(const q of packets){const A=P[edges[q.e][q.f?1:0]],B=P[edges[q.e][q.f?0:1]],u=q.u,v=Math.max(0,u-.18);
+    const x=A.x+(B.x-A.x)*u,y=A.y+(B.y-A.y)*u,x0=A.x+(B.x-A.x)*v,y0=A.y+(B.y-A.y)*v,a=Math.sin(Math.PI*u)*k*side(x);
+    ctx.strokeStyle=rgba(q.c,.55*a);ctx.lineWidth=1.6;ctx.beginPath();ctx.moveTo(x0,y0);ctx.lineTo(x,y);ctx.stroke();
+    ctx.fillStyle=rgba(q.c,.95*a);ctx.beginPath();ctx.arc(x,y,2.2,0,6.283);ctx.fill();}
+  ctx.lineWidth=1;
+  P.map((p,i)=>[p,i]).sort((a,b)=>a[0].z-b[0].z).forEach(([p,i])=>{
+    const n=nodes[i], d=(p.z+1)/2, a=(.28+.62*d)*k*side(p.x), r=(n.hub?3.1:1.7)*p.s;
+    ctx.fillStyle=rgba(n.hub?col.net:col.dot,a);ctx.beginPath();ctx.arc(p.x,p.y,r,0,6.283);ctx.fill();
+    if(n.hub){ctx.strokeStyle=rgba(col.net,.3*a);ctx.beginPath();ctx.arc(p.x,p.y,r*2.6,0,6.283);ctx.stroke();}
+  });
+}
+function step(now){
+  raf=0; if(!running())return;
+  if(now-last>=33){                       /* about 30 frames a second is plenty for a slow drift */
+    const dt=Math.min(.1,(now-last)/1000); last=now;
+    spawn-=dt; if(spawn<=0&&packets.length<14&&edges.length){spawn=.35+rnd()*.5;packets.push({e:Math.floor(rnd()*edges.length),f:rnd()<.5,u:0,v:.45+rnd()*.5,c:rnd()<.72?col.net:col.ai});}
+    packets.forEach(q=>q.u+=q.v*dt); packets=packets.filter(q=>q.u<1);
+    draw(now);
+  }
+  raf=requestAnimationFrame(step);
+}
+/* pause while the video player, notes reader or slide viewer covers the page, so videos stay smooth */
+const covered=()=>["#pl","#nr","#sv"].some(q=>{const e=document.querySelector(q);return e&&!e.hidden;});
+const running=()=>!still.matches&&inView&&!document.hidden&&!panel.hidden&&!covered();
+function kick(){
+  if(!size())return;
+  readColors();
+  if(still.matches||!running()){draw(performance.now());return;}  /* reduced motion: one still frame */
+  if(!raf){last=0;raf=requestAnimationFrame(step);}
+}
+if("ResizeObserver" in window)new ResizeObserver(kick).observe(cv);
+if("IntersectionObserver" in window)new IntersectionObserver(es=>{inView=es[0].isIntersecting;kick();}).observe(cv);
+new MutationObserver(kick).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme","class","style"]});
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change",kick);
+still.addEventListener("change",kick);
+document.addEventListener("visibilitychange",kick);
+["#pl","#nr","#sv"].forEach(q=>{const e=document.querySelector(q);if(e)new MutationObserver(kick).observe(e,{attributes:true,attributeFilter:["hidden"]});});
+window.addEventListener("pointermove",e=>{if(panel.hidden||still.matches)return;tx=e.clientX/innerWidth-.5;ty=e.clientY/innerHeight-.5;},{passive:true});
+/* start and stop with the Plan page */
+const _u7=update; update=function(){_u7();kick();};
+kick();
 })();
 
 </script>
