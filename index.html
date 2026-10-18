@@ -11,6 +11,7 @@
 :root{
   --bg:#F5F6F9; --surface:#FFFFFF; --sunk:#F0F2F6; --ink:#0F172A; --muted:#5A6377; --faint:#8790A3; --line:#E3E6ED; --rail:#E6E9F0;
   --net:#0A66C2; --ai:#C2306A; --gold:#B07D00; --ok:#12805C; --focus:#2C55E0;
+  --anki:#0E7C86; --lab:#6D45C9;
   --accent:var(--net);
   --shadow:0 1px 2px rgba(15,23,42,.04),0 6px 20px -12px rgba(15,23,42,.14);
   box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
@@ -20,6 +21,7 @@
   :root:not([data-theme="light"]){
     --bg:#0B111D; --surface:#121A29; --sunk:#0E1522; --ink:#E8EDF6; --muted:#9AA5BA; --faint:#6F7A90; --line:#222D42; --rail:#1C263A;
     --net:#5DADF2; --ai:#FF6E9C; --gold:#EDBE4A; --ok:#3DCF97; --focus:#8EA6FF;
+    --anki:#4CC9D4; --lab:#B39AF5;
     --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px -14px rgba(0,0,0,.6);
     color-scheme:dark;
   }
@@ -27,6 +29,7 @@
 :root[data-theme="dark"]{
     --bg:#0B111D; --surface:#121A29; --sunk:#0E1522; --ink:#E8EDF6; --muted:#9AA5BA; --faint:#6F7A90; --line:#222D42; --rail:#1C263A;
     --net:#5DADF2; --ai:#FF6E9C; --gold:#EDBE4A; --ok:#3DCF97; --focus:#8EA6FF;
+    --anki:#4CC9D4; --lab:#B39AF5;
     --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px -14px rgba(0,0,0,.6);
     color-scheme:dark;
 }
@@ -402,6 +405,8 @@ body[data-view="videos"]{--accent:var(--net)}
 .vrow.done .vpct{color:var(--ok)}
 .vyt{font-size:12.5px;font-weight:650;color:var(--muted);text-decoration:none;padding:5px 9px;border-radius:8px;box-shadow:inset 0 0 0 1px var(--line)}
 .vyt:hover{color:var(--ink)}
+.vlinks{display:flex;gap:6px;justify-content:flex-end;min-width:122px}
+.vlab{color:var(--net)}
 .vchips{display:flex;flex-wrap:wrap;gap:6px;padding:0 0 8px 34px}
 .sp .vchips{padding:0 16px 14px 54px}
 .vchip{border:0;cursor:pointer;font-size:12.5px;font-weight:650;padding:3px 9px 3px 7px;border-radius:7px;background:color-mix(in srgb,var(--net) 9%,transparent);color:var(--net);display:inline-flex;align-items:center;gap:5px;font-variant-numeric:tabular-nums}
@@ -473,9 +478,11 @@ body[data-view="admin"]{--accent:var(--gold)}
 .atools input,.atools select{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:8px 12px;font-size:14.5px;color:var(--ink)}
 .atools input{flex:1 1 220px}
 .atable-wrap{overflow-x:auto}
-.atable{width:100%;border-collapse:collapse;font-size:14.5px;min-width:820px}
+.atable{width:100%;border-collapse:collapse;font-size:14.5px;min-width:900px}
 .atable th{text-align:left;font-size:12.5px;font-weight:650;color:var(--faint);padding:12px 16px;border-bottom:1px solid var(--line);white-space:nowrap}
 .atable td{padding:12px 16px;border-top:1px solid var(--line);vertical-align:middle}
+.atable td:nth-child(n+2){white-space:nowrap}
+.atable td:nth-child(6) b,.atable td:nth-child(6) small{display:inline;margin-right:4px}
 .atable tr:first-child td{border-top:0}
 .atable tbody tr{cursor:pointer}
 .atable tbody tr:hover{background:var(--sunk)}
@@ -533,7 +540,7 @@ body[data-view="admin"]{--accent:var(--gold)}
   .astats .vstat:nth-child(4){border-top:1px solid var(--line)}
   .vrow{grid-template-columns:20px 1fr;padding:12px 14px}
   .vprog{grid-column:2}
-  .vyt{display:none}
+  .vlinks{grid-column:2}
   .sp .vchips{padding-left:16px}
   .vchips{padding-left:0}
   .ad-cols{grid-template-columns:1fr}
@@ -543,6 +550,235 @@ body[data-view="admin"]{--accent:var(--gold)}
   .pl-box{border-radius:18px 18px 0 0}
 }
 .tab[hidden]{display:none}
+/* ---------- top bar tools ---------- */
+.bar .wrap{max-width:1240px}
+@media (max-width:1180px){.sbtn .kbd,.sbtn span{display:none}.sbtn{width:34px;padding:0;justify-content:center}}
+@media (max-width:1020px) and (min-width:821px){.tab .lg{display:none}.tab{padding:6px 9px}.tab .ring{display:none}.brand{font-size:16px}}
+.bar-tools{display:flex;gap:6px;align-items:center;flex:none}
+.ibtn{width:34px;height:34px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--muted);display:grid;place-items:center;cursor:pointer}
+.ibtn:hover{color:var(--ink);border-color:color-mix(in srgb,var(--ink) 25%,var(--line))}
+.kbd{font-size:11px;font-weight:700;color:var(--faint);border:1px solid var(--line);border-radius:5px;padding:0 5px;margin-left:2px}
+.sbtn{display:flex;align-items:center;gap:8px;height:34px;padding:0 10px 0 11px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer;font-size:13.5px;font-weight:600}
+.sbtn:hover{color:var(--ink)}
+
+/* ---------- today ---------- */
+.today{display:grid;grid-template-columns:1.25fr 1fr 1fr;gap:16px}
+.tcard{padding:22px 24px;display:flex;flex-direction:column;gap:12px}
+.tcard h3{font-size:14px;color:var(--muted);font-weight:650}
+.goal{display:flex;gap:20px;align-items:center}
+.goal svg{flex:none}
+.goal .gbig{font-size:30px;font-weight:720;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.goal .gbig small{font-size:15px;font-weight:600;color:var(--muted);letter-spacing:0}
+.goal p{color:var(--muted);font-size:13.5px;margin-top:6px}
+.gbreak{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;border-top:1px solid var(--line);padding-top:12px}
+.gbreak div{font-size:12.5px;color:var(--muted)}
+.gbreak b{display:block;font-size:15.5px;color:var(--ink);font-weight:650;font-variant-numeric:tabular-nums}
+.streak{display:flex;align-items:baseline;gap:10px}
+.streak b{font-size:44px;font-weight:750;letter-spacing:-.04em;line-height:1;color:var(--gold);font-variant-numeric:tabular-nums}
+.streak span{font-size:15px;font-weight:600}
+.wdots{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:auto}
+.wdots div{text-align:center;font-size:11.5px;font-weight:650;color:var(--faint)}
+.wdots i{display:block;height:26px;border-radius:8px;background:var(--sunk);box-shadow:inset 0 0 0 1px var(--line);margin-bottom:4px}
+.wdots i.on{background:var(--gold);box-shadow:none}
+.wdots i.td{box-shadow:inset 0 0 0 2px var(--ink)}
+.wdots i.on.td{box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--ink) 50%,transparent)}
+.tsub{color:var(--muted);font-size:13.5px}
+.exam b{font-size:44px;font-weight:750;letter-spacing:-.04em;line-height:1;color:var(--net);font-variant-numeric:tabular-nums}
+.exam span{font-size:15px;font-weight:600;margin-left:8px}
+.exam input{border:1px solid var(--line);background:var(--sunk);border-radius:10px;padding:8px 10px;font-size:14px;color:var(--ink);margin-top:auto}
+.exam label{font-size:13px;font-weight:600;color:var(--muted);display:grid;gap:6px;margin-top:auto}
+.heatcard{grid-column:1/-1;padding:22px 24px}
+.heatcard .hh{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.heatcard h3{font-size:14px;color:var(--muted);font-weight:650}
+.heatcard .hh span{font-size:13.5px;color:var(--muted)}
+.cal-wrap{overflow-x:auto;padding-bottom:4px}
+.cal{display:grid;grid-auto-flow:column;grid-auto-columns:15px;grid-template-rows:16px repeat(7,15px);gap:4px;width:max-content}
+.cal .mo{font-size:11px;color:var(--faint);white-space:nowrap;line-height:16px;width:15px;overflow:visible}
+.cal i{width:15px;height:15px;border-radius:4px;background:var(--sunk);box-shadow:inset 0 0 0 1px var(--line)}
+.cal i.l1{background:color-mix(in srgb,var(--ok) 28%,var(--surface));box-shadow:none}
+.cal i.l2{background:color-mix(in srgb,var(--ok) 52%,var(--surface));box-shadow:none}
+.cal i.l3{background:color-mix(in srgb,var(--ok) 76%,var(--surface));box-shadow:none}
+.cal i.l4{background:var(--ok);box-shadow:none}
+.cal i.fut{opacity:0}
+.cal i.td{outline:2px solid var(--ink);outline-offset:1px}
+.cal-leg{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--faint);margin-top:12px;justify-content:flex-end}
+.cal-leg i{width:12px;height:12px;border-radius:3px;display:inline-block}
+
+/* ---------- badges ---------- */
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.bdg{padding:16px;display:flex;gap:14px;align-items:center}
+.bdg .bi{flex:none;width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-weight:750;font-size:15px;color:#fff;background:var(--c)}
+.bdg.lock .bi{background:var(--sunk);color:var(--faint);box-shadow:inset 0 0 0 1px var(--line)}
+.bdg b{display:block;font-weight:650;font-size:15px;line-height:1.25}
+.bdg small{display:block;color:var(--muted);font-size:12.5px;line-height:1.35;margin-top:2px}
+.bdg .bp{height:4px;border-radius:99px;background:var(--rail);margin-top:7px;overflow:hidden}
+.bdg .bp i{display:block;height:100%;background:var(--c)}
+.bdg:not(.lock) .bp{display:none}
+.bcount{font-size:14px;color:var(--muted);font-weight:600}
+
+/* ---------- practice ---------- */
+body[data-view="practice"]{--accent:var(--net)}
+.pstats{display:grid;grid-template-columns:repeat(4,1fr);margin-top:30px}
+.pseg{display:inline-grid;grid-auto-flow:column;gap:2px;padding:3px;background:var(--sunk);border:1px solid var(--line);border-radius:12px;margin:34px 0 16px;max-width:100%;overflow-x:auto}
+.pseg button{border:0;background:none;padding:7px 14px;border-radius:9px;font-weight:600;font-size:14px;cursor:pointer;color:var(--muted);white-space:nowrap}
+.pseg button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(15,23,42,.08),0 0 0 1px var(--line)}
+.drill{padding:28px;margin-bottom:96px}
+.drill[hidden]{display:none}
+.dtop{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
+.dtop select{border:1px solid var(--line);background:var(--sunk);border-radius:10px;padding:7px 10px;font-size:14px;color:var(--ink)}
+.dq{font-size:clamp(1.9rem,5vw,3rem);font-weight:720;letter-spacing:-.03em;font-variant-numeric:tabular-nums;margin:18px 0 4px;line-height:1.1;word-break:break-word}
+.dq small{font-size:.5em;color:var(--muted);font-weight:600;letter-spacing:0}
+.dsub{color:var(--muted);font-size:15px}
+.dgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin-top:24px}
+.dfield{display:grid;gap:6px;font-size:13.5px;font-weight:600;color:var(--muted)}
+.dfield input{border:1px solid var(--line);background:var(--sunk);border-radius:10px;padding:10px 12px;font-size:16px;color:var(--ink);font-variant-numeric:tabular-nums;width:100%}
+.dfield input.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 8%,var(--surface))}
+.dfield input.bad{border-color:var(--ai);background:color-mix(in srgb,var(--ai) 7%,var(--surface))}
+.dfield .ans{font-size:13px;font-weight:650;color:var(--ok);min-height:18px}
+.dfield .ans.bad{color:var(--ai)}
+.dact{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:22px}
+.dact .hint{color:var(--faint);font-size:13px}
+.dexp{margin-top:20px;padding:16px 18px;border-radius:12px;background:var(--sunk);font-size:15px;line-height:1.55}
+.dexp:empty{display:none}
+.dexp b{font-weight:650}
+.dres{font-weight:700;font-size:15px}
+.dres.ok{color:var(--ok)} .dres.bad{color:var(--ai)}
+.single{max-width:360px}
+
+/* ---------- focus timer ---------- */
+.fab{position:fixed;right:calc(20px + env(safe-area-inset-right,0px));bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:20;display:flex;align-items:center;gap:8px;height:46px;padding:0 18px 0 14px;border-radius:99px;border:0;cursor:pointer;background:var(--ink);color:var(--surface);font-weight:650;font-size:14.5px;box-shadow:0 12px 30px -10px rgba(0,0,0,.45);font-variant-numeric:tabular-nums}
+.fab.run{background:var(--ok);color:#fff}
+body.gated .fab,body.gated .fpanel{display:none}
+.fpanel{position:fixed;right:calc(20px + env(safe-area-inset-right,0px));bottom:calc(78px + env(safe-area-inset-bottom,0px));z-index:21;width:300px;padding:22px}
+.fpanel[hidden]{display:none}
+.fpanel h3{font-size:16px}
+.ftime{font-size:52px;font-weight:750;letter-spacing:-.04em;text-align:center;margin:12px 0 6px;font-variant-numeric:tabular-nums}
+.fbar{height:5px;border-radius:99px;background:var(--rail);overflow:hidden;margin-bottom:16px}
+.fbar i{display:block;height:100%;width:0;background:var(--ok);transition:width 1s linear}
+.fopts{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px}
+.fopts button,.ftrk button{border:1px solid var(--line);background:var(--surface);border-radius:9px;padding:6px;font-weight:600;font-size:13.5px;cursor:pointer;color:var(--muted)}
+.fopts button[aria-pressed="true"],.ftrk button[aria-pressed="true"]{color:var(--ink);background:var(--sunk);border-color:color-mix(in srgb,var(--ink) 30%,var(--line))}
+.ftrk{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:16px}
+.fctl{display:grid;grid-template-columns:2fr 1fr;gap:8px}
+.fctl .btn{justify-content:center}
+.fnote{font-size:12.5px;color:var(--faint);margin-top:12px;text-align:center}
+
+/* ---------- command palette ---------- */
+.cp{position:fixed;inset:0;z-index:35;background:rgba(8,12,22,.55);backdrop-filter:blur(3px);display:flex;justify-content:center;align-items:flex-start;padding:12vh 16px 16px}
+.cp[hidden]{display:none}
+.cp-box{width:min(640px,100%);max-height:70vh;display:flex;flex-direction:column;overflow:hidden;padding:0}
+.cp-in{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--line)}
+.cp-in input{flex:1;border:0;background:none;font-size:17px;color:var(--ink);outline:none;min-width:0}
+.cp-list{list-style:none;margin:0;padding:8px;overflow:auto}
+.cp-list li{display:flex;align-items:center;gap:12px;padding:9px 12px;border-radius:10px;cursor:pointer}
+.cp-list li.on{background:var(--sunk)}
+.cp-list .cpt{flex:none;font-size:11.5px;font-weight:700;padding:2px 8px;border-radius:6px;color:var(--c);background:color-mix(in srgb,var(--c) 11%,transparent);min-width:62px;text-align:center}
+.cp-list .cpx{min-width:0;flex:1}
+.cp-list .cpx b{display:block;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cp-list .cpx small{display:block;color:var(--muted);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cp-empty{padding:22px;color:var(--muted);text-align:center}
+.cp-foot{display:flex;gap:16px;padding:10px 18px;border-top:1px solid var(--line);font-size:12px;color:var(--faint)}
+
+@media (max-width:820px){
+  .bar-in{display:grid;grid-template-columns:1fr auto auto;}
+  .bar-in .tabs{grid-column:1/-1;order:3}
+  .bar-tools{order:2}
+  .acct{order:2}
+  .sbtn .kbd,.sbtn span{display:none}
+  .tab .lg{display:none}
+  .tabs .tab{padding:7px 4px;font-size:13.5px}
+  .sbtn{width:34px;padding:0;justify-content:center}
+  .today{grid-template-columns:1fr}
+  .gbreak{grid-template-columns:repeat(2,1fr)}
+  .pstats{grid-template-columns:1fr 1fr}
+  .pstats .vstat:nth-child(3),.pstats .vstat:nth-child(4){border-top:1px solid var(--line)}
+  .pstats .vstat:nth-child(3){border-left:0}
+  .drill{padding:20px}
+  .fab{right:14px;bottom:14px}
+  .fab .fl{display:none}
+  .fpanel{right:12px;left:12px;width:auto;bottom:72px}
+  .cp{padding-top:10px}
+}
+/* ---------- notes reader ---------- */
+.nr{position:fixed;inset:0;z-index:33;display:flex;justify-content:flex-end;background:rgba(8,12,22,.45)}
+.nr[hidden]{display:none}
+.nr-box{width:min(760px,100%);height:100%;background:var(--bg);display:flex;flex-direction:column;box-shadow:-20px 0 60px -20px rgba(0,0,0,.4);animation:nrIn .25s ease}
+@keyframes nrIn{from{transform:translateX(30px);opacity:0}to{transform:none;opacity:1}}
+.nr-head{padding:calc(14px + env(safe-area-inset-top,0px)) 22px 12px;background:var(--surface);border-bottom:1px solid var(--line)}
+.nr-top{display:flex;align-items:center;gap:8px}
+.nr-top .nr-sp{flex:1}
+.nr-dom{font-size:12.5px;font-weight:700;color:var(--dc,var(--net))}
+.nr-head h2{font-size:clamp(1.3rem,3.4vw,1.75rem);letter-spacing:-.025em;margin-top:6px}
+.nr-head h2 small{font-size:.62em;color:var(--faint);font-weight:700;margin-right:8px}
+.nr-lab{color:var(--muted);font-size:13.5px;margin-top:4px}
+.nr-days{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;margin-top:12px}
+.nr-days::-webkit-scrollbar{display:none}
+.nr-days button{flex:none;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:4px 10px;font-size:13px;font-weight:650;cursor:pointer;color:var(--muted);font-variant-numeric:tabular-nums}
+.nr-days button[aria-current="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.nr-days button.rd::after{content:" ✓";color:var(--ok)}
+.nr-toc{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.nr-toc button{border:0;background:var(--sunk);box-shadow:inset 0 0 0 1px var(--line);border-radius:7px;padding:3px 9px;font-size:12.5px;font-weight:600;color:var(--muted);cursor:pointer}
+.nr-toc button:hover{color:var(--ink)}
+.nr-acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.nr-acts .btn{padding:7px 13px;font-size:14px}
+.nr-body{flex:1;overflow-y:auto;padding:22px 26px 60px;-webkit-overflow-scrolling:touch}
+.nr-foot{display:flex;justify-content:space-between;gap:10px;padding:12px 22px calc(12px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);background:var(--surface)}
+.nr-foot .btn{padding:8px 14px;font-size:14px}
+.nr-size{display:flex;gap:4px}
+.notes{font-size:calc(15.5px * var(--nfs,1));line-height:1.65;max-width:68ch}
+.notes p{margin:0 0 12px}
+.notes h3{display:flex;align-items:center;gap:10px;font-size:1.2em;margin:30px 0 12px;letter-spacing:-.015em;scroll-margin-top:12px}
+.notes h3 .nn{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:700;background:var(--dc,var(--net));color:#fff}
+.notes ul,.notes ol{margin:0 0 14px;padding-left:22px}
+.notes li{margin:4px 0}
+.notes li::marker{color:var(--dc,var(--net));font-weight:700}
+.notes b{font-weight:650}
+.notes code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"DejaVu Sans Mono",monospace;font-size:.86em;padding:1px 6px;border-radius:5px;background:color-mix(in srgb,var(--ai) 10%,var(--surface));color:color-mix(in srgb,var(--ai) 80%,var(--ink));white-space:nowrap}
+.notes sup{font-size:.7em}
+.ntw{overflow-x:auto;margin:0 0 16px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.ntw table{border-collapse:collapse;width:100%;font-size:.9em;min-width:420px}
+.ntw th{text-align:left;font-weight:650;padding:9px 12px;background:color-mix(in srgb,var(--dc,var(--net)) 12%,var(--surface));border-bottom:1px solid var(--line);white-space:nowrap}
+.ntw td{padding:8px 12px;border-top:1px solid var(--line);vertical-align:top}
+.ntw tr:first-child td{border-top:0}
+.ntw td:first-child{font-weight:600}
+.nflow{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;margin:4px 0 16px}
+.nflow span{padding:5px 11px;border-radius:99px;background:var(--surface);box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--dc,var(--net)) 45%,var(--line));font-size:.88em;font-weight:600}
+.nflow i{font-style:normal;color:var(--dc,var(--net));font-weight:700}
+.ncode{margin:0 0 16px;border-radius:12px;overflow:hidden;background:#0f172a;color:#e2e8f0}
+.ncode figcaption{padding:7px 14px;background:#1e293b;font-size:12.5px;font-weight:650;color:#94a3b8;display:flex;align-items:center;gap:8px}
+.ncode figcaption::before{content:"";width:34px;height:8px;background:radial-gradient(circle at 4px 4px,#f87171 3.5px,transparent 4px),radial-gradient(circle at 17px 4px,#fbbf24 3.5px,transparent 4px),radial-gradient(circle at 30px 4px,#4ade80 3.5px,transparent 4px)}
+.ncode pre{margin:0;padding:12px 14px;overflow-x:auto;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"DejaVu Sans Mono",monospace;font-size:.82em;line-height:1.6}
+.ncode .pr{color:#7dd3fc}.ncode .cm{color:#86efac}.ncode .hl{color:#fbbf24}
+.nbox{margin:0 0 16px;padding:14px 16px 4px;border-radius:12px;background:var(--surface);box-shadow:inset 0 0 0 1px var(--line);border-left:4px solid var(--bc)}
+.nbox h4{font-size:12px;font-weight:750;letter-spacing:.04em;color:var(--bc);margin:0 0 6px}
+.nbox.oneline{--bc:var(--dc,var(--net));background:color-mix(in srgb,var(--dc,var(--net)) 7%,var(--surface));font-size:1.04em;font-weight:550}
+.nbox.key{--bc:var(--ok)} .nbox.trick{--bc:var(--gold)} .nbox.trap{--bc:#dc2626} .nbox.note,.nbox.example{--bc:var(--muted)}
+.nbox.lab{--bc:var(--net);background:color-mix(in srgb,var(--net) 5%,var(--surface))}
+.nbox.lab h4{font-size:14px;letter-spacing:0}
+.nbox.self{--bc:var(--ink)}
+.nchk{list-style:none;padding:0!important}
+.nchk label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+.nchk input{margin-top:5px;accent-color:var(--ok);width:16px;height:16px;flex:none}
+.nbox.quiz{--bc:var(--gold)}
+.nquiz li{margin:8px 0}
+.nquiz li span{display:block}
+.nreveal{border:0;background:none;padding:2px 0;color:var(--net);font-weight:650;font-size:.88em;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.nquiz em{display:block;font-style:normal;font-weight:650;color:var(--ok)}
+.nquiz em[hidden]{display:none}
+.nr-cheat img{width:100%;border-radius:10px;box-shadow:0 0 0 1px var(--line);margin-bottom:12px;background:#fff}
+.vnotes{color:var(--net)}
+.vnotes.rd::after{content:" ✓";color:var(--ok)}
+.vchip.nchip{background:color-mix(in srgb,var(--gold) 13%,transparent);color:color-mix(in srgb,var(--gold) 85%,var(--ink))}
+.vchip.nchip:hover{background:color-mix(in srgb,var(--gold) 22%,transparent)}
+.nr-load{padding:40px;color:var(--muted);text-align:center}
+/* flashcards */
+.fc{max-width:640px}
+.fc-card{margin-top:18px;padding:26px;border-radius:16px;background:var(--sunk);box-shadow:inset 0 0 0 1px var(--line);min-height:170px;display:flex;flex-direction:column;gap:12px}
+.fc-card small{color:var(--faint);font-weight:650;font-size:12.5px}
+.fc-q{font-size:clamp(1.2rem,3vw,1.5rem);font-weight:650;letter-spacing:-.015em;line-height:1.3}
+.fc-a{font-size:1.15rem;font-weight:650;color:var(--ok)}
+.fc-a[hidden]{display:none}
+@media (max-width:820px){.nr-body{padding:18px 18px 50px}.nr-head{padding-left:16px;padding-right:16px}.nr-foot{padding-left:16px;padding-right:16px}}
 footer{padding:36px 0 64px;color:var(--faint);font-size:13px;border-top:1px solid var(--line);margin-top:96px}
 footer p{max-width:80ch;margin:0 0 8px}
 
@@ -589,6 +825,40 @@ footer p{max-width:80ch;margin:0 0 8px}
   .rules li{border-right:0!important;border-top:1px solid var(--line)!important}
   .rules li:first-child{border-top:0!important}
 }
+@media (max-width:380px){.tabs .tab{padding:7px 2px;font-size:12.5px}.tabs{gap:0}}
+/* Anki decks and Packet Tracer labs */
+.vchip.pxa{background:color-mix(in srgb,var(--anki) 12%,transparent);color:var(--anki)}
+.vchip.pxa:hover{background:color-mix(in srgb,var(--anki) 21%,transparent)}
+.vchip.pxl{background:color-mix(in srgb,var(--lab) 12%,transparent);color:var(--lab)}
+.vchip.pxl:hover{background:color-mix(in srgb,var(--lab) 21%,transparent)}
+.vchip.pxl.done{background:color-mix(in srgb,var(--ok) 12%,transparent);color:var(--ok)}
+.vchip.pxnone{background:none;color:var(--faint);box-shadow:inset 0 0 0 1px var(--line);cursor:default;font-weight:600}
+.vchip .pxn{font-weight:700;opacity:.75}
+.pxm{position:fixed;z-index:60;width:min(380px,calc(100vw - 32px));max-height:min(440px,70vh);overflow:auto;background:var(--surface);border-radius:13px;box-shadow:0 0 0 1px var(--line),0 18px 40px -14px rgba(15,23,42,.35);padding:12px}
+.pxm[hidden]{display:none}
+.pxm h4{margin:2px 4px 8px;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.pxm ul{list-style:none;margin:0 0 6px;padding:0}
+.pxm-hint{margin:8px 4px 2px;font-size:12.5px;color:var(--faint);line-height:1.45}
+.pxm-hint a,.pxlib-how a{color:var(--net)}
+.pxf{display:flex;align-items:center;gap:8px;padding:6px 4px;border-radius:8px}
+.pxf:hover{background:var(--sunk)}
+.pxf a{flex:1;min-width:0;display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--ink);font-size:14px;font-weight:600}
+.pxf a small{display:block;font-weight:500;color:var(--faint);font-size:12px}
+.pxf a i{flex:none;display:grid;place-items:center;width:26px;height:26px;border-radius:7px;font-style:normal;font-size:11px;font-weight:800;color:#fff;background:var(--c)}
+.pxf label{display:flex;align-items:center;gap:5px;font-size:12.5px;color:var(--muted);cursor:pointer;white-space:nowrap}
+.pxf label input{accent-color:var(--ok)}
+.pxlib-how{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0}
+.pxlib-how div{padding:12px 14px;border-radius:11px;background:var(--sunk);font-size:13.5px;line-height:1.5;color:var(--muted)}
+.pxlib-how b{color:var(--ink)}
+.pxlib{list-style:none;margin:14px 0 0;padding:0}
+.pxlib>li{display:grid;grid-template-columns:minmax(150px,1fr) 2fr;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.pxlib>li[hidden]{display:none}
+.pxlib-d small{display:block;font-size:12px;font-weight:700;color:var(--faint);font-variant-numeric:tabular-nums}
+.pxlib-d b{font-size:14.5px}
+.pxlib-f{display:flex;flex-direction:column;gap:2px}
+.pxlib-f .pxf{padding:4px}
+.pxlib-empty{color:var(--muted);padding:20px 0}
+@media (max-width:640px){.pxlib-how{grid-template-columns:1fr}.pxlib>li{grid-template-columns:1fr;gap:6px}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.lanes.pre .seg{transform:none}}
 </style>
 <script src="config.js"></script>
@@ -626,6 +896,40 @@ footer p{max-width:80ch;margin:0 0 8px}
  </div>
 </div>
 <div class="toast" id="toast" role="status"></div>
+<div class="nr" id="nr" hidden role="dialog" aria-modal="true" aria-labelledby="nrTitle">
+ <div class="nr-box">
+  <div class="nr-head">
+   <div class="nr-top"><span class="nr-dom" id="nrDom"></span><span class="nr-sp"></span><div class="nr-size"><button class="ibtn" id="nrSmall" aria-label="Smaller text">A−</button><button class="ibtn" id="nrBig" aria-label="Larger text">A+</button></div><button class="pl-x" id="nrClose" aria-label="Close notes">×</button></div>
+   <h2 id="nrTitle"></h2>
+   <p class="nr-lab" id="nrLab"></p>
+   <div class="nr-days" id="nrDays"></div>
+   <div class="nr-toc" id="nrToc"></div>
+   <div class="nr-acts" id="nrActs"></div>
+  </div>
+  <div class="nr-body" id="nrBody"></div>
+  <div class="nr-foot"><button class="btn ghost" id="nrPrev">Previous day</button><button class="btn ghost" id="nrNext">Next day</button></div>
+ </div>
+</div>
+
+<button class="fab" id="fab" aria-haspopup="dialog" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10 7v4l2.5 2M8 2h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span id="fabTxt">Focus<span class="fl"> timer</span></span></button>
+<div class="fpanel card" id="fpanel" hidden role="dialog" aria-label="Focus timer">
+ <h3>Focus timer</h3>
+ <div class="ftime" id="fTime">25:00</div>
+ <div class="fbar"><i id="fBar"></i></div>
+ <div class="fopts" id="fOpts"><button data-min="15" aria-pressed="false">15 min</button><button data-min="25" aria-pressed="true">25 min</button><button data-min="50" aria-pressed="false">50 min</button></div>
+ <div class="ftrk" id="fTrk"><button data-trk="net" aria-pressed="true">Networking</button><button data-trk="ai" aria-pressed="false">AI automation</button></div>
+ <div class="fctl"><button class="btn" id="fStart" style="--c:var(--ok)">Start</button><button class="btn ghost" id="fReset">Reset</button></div>
+ <p class="fnote" id="fNote">0 sessions today</p>
+</div>
+<div class="cp" id="cp" hidden role="dialog" aria-modal="true" aria-label="Search">
+ <div class="cp-box card">
+  <div class="cp-in"><svg width="18" height="18" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="var(--muted)" stroke-width="1.8"/><path d="M11 11l3.5 3.5" stroke="var(--muted)" stroke-width="1.8" stroke-linecap="round"/></svg><input id="cpIn" placeholder="Search topics, videos, notes, quiz questions…" autocomplete="off" spellcheck="false" aria-controls="cpList"><span class="kbd">Esc</span></div>
+  <ul class="cp-list" id="cpList" role="listbox"></ul>
+  <div class="cp-foot"><span>↑ ↓ to move</span><span>Enter to open</span><span>Esc to close</span></div>
+ </div>
+</div>
+
+
 
 
 <div class="bar">
@@ -636,12 +940,17 @@ footer p{max-width:80ch;margin:0 0 8px}
   </a>
   <nav class="tabs" role="tablist" aria-label="Sections">
    <button class="tab" role="tab" data-go="plan">Plan</button>
-   <button class="tab" role="tab" data-go="net"><svg class="ring" viewBox="0 0 20 20" aria-hidden="true"><circle class="r0" cx="10" cy="10" r="7.5"/><circle class="r1" cx="10" cy="10" r="7.5" stroke="var(--net)" data-ring="net"/></svg>Networking</button>
-   <button class="tab" role="tab" data-go="ai"><svg class="ring" viewBox="0 0 20 20" aria-hidden="true"><circle class="r0" cx="10" cy="10" r="7.5"/><circle class="r1" cx="10" cy="10" r="7.5" stroke="var(--ai)" data-ring="ai"/></svg>AI Automation</button>
+   <button class="tab" role="tab" data-go="net"><svg class="ring" viewBox="0 0 20 20" aria-hidden="true"><circle class="r0" cx="10" cy="10" r="7.5"/><circle class="r1" cx="10" cy="10" r="7.5" stroke="var(--net)" data-ring="net"/></svg><span>Network<span class="lg">ing</span></span></button>
+   <button class="tab" role="tab" data-go="ai"><svg class="ring" viewBox="0 0 20 20" aria-hidden="true"><circle class="r0" cx="10" cy="10" r="7.5"/><circle class="r1" cx="10" cy="10" r="7.5" stroke="var(--ai)" data-ring="ai"/></svg><span>AI<span class="lg"> Automation</span></span></button>
    <button class="tab" role="tab" data-go="videos"><svg class="ring" viewBox="0 0 20 20" aria-hidden="true"><circle class="r0" cx="10" cy="10" r="7.5"/><circle class="r1" cx="10" cy="10" r="7.5" stroke="var(--net)" data-ring="vid"/></svg>Videos</button>
+   <button class="tab" role="tab" data-go="practice">Practice</button>
    <button class="tab" role="tab" data-go="courses">Courses</button>
    <button class="tab" role="tab" data-go="admin" id="adminTab" hidden>Admin</button>
   </nav>
+  <div class="bar-tools">
+   <button class="sbtn" id="cpOpen" aria-label="Search everything (Ctrl+K)"><svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Search</span><span class="kbd">Ctrl K</span></button>
+   <button class="ibtn" id="themeBtn" aria-label="Theme: automatic"></button>
+  </div>
   <div class="acct" id="acct" hidden>
    <button class="acct-btn" id="acctBtn" aria-haspopup="true" aria-expanded="false" aria-label="Account"></button>
    <div class="acct-menu card" id="acctMenu" hidden><b id="acctName"></b><small id="acctEmail"></small><span class="role" id="acctRole"></span><button class="btn ghost" id="signOut">Sign out</button></div>
@@ -657,7 +966,7 @@ footer p{max-width:80ch;margin:0 0 8px}
    <p class="lede">Your CCNA with Jeremy’s IT Lab and NetAcad, and your AI automation path with CodeWithHarry, CampusX, Krish Naik and Gen AI Unplugged, in an order you can actually finish. Progress and notes save in this browser.</p>
    <div class="tiles">
     <article class="tile card" style="--c:var(--net)">
-     <div class="tile-h"><i></i><div><h2>Network engineer</h2><small>CCNA to senior engineer, in 12 stages</small></div></div>
+     <div class="tile-h"><i></i><div><h2>Network engineer</h2><small>CCNA to senior engineer, in 11 stages</small></div></div>
      <div class="prog"><div class="prog-track"><div class="prog-fill" data-fill="net"></div></div><span class="prog-txt" data-txt="net"></span></div>
      <div class="next"><small>Next up</small><b data-next="net"></b></div>
      <button class="btn" data-continue="net">Continue networking</button>
@@ -670,6 +979,34 @@ footer p{max-width:80ch;margin:0 0 8px}
     </article>
    </div>
   </header>
+
+  <section class="sect" aria-labelledby="h-today">
+   <div class="sect-h"><h2 id="h-today">Today</h2><p id="todayDate"></p></div>
+   <div class="today">
+    <div class="tcard card">
+     <h3>Daily goal</h3>
+     <div class="goal"><svg width="96" height="96" viewBox="0 0 96 96" aria-hidden="true"><circle cx="48" cy="48" r="40" fill="none" stroke="var(--rail)" stroke-width="10"/><circle id="gRing" cx="48" cy="48" r="40" fill="none" stroke="var(--ok)" stroke-width="10" stroke-linecap="round" transform="rotate(-90 48 48)" style="transition:stroke-dashoffset .6s"/></svg>
+      <div><div class="gbig" id="gBig">0 <small>of 0 min</small></div><p id="gTxt"></p></div></div>
+     <div class="gbreak"><div><b id="gVid">0</b>video min</div><div><b id="gFoc">0</b>focus min</div><div><b id="gPra">0</b>practice min</div><div><b id="gTick">0</b>items ticked</div></div>
+    </div>
+    <div class="tcard card">
+     <h3>Study streak</h3>
+     <div class="streak"><b id="stCur">0</b><span id="stLbl">days in a row</span></div>
+     <p class="tsub" id="stTxt"></p>
+     <div class="wdots" id="wdots"></div>
+    </div>
+    <div class="tcard card exam">
+     <h3>CCNA exam</h3>
+     <div id="exOut"></div>
+     <label>Exam date<input type="date" id="exDate"></label>
+    </div>
+    <div class="heatcard card">
+     <div class="hh"><h3 id="heatTitle">Your study calendar</h3><span id="heatSum"></span></div>
+     <div class="cal-wrap"><div class="cal" id="cal"></div></div>
+     <div class="cal-leg">Less <i style="background:var(--sunk);box-shadow:inset 0 0 0 1px var(--line)"></i><i style="background:color-mix(in srgb,var(--ok) 28%,var(--surface))"></i><i style="background:color-mix(in srgb,var(--ok) 52%,var(--surface))"></i><i style="background:color-mix(in srgb,var(--ok) 76%,var(--surface))"></i><i style="background:var(--ok)"></i> More</div>
+    </div>
+   </div>
+  </section>
 
   <section class="sect" aria-labelledby="h-plan">
    <div class="sect-h"><h2 id="h-plan">Your two-track timeline</h2><p>Set your start date, weekly hours and split. Every stage gets a target month; tap a block to open that stage.</p></div>
@@ -705,6 +1042,11 @@ footer p{max-width:80ch;margin:0 0 8px}
    </div>
   </section>
 
+  <section class="sect" aria-labelledby="h-badges">
+   <div class="sect-h"><h2 id="h-badges">Badges</h2><p class="bcount" id="bCount"></p></div>
+   <div class="badges" id="badges"></div>
+  </section>
+
   <section class="sect" aria-labelledby="h-cap">
    <div class="sect-h"><h2 id="h-cap">Where the tracks meet</h2></div>
    <div class="capstone card">
@@ -730,7 +1072,7 @@ footer p{max-width:80ch;margin:0 0 8px}
  <div class="wrap">
   <header class="thead">
    <h1>From first cable to network engineer</h1>
-   <p>Twelve stages and seven milestones. Open a stage to see what to watch, what to learn, what to build and your notes. CCNA is split into 14 sprints that pair Jeremy’s IT Lab Days with matching NetAcad modules.</p>
+   <p>Eleven stages and seven milestones. Open a stage to see what to watch, what to learn, what to build and your notes. CCNA is split into 14 sprints that pair Jeremy’s IT Lab Days with matching NetAcad modules.</p>
    <div class="chips" data-chips="net"></div>
    <div class="toolbar" data-toolbar="net"></div>
    <div class="legend"><span><i class="dot"></i>Learning stage</span><span><i class="dia"></i>Career milestone</span><span class="cov covered">Courses cover it</span><span class="cov partial">Partly covered</span><span class="cov open">Learned on the job</span></div>
@@ -783,16 +1125,80 @@ footer p{max-width:80ch;margin:0 0 8px}
   </header>
   <div id="aBody">
    <div class="atools"><input type="search" id="aSearch" placeholder="Search students by name or email" aria-label="Search students"><select id="aSort" aria-label="Sort students"><option value="active">Most recently active</option><option value="progress">Most progress</option><option value="name">Name</option></select><button class="tbtn" id="aRefresh">Refresh</button></div>
-   <div class="card atable-wrap"><table class="atable"><thead><tr><th>Student</th><th>Last active</th><th>Networking</th><th>AI automation</th><th>Videos</th><th>Last 7 days</th><th>Last 14 days</th></tr></thead><tbody id="aRows"></tbody></table></div>
+   <div class="card atable-wrap"><table class="atable"><thead><tr><th>Student</th><th>Last active</th><th>Networking</th><th>AI automation</th><th>Videos</th><th>Streak</th><th>Study, 7 days</th><th>Last 14 days</th></tr></thead><tbody id="aRows"></tbody></table></div>
    <div class="adetail card" id="aDetail" hidden></div>
    <div class="alinks card">
     <h2>Video links</h2>
     <p>Paste the YouTube link for each Jeremy’s IT Lab Day once, and every student’s page uses it. Topics without a link open a YouTube search instead, which can’t be tracked. You can also paste many links at once below, one per line, either in Day order or as “Day 13 https://youtu.be/…”.</p>
     <textarea id="aBulk" placeholder="Day 1 https://youtu.be/...&#10;Day 2 https://youtu.be/..."></textarea>
-    <div class="row"><button class="btn ghost" id="aBulkApply">Fill from pasted list</button><span id="aLinkCount"></span></div>
+    <div class="row"><button class="btn" style="--c:var(--net)" id="aImport">Import from Jeremy’s playlist</button><button class="btn ghost" id="aBulkApply">Fill from pasted list</button><span id="aLinkCount"></span></div>
     <div class="alink-grid" id="aLinkGrid"></div>
     <div class="row"><button class="btn" style="--c:var(--gold)" id="aSaveLinks">Save links for everyone</button><span id="aLinkMsg"></span></div>
    </div>
+  </div>
+ </div>
+</section>
+
+<!-- PRACTICE -->
+<section class="panel" data-panel="practice" hidden>
+ <div class="wrap">
+  <header class="thead">
+   <h1>Practice</h1>
+   <p>Short daily drills for the skills CCNA tests hardest, 252 quiz cards from your notes, and every Anki deck and Packet Tracer lab by Day. Press Enter to check and N for the next question. Time spent here counts toward your daily goal.</p>
+   <div class="pstats card">
+    <div class="vstat"><small>Subnetting accuracy</small><b id="psAcc">–</b></div>
+    <div class="vstat"><small>Best subnetting streak</small><b id="psBest">0</b></div>
+    <div class="vstat"><small>Questions today</small><b id="psToday">0</b></div>
+    <div class="vstat"><small>Practice time today</small><b id="psTime">0 min</b></div>
+   </div>
+  </header>
+  <div class="pseg" role="tablist"><button role="tab" data-drill="sub" aria-selected="true">Subnetting</button><button role="tab" data-drill="bin" aria-selected="false">Binary and hex</button><button role="tab" data-drill="port" aria-selected="false">Port numbers</button><button role="tab" data-drill="cards" aria-selected="false">Quiz cards</button><button role="tab" data-drill="pxlib" aria-selected="false">Anki and labs</button></div>
+
+  <div class="drill card" data-dpane="sub">
+   <div class="dtop"><span class="dres" id="subRes"></span><select id="subLevel" aria-label="Difficulty"><option value="easy">Easy: /24 to /30</option><option value="mixed" selected>Mixed: /16 to /30</option><option value="hard">Hard: /8 to /30</option></select></div>
+   <div class="dq" id="subQ"></div>
+   <p class="dsub" id="subMask"></p>
+   <div class="dgrid">
+    <label class="dfield">Network address<input data-f="net" inputmode="decimal" autocomplete="off"><span class="ans"></span></label>
+    <label class="dfield">Broadcast address<input data-f="bc" inputmode="decimal" autocomplete="off"><span class="ans"></span></label>
+    <label class="dfield">First usable host<input data-f="first" inputmode="decimal" autocomplete="off"><span class="ans"></span></label>
+    <label class="dfield">Last usable host<input data-f="last" inputmode="decimal" autocomplete="off"><span class="ans"></span></label>
+    <label class="dfield">Usable hosts<input data-f="hosts" inputmode="numeric" autocomplete="off"><span class="ans"></span></label>
+   </div>
+   <div class="dact"><button class="btn" id="subCheck">Check</button><button class="btn ghost" id="subNext">Next question</button><button class="btn ghost" id="subHint">Show mask</button><span class="hint">Enter checks, N gives a new question</span></div>
+   <div class="dexp" id="subExp"></div>
+  </div>
+
+  <div class="drill card" data-dpane="bin" hidden>
+   <div class="dtop"><span class="dres" id="binRes"></span><select id="binMode" aria-label="Question type"><option value="mix" selected>Mixed</option><option value="d2b">Decimal to binary</option><option value="b2d">Binary to decimal</option><option value="d2h">Decimal to hex</option><option value="h2d">Hex to decimal</option></select></div>
+   <div class="dq" id="binQ"></div><p class="dsub" id="binAsk"></p>
+   <div class="dgrid single"><label class="dfield">Your answer<input id="binIn" autocomplete="off" spellcheck="false"><span class="ans" id="binAns"></span></label></div>
+   <div class="dact"><button class="btn" id="binCheck">Check</button><button class="btn ghost" id="binNext">Next question</button><span class="hint">Spaces and 0x are fine</span></div>
+   <div class="dexp" id="binExp"></div>
+  </div>
+
+  <div class="drill card" data-dpane="port" hidden>
+   <div class="dtop"><span class="dres" id="portRes"></span><span class="tsub" id="portLeft"></span></div>
+   <div class="dq" id="portQ"></div><p class="dsub" id="portAsk"></p>
+   <div class="dgrid single"><label class="dfield">Port number<input id="portIn" inputmode="numeric" autocomplete="off"><span class="ans" id="portAns"></span></label></div>
+   <div class="dact"><button class="btn" id="portCheck">Check</button><button class="btn ghost" id="portNext">Next question</button></div>
+   <div class="dexp" id="portExp"></div>
+  </div>
+  <div class="drill card" data-dpane="cards" hidden>
+   <div class="dtop"><span class="dres" id="fcRes"></span><select id="fcScope" aria-label="Which days"><option value="all">All 63 days</option><option value="done">Days you’ve watched</option></select></div>
+   <div class="fc">
+    <div class="fc-card"><small id="fcFrom"></small><div class="fc-q" id="fcQ">Loading notes…</div><div class="fc-a" id="fcA" hidden></div></div>
+    <div class="dact" id="fcAct"><button class="btn" id="fcShow">Show answer</button><span class="hint">Space shows the answer, 1 = not yet, 2 = I knew it</span></div>
+    <div class="dact" id="fcGrade" hidden><button class="btn ghost" id="fcNo">Not yet</button><button class="btn" style="--c:var(--ok)" id="fcYes">I knew it</button><button class="btn ghost" id="fcNotes">Read the notes</button></div>
+   </div>
+  </div>
+  <div class="drill card" data-dpane="pxlib" hidden>
+   <div class="dtop"><span class="dres" id="pxRes"></span><select id="pxScope" aria-label="Which days"><option value="all">All 63 days</option><option value="done">Days you’ve watched</option><option value="todo">Labs not done yet</option></select></div>
+   <div class="pxlib-how">
+    <div><b>Anki flashcards (.apkg)</b><br>Install the free <a href="https://apps.ankiweb.net/" target="_blank" rel="noopener">Anki</a> app (AnkiDroid on Android, AnkiMobile on iPhone). Download a deck, then double-click it or use File &gt; Import. Review a little every day so spaced repetition can work.</div>
+    <div><b>Packet Tracer labs (.pkt)</b><br>Open each lab in Cisco Packet Tracer, free with a <a href="https://www.netacad.com/" target="_blank" rel="noopener">Cisco Networking Academy</a> account. Do the lab right after its Day’s video, then tick it as done here.</div>
+   </div>
+   <ul class="pxlib" id="pxList"></ul>
   </div>
  </div>
 </section>
@@ -845,27 +1251,23 @@ footer p{max-width:80ch;margin:0 0 8px}
 
 
 const NET_ROADMAP = [
-{type:"hop", title:"Foundations", time:"2–4 weeks",
- why:"CCNA assumes you already understand how computers represent and move data. Skipping this is the most common reason people stall at subnetting later.",
+{type:"hop", title:"CCNA (200-301)", time:"4–7 months",
+ why:"Starts with the foundations CCNA assumes you already have (binary, how a PC connects, the OSI model), because skipping them is the most common reason people stall at subnetting. Then the most widely requested entry-level networking certification. It covers vendor-neutral fundamentals using Cisco commands, which dominate enterprise networks. Sections below follow the official exam domains and weights.",
  secs:[
-  {t:"Number systems and the host", why:"Every address you will touch (IPv4, IPv6, MAC) is binary or hex underneath.", items:[
+{t:"Getting started: number systems and the host", why:"Every address you will touch (IPv4, IPv6, MAC) is binary or hex underneath.", items:[
    ["Binary, decimal and hex conversion","Subnet masks are binary; IPv6 and MAC addresses are hex. You will convert in your head daily."],
    ["How a PC connects: NIC, IP, mask, gateway, DNS","Most tickets start with “my PC can’t reach X”. You fix the host before blaming the network."],
    ["Use ipconfig / ip a, ping, tracert / traceroute, nslookup","These four commands solve or narrow down most connectivity problems."],
    ["Basic command-line comfort (Windows CMD and a Linux shell)","Network devices are configured mainly through a CLI, not a GUI."]]},
-  {t:"Models and protocols", why:"Shared vocabulary lets you say “this is a layer 2 problem” and be understood instantly.", items:[
+  {t:"Getting started: models and protocols", why:"Shared vocabulary lets you say “this is a layer 2 problem” and be understood instantly.", items:[
    ["OSI 7-layer model and TCP/IP model","Troubleshooting works bottom-up through layers; interviews ask this almost every time."],
    ["Encapsulation and PDUs (bits, frames, packets, segments)","Explains what each device actually reads: switches read frames, routers read packets."],
    ["TCP vs UDP, ports, the three-way handshake","Firewall rules, ACLs and app issues all depend on knowing which protocol and port is in play."],
    ["Well-known ports: 20/21, 22, 23, 25, 53, 67/68, 80, 123, 161, 443, 514","You’ll write ACLs and read firewall logs with these numbers constantly."]]},
-  {t:"Lab tools", why:"Networking is learned by breaking and fixing things, not by reading alone.", items:[
+  {t:"Getting started: lab tools", why:"Networking is learned by breaking and fixing things, not by reading alone.", items:[
    ["Install Cisco Packet Tracer (free via Cisco NetAcad)","Free simulator that covers nearly all CCNA labs."],
-   ["Capture traffic with Wireshark","Seeing a real DNS query or TCP handshake turns theory into something you can verify."]]}
- ]},
+   ["Capture traffic with Wireshark","Seeing a real DNS query or TCP handshake turns theory into something you can verify."]]},
 
-{type:"hop", title:"CCNA (200-301)", time:"3–6 months",
- why:"The most widely requested entry-level networking certification. It covers vendor-neutral fundamentals using Cisco commands, which dominate enterprise networks. Sections below follow the official exam domains and weights.",
- secs:[
   {t:"1. Network fundamentals", w:"20%", why:"The base layer: if this is weak, every later topic is weak.", items:[
    ["Roles of routers, L2/L3 switches, firewalls, IPS, access points, controllers, endpoints, servers","You must know which device makes which decision before you can troubleshoot a path."],
    ["Topologies: two-tier, three-tier, spine-leaf, WAN, SOHO, on-prem vs cloud","Design questions and real job conversations use these terms."],
@@ -1130,11 +1532,10 @@ const NET_ROADMAP = [
 
 // Per-stage extras, in stage order: estimated study hours (0 = on the job, -1 = ongoing) and a portfolio project
 const NET_EXTRA=[
-{h:40, proj:{t:"The packet story",
+{h:290, pre:{t:"The packet story",
  why:"Most beginners can define TCP. Few can show it happening. This proves you understand what the wire actually carries.",
  s:["Capture yourself loading one website in Wireshark","Find and annotate the DHCP, ARP, DNS, TCP handshake, TLS and HTTP packets","Write a one-page explanation of the whole sequence in plain language"],
- d:"An annotated capture plus a short write-up on GitHub or a blog."}},
-{h:250, proj:{t:"Small business network, built and documented",
+ d:"An annotated capture plus a short write-up on GitHub or a blog."}, proj:{t:"Small business network, built and documented",
  why:"Interviewers ask “have you built anything?”. A complete, documented network answers that better than the certificate alone.",
  s:["Write an IP plan (IPv4 with VLSM, plus IPv6) in a spreadsheet","Build two sites: three VLANs each, trunks, inter-VLAN routing, OSPF between sites","Add DHCP, NAT/PAT, NTP, syslog, SSH-only management, port security and ACLs","Test and record results: what each user group can and can’t reach"],
  d:"Topology diagram, IP plan, all configs and a test results table."}},
@@ -1428,9 +1829,9 @@ const AI_EXTRA=[
 
 const CH={
  jitl:{name:"Jeremy’s IT Lab",m:"JI",c:"var(--net)",track:"net",q:"Jeremy's IT Lab Free CCNA 200-301 Complete Course",
-   use:"Your main CCNA course. One “Day” video at a time, each followed by its Packet Tracer lab and flashcards.",stages:"Foundations, CCNA, network automation basics"},
+   use:"Your main CCNA course. One “Day” video at a time, each followed by its Packet Tracer lab and flashcards.",stages:"CCNA, network automation basics"},
  netacad:{name:"Cisco NetAcad",m:"NA",c:"var(--net)",track:"net",url:"https://www.netacad.com/",
-   use:"Your lab and checkpoint backbone: ITN, SRWE and ENSA modules, Packet Tracer activities and module exams.",stages:"Foundations, CCNA, Linux, job-ready, automation, security"},
+   use:"Your lab and checkpoint backbone: ITN, SRWE and ENSA modules, Packet Tracer activities and module exams.",stages:"CCNA, Linux, client-ready, job-ready, automation, security"},
  cwh:{name:"CodeWithHarry",m:"CH",c:"var(--ai)",track:"ai",q:"CodeWithHarry Python course 100 days of code",
    use:"Learn to code: Python first, then JavaScript for n8n Code nodes, Git and GitHub, and SQL.",stages:"Programming for automation, client-ready"},
  campusx:{name:"CampusX",m:"CX",c:"var(--ai)",track:"ai",q:"CampusX Generative AI using LangChain",
@@ -1444,9 +1845,7 @@ const CH={
 /* Course map per stage, in stage order. status: covered | partial | open */
 const NET_COURSES=[
  {status:"covered",list:[
-  {ch:"netacad",t:"Getting Started with Cisco Packet Tracer",d:"Short free course. Install Packet Tracer and learn the interface before you start the CCNA videos.",url:"https://www.netacad.com/"},
-  {ch:"jitl",t:"Days 1–3 as a first pass",d:"Network devices, interfaces and cables, OSI and TCP/IP. You’ll study them properly in sprint 1; for now, just get comfortable with the words.",q:"Jeremy's IT Lab CCNA Day 1 Network Devices"}]},
- {status:"covered",list:[
+  {ch:"netacad",t:"Getting Started with Cisco Packet Tracer",d:"Short free course. Install Packet Tracer and learn the interface before Day 1.",url:"https://www.netacad.com/"},
   {ch:"jitl",t:"Free CCNA 200-301 Complete Course",d:"Your main course, followed in the 14 sprints below. Watch a Day, do its lab the same session, then its flashcards.",q:"Jeremy's IT Lab Free CCNA 200-301 Complete Course"},
   {ch:"netacad",t:"CCNA 1–3: ITN, SRWE and ENSA",d:"Do the matching modules’ Packet Tracer activities and module exams straight after the Jeremy Days in each sprint.",url:"https://www.netacad.com/"}],
   sprints:[
@@ -1518,7 +1917,7 @@ const AI_COURSES=[
 ];
 
 const PHASES=[
- {t:"Build the base",net:"Foundations, then CCNA sprints 1–7 with Jeremy’s IT Lab and NetAcad ITN and SRWE.",ai:"AI foundations and the full Gen AI Unplugged n8n course.",why:"CCNA does the heavy lifting. n8n is light enough to run beside it and gives you early wins you can show."},
+ {t:"Build the base",net:"CCNA’s getting-started topics, then sprints 1–7 with Jeremy’s IT Lab and NetAcad ITN and SRWE.",ai:"AI foundations and the full Gen AI Unplugged n8n course.",why:"CCNA does the heavy lifting. n8n is light enough to run beside it and gives you early wins you can show."},
  {t:"Finish CCNA, start coding",net:"Sprints 8–14, practice exams, then book and pass the CCNA.",ai:"CodeWithHarry Python, JavaScript basics and Git, plus LLM fundamentals from Krish Naik and the first part of CampusX LangChain.",why:"Python is the bridge between both careers. Learning it now pays off twice."},
  {t:"Get hired, go deep on AI",net:"Linux on NetAcad, client-ready skills on real gear, the home-lab portfolio, then applications.",ai:"CampusX LangChain through RAG and agents, LangGraph, FastAPI, and n8n AI agents.",why:"A networking job brings income and real experience while your AI skills become portfolio-grade."},
  {t:"Merge the tracks",net:"Network automation with Netmiko, Nornir and Ansible, using the Python you already have.",ai:"Reliability, evaluation, security and deployment, then client-ready integrations and high-volume operations.",why:"Network engineers who can build AI tooling are rare. This is where your two tracks become one profile."}
@@ -1533,6 +1932,24 @@ const KEY="dualTrackRoadmap.v1"+(()=>{try{const u=window.DUAL_TRACK_CONFIG&&wind
 let state={};
 try{state=JSON.parse(localStorage.getItem(KEY)||"{}")||{}}catch(e){state={}}
 if(typeof state!=="object"||Array.isArray(state))state={};
+window.migrateState=function(st){
+  if(!st||typeof st!=="object"||st._schema>=2)return st;
+  const o={};
+  Object.keys(st).forEach(k=>{
+    const v=st[k]; let m;
+    if(k.startsWith("_")){o[k]=v;return;}
+    if((m=k.match(/^net-i(\d+)-(\d+)-(\d+)$/))){const pi=+m[1],si=+m[2];o[pi===0?k:pi===1?`net-i0-${si+3}-${m[3]}`:`net-i${pi-1}-${si}-${m[3]}`]=v;return;}
+    if((m=k.match(/^net-p(\d+)$/))){const pi=+m[1];o[pi===0?"net-q0":`net-p${pi-1}`]=v;return;}
+    if((m=k.match(/^net-c(\d+)-(\d+)$/))){const pi=+m[1],c=+m[2];if(pi===0){if(c===0)o["net-c0-0"]=v;}else if(pi===1)o[`net-c0-${c+1}`]=v;else o[`net-c${pi-1}-${c}`]=v;return;}
+    if((m=k.match(/^net-sp(\d+)-(\d+)$/))){o[`net-sp${Math.max(0,+m[1]-1)}-${m[2]}`]=v;return;}
+    if((m=k.match(/^net-m(\d+)$/))){o[`net-m${+m[1]-1}`]=v;return;}
+    o[k]=v;
+  });
+  if(st._notes){const n=st._notes,r={};Object.keys(n).forEach(k=>{const m=k.match(/^net-(\d+)$/);if(!m){r[k]=n[k];return;}if(+m[1]>=2)r[`net-${+m[1]-1}`]=n[k];});const j=[n["net-1"],n["net-0"]].filter(Boolean).join("\n\n");if(j)r["net-0"]=j;o._notes=r;}
+  ["_open","_stab"].forEach(f=>{if(!st[f])return;const n=st[f],r={};Object.keys(n).forEach(k=>{const m=k.match(/^net-(\d+)$/);if(!m){r[k]=n[k];return;}const pi=+m[1];if(pi>=2)r[`net-${pi-1}`]=n[k];else if(pi===1)r["net-0"]=n[k];});o[f]=r;});
+  o._schema=2; return o;
+};
+{const had=Object.keys(state).length&&!state._schema; state=migrateState(state); state._schema=2; if(had){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}}
 state._notes=state._notes||{}; state._open=state._open||{};
 function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){} if(window.onStateSaved)window.onStateSaved();}
 const yt=q=>"https://www.youtube.com/results?search_query="+encodeURIComponent(q);
@@ -1563,7 +1980,7 @@ function buildTrack(tk){
       route.appendChild(el); return;
     }
     const x=T.X[hop], cm=T.C[hop]||{status:"open",note:""};
-    p.h=x.h; p.proj=x.proj; p.cm=cm; hop++; p.n=hop;
+    p.h=x.h; p.proj=x.proj; p.pre=x.pre; p.cm=cm; hop++; p.n=hop;
     const el=document.createElement("section");
     el.className="hop"; el.dataset.pi=pi; el.id=`${tk}-s${pi}`;
     const covLbl={covered:"Courses cover it",partial:"Partly covered",open:tk==="net"?"Learned on the job":"Learned by doing"}[cm.status];
@@ -1584,7 +2001,7 @@ function buildTrack(tk){
     });
     const nTopics=p.secs.reduce((a,s)=>a+s.items.length,0);
     const panes=[["watch","Watch",watch],["learn","Learn",secs],
-      ["build","Build",`<div class="proj"><h3>${p.proj.t}</h3><p>${p.proj.why}</p><ol>${p.proj.s.map(s=>`<li>${s}</li>`).join("")}</ol><p class="deliv"><b>Show employers:</b> ${p.proj.d}</p><label class="item"><input type="checkbox" data-id="${tk}-p${pi}"><span class="item-t">Project finished and published</span></label></div>`],
+      ["build","Build",`${p.pre?`<div class="proj" style="margin-bottom:40px"><h3>Warm-up: ${p.pre.t}</h3><p>${p.pre.why}</p><ol>${p.pre.s.map(s=>`<li>${s}</li>`).join("")}</ol><p class="deliv"><b>Show employers:</b> ${p.pre.d}</p><label class="item"><input type="checkbox" data-id="${tk}-q${pi}"><span class="item-t">Warm-up project finished and published</span></label></div>`:""}<div class="proj"><h3>${p.pre?"Main project: ":""}${p.proj.t}</h3><p>${p.proj.why}</p><ol>${p.proj.s.map(s=>`<li>${s}</li>`).join("")}</ol><p class="deliv"><b>Show employers:</b> ${p.proj.d}</p><label class="item"><input type="checkbox" data-id="${tk}-p${pi}"><span class="item-t">Project finished and published</span></label></div>`],
       ["notes","Notes",`<div class="notes"><label class="pane-h" for="${tk}-n${pi}">Your notes for this stage</label><textarea id="${tk}-n${pi}" data-note="${key}" placeholder="Where you are in the playlist, weak topics, exam date…"></textarea><small>Saved automatically in this browser.</small></div>`]];
     const cur=(state._stab&&state._stab[key])||"watch";
     el.innerHTML=`<span class="hop-node" aria-hidden="true">${hop}</span>
@@ -1831,7 +2248,7 @@ function openStage(tk,id,target){
     el.classList.remove("flash"); void el.offsetWidth; el.classList.add("flash");
   });
 }
-const VIEWS=["plan","net","ai","videos","courses"];
+const VIEWS=["plan","net","ai","videos","practice","courses"];
 function setView(v,top){
   if(!VIEWS.includes(v))v="plan";
   document.body.dataset.view=v;
@@ -1845,20 +2262,20 @@ window.addEventListener("hashchange",()=>setView(location.hash.slice(1),true));
 window.addEventListener("resize",update);
 
 /* ---------- skill map ---------- */
-const NET_SHORT=["Foundations","CCNA","Linux","Client-ready: real gear","Job-ready","First year on the job","CCNP Enterprise","Network automation","Network security","Cloud networking","Senior and specialist","The $250k track"];
+const NET_SHORT=["CCNA","Linux","Client-ready: real gear","Job-ready","First year on the job","CCNP Enterprise","Network automation","Network security","Cloud networking","Senior and specialist","The $250k track"];
 const AI_SHORT=["Foundations","n8n no-code","LLMs and prompting","Programming","RAG, tools and agents","Reliability and evals","Deployment","Client-ready: scale","Business and sales","Specialise","Expert"];
 const BRIDGES=[
- {id:"api",t:"APIs and JSON",d:"CCNA’s automation domain, n8n’s HTTP and webhook nodes and every LLM call are the same idea: systems exchanging JSON over HTTP. Learn it once, use it everywhere.",net:[2,8,10],ai:[1,2,3,5]},
- {id:"py",t:"Python",d:"One language, two careers. The Python you learn from CodeWithHarry runs your AI agents and your Netmiko, Nornir and Ansible network automation.",net:[8,12],ai:[4,5,8]},
- {id:"linux",t:"Linux and the CLI",d:"Network devices are run from a CLI, many network operating systems are Linux underneath, and every AI system you deploy runs on a Linux server.",net:[1,3,12],ai:[7]},
- {id:"git",t:"Git and version control",d:"Network configs, prompts and workflows all need versioning, review and a way to roll back.",net:[8],ai:[4,7]},
- {id:"auto",t:"Automation thinking",d:"Breaking a process into triggers, steps and checks works the same whether you automate a business workflow or a hundred switches.",net:[8],ai:[2,5,8]},
- {id:"sec",t:"Security mindset",d:"ACLs, least privilege and secret handling on the network side map straight onto agent permissions, prompt-injection defence and per-client credentials.",net:[2,9],ai:[6,8]},
- {id:"cloud",t:"Cloud and Docker",d:"Cloud networking and AI deployment meet in the same place: VPCs, containers and infrastructure as code.",net:[10],ai:[7]},
- {id:"trbl",t:"Troubleshooting method",d:"Work layer by layer, change one thing, verify. The same discipline fixes a broken OSPF neighbourship and a broken agent.",net:[1,4,6,7],ai:[6,7]},
- {id:"ops",t:"Docs and change control",d:"Diagrams, runbooks, rollback plans and clean handovers make you trusted on a client’s network and on a client’s automation.",net:[4,6],ai:[7,8]},
- {id:"biz",t:"Clients and career",d:"Scoping, proposals, interviews and reputation carry straight across. One name, two kinds of work.",net:[4,5,11,12],ai:[8,9,10,11]},
- {id:"cap",t:"Capstone project",cap:1,d:"The project that uses both tracks at once: network automation feeding an AI agent with tools, with evaluation and human approval on top.",net:[8],ai:[5,6]}
+ {id:"api",t:"APIs and JSON",d:"CCNA’s automation domain, n8n’s HTTP and webhook nodes and every LLM call are the same idea: systems exchanging JSON over HTTP. Learn it once, use it everywhere.",net:[1,7,9],ai:[1,2,3,5]},
+ {id:"py",t:"Python",d:"One language, two careers. The Python you learn from CodeWithHarry runs your AI agents and your Netmiko, Nornir and Ansible network automation.",net:[7,11],ai:[4,5,8]},
+ {id:"linux",t:"Linux and the CLI",d:"Network devices are run from a CLI, many network operating systems are Linux underneath, and every AI system you deploy runs on a Linux server.",net:[1,2,11],ai:[7]},
+ {id:"git",t:"Git and version control",d:"Network configs, prompts and workflows all need versioning, review and a way to roll back.",net:[7],ai:[4,7]},
+ {id:"auto",t:"Automation thinking",d:"Breaking a process into triggers, steps and checks works the same whether you automate a business workflow or a hundred switches.",net:[7],ai:[2,5,8]},
+ {id:"sec",t:"Security mindset",d:"ACLs, least privilege and secret handling on the network side map straight onto agent permissions, prompt-injection defence and per-client credentials.",net:[1,8],ai:[6,8]},
+ {id:"cloud",t:"Cloud and Docker",d:"Cloud networking and AI deployment meet in the same place: VPCs, containers and infrastructure as code.",net:[9],ai:[7]},
+ {id:"trbl",t:"Troubleshooting method",d:"Work layer by layer, change one thing, verify. The same discipline fixes a broken OSPF neighbourship and a broken agent.",net:[1,3,5,6],ai:[6,7]},
+ {id:"ops",t:"Docs and change control",d:"Diagrams, runbooks, rollback plans and clean handovers make you trusted on a client’s network and on a client’s automation.",net:[3,5],ai:[7,8]},
+ {id:"biz",t:"Clients and career",d:"Scoping, proposals, interviews and reputation carry straight across. One name, two kinds of work.",net:[3,4,10,11],ai:[8,9,10,11]},
+ {id:"cap",t:"Capstone project",cap:1,d:"The project that uses both tracks at once: network automation feeding an AI agent with tools, with evaluation and human approval on top.",net:[7],ai:[5,6]}
 ];
 let mapSel="py";
 function buildMap(){
@@ -1867,7 +2284,7 @@ function buildMap(){
   const netHops=TRACKS.net.R.map((p,pi)=>({p,pi})).filter(o=>o.p.type==="hop");
   const aiHops=TRACKS.ai.R.map((p,pi)=>({p,pi})).filter(o=>o.p.type==="hop");
   const N={};
-  netHops.forEach((o,i)=>N["n"+(i+1)]={k:"n"+(i+1),cls:"n",tk:"net",pi:o.pi,x:xL,y:top+i*gap,t:NET_SHORT[i]||o.p.title,d:o.p.why,num:i+1});
+  netHops.forEach((o,i)=>N["n"+(i+1)]={k:"n"+(i+1),cls:"n",tk:"net",pi:o.pi,x:xL,y:top+i*span/(netHops.length-1),t:NET_SHORT[i]||o.p.title,d:o.p.why,num:i+1});
   aiHops.forEach((o,i)=>N["a"+(i+1)]={k:"a"+(i+1),cls:"a",tk:"ai",pi:o.pi,x:xR,y:top+i*span/(aiHops.length-1),t:AI_SHORT[i]||o.p.title,d:o.p.why,num:i+1});
   BRIDGES.forEach((b,i)=>N[b.id]={k:b.id,cls:"b"+(b.cap?" cap":""),x:xM,y:top+i*span/(BRIDGES.length-1),t:b.t,d:b.d,b});
   const E=[];
@@ -1981,7 +2398,7 @@ const CFG=window.DUAL_TRACK_CONFIG||{};
 const ADMINS=(CFG.adminEmails||[]).map(e=>String(e).trim().toLowerCase()).filter(Boolean);
 const DONE_AT=90, SEG=5, FB="https://www.gstatic.com/firebasejs/10.12.2/";
 
-const DAYS={1:"Network Devices",2:"Interfaces and Cables",3:"OSI Model and TCP/IP Suite",4:"Intro to the CLI",5:"Ethernet LAN Switching (Part 1)",6:"Ethernet LAN Switching (Part 2)",7:"IPv4 Addressing (Part 1)",8:"IPv4 Addressing (Part 2)",9:"Switch Interfaces",10:"The IPv4 Header",11:"Routing Fundamentals",12:"The Life of a Packet",13:"Subnetting (Part 1)",14:"Subnetting (Part 2)",15:"Subnetting (Part 3, VLSM)",16:"VLANs (Part 1)",17:"VLANs (Part 2)",18:"VLANs (Part 3)",19:"DTP and VTP",20:"Spanning Tree Protocol (Part 1)",21:"Spanning Tree Protocol (Part 2)",22:"Rapid Spanning Tree Protocol",23:"EtherChannel",24:"Dynamic Routing",25:"RIP and EIGRP",26:"OSPF (Part 1)",27:"OSPF (Part 2)",28:"OSPF (Part 3)",29:"First Hop Redundancy Protocols",30:"TCP and UDP",31:"IPv6 (Part 1)",32:"IPv6 (Part 2)",33:"IPv6 (Part 3)",34:"Standard ACLs",35:"Extended ACLs",36:"CDP and LLDP",37:"NTP",38:"DNS",39:"DHCP",40:"SNMP",41:"Syslog",42:"SSH",43:"FTP and TFTP",44:"NAT (Part 1)",45:"NAT (Part 2)",46:"QoS (Part 1)",47:"QoS (Part 2)",48:"Security Fundamentals",49:"Port Security",50:"DHCP Snooping",51:"Dynamic ARP Inspection",52:"LAN Architectures",53:"WAN Architectures",54:"Virtualization and Cloud",55:"Wireless Fundamentals",56:"Wireless Architectures",57:"Wireless Security",58:"Wireless Configuration",59:"Intro to Network Automation",60:"Software-Defined Networking",61:"REST APIs",62:"Data Formats (JSON, XML, YAML)",63:"Ansible, Puppet and Chef"};
+const DAYS={1:"Network Devices",2:"Interfaces and Cables",3:"OSI Model and TCP/IP Suite",4:"Intro to the CLI",5:"Ethernet LAN Switching (Part 1)",6:"Ethernet LAN Switching (Part 2)",7:"IPv4 Addressing (Part 1)",8:"IPv4 Addressing (Part 2)",9:"Switch Interfaces",10:"The IPv4 Header",11:"Routing Fundamentals",12:"The Life of a Packet",13:"Subnetting (Part 1)",14:"Subnetting (Part 2)",15:"Subnetting (Part 3, VLSM)",16:"VLANs (Part 1)",17:"VLANs (Part 2)",18:"VLANs (Part 3)",19:"DTP and VTP",20:"Spanning Tree Protocol (Part 1)",21:"Spanning Tree Protocol (Part 2)",22:"Rapid Spanning Tree Protocol",23:"EtherChannel",24:"Dynamic Routing",25:"RIP and EIGRP",26:"OSPF (Part 1)",27:"OSPF (Part 2)",28:"OSPF (Part 3)",29:"First Hop Redundancy Protocols",30:"TCP and UDP",31:"IPv6 (Part 1)",32:"IPv6 (Part 2)",33:"IPv6 (Part 3)",34:"Standard ACLs",35:"Extended ACLs",36:"CDP and LLDP",37:"NTP",38:"DNS",39:"DHCP",40:"SNMP",41:"Syslog",42:"SSH",43:"FTP and TFTP",44:"NAT (Part 1)",45:"NAT (Part 2)",46:"QoS (Part 1)",47:"QoS (Part 2)",48:"Security Fundamentals",49:"Port Security",50:"DHCP Snooping",51:"Dynamic ARP Inspection",52:"LAN Architectures",53:"WAN Architectures",54:"Virtualization and Cloud",55:"Wireless Fundamentals",56:"Wireless Architectures",57:"Wireless Security",58:"Wireless Configuration",59:"Intro to Network Automation",60:"JSON, XML and YAML",61:"REST APIs",62:"Software-Defined Networking",63:"Ansible, Puppet and Chef"};
 const NDAYS=63;
 const SPRINT_DAYS=[[1,4],[5,8],[9,12],[13,15],[16,19],[20,23],[24,28],[29,33],[34,36],[37,45],[46,51],[52,58],[59,63]];
 const TOPIC_DAYS={"0-0":[1],"0-1":[52,53],"0-2":[2],"0-3":[9],"0-4":[7,8,13,14,15],"0-5":[44],"0-6":[31,32,33],"0-8":[55],"0-9":[54],"0-10":[5,6],
@@ -1989,7 +2406,7 @@ const TOPIC_DAYS={"0-0":[1],"0-1":[52,53],"0-2":[2],"0-3":[9],"0-4":[7,8,13,14,1
  "2-0":[11],"2-1":[11,24],"2-2":[11,33],"2-3":[26,27,28],"2-4":[29],
  "3-0":[44,45],"3-1":[37],"3-2":[38,39],"3-3":[40,41],"3-4":[46,47],"3-5":[42,43],
  "4-0":[48],"4-1":[48],"4-2":[53],"4-3":[34,35],"4-4":[49,50,51],"4-5":[48],"4-6":[57],
- "5-0":[59,60],"5-1":[60],"5-3":[61],"5-4":[63],"5-5":[62]};
+ "5-0":[59,62],"5-1":[62],"5-3":[61],"5-4":[63],"5-5":[60]};
 
 const range=(a,b)=>Array.from({length:b-a+1},(_,i)=>a+i);
 const pad=n=>String(n).padStart(2,"0");
@@ -1999,7 +2416,7 @@ const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;"
 const dur=sec=>{sec=Math.round(sec||0);if(sec>0&&sec<60)return "under 1 min";const h=Math.floor(sec/3600),m=Math.round((sec%3600)/60);return h?`${h} h ${m} min`:`${m} min`;};
 const clock=sec=>{sec=Math.floor(sec||0);return `${Math.floor(sec/60)}:${pad(sec%60)}`;};
 const ytId=u=>{u=String(u||"").trim();if(!u)return "";const m=u.match(/(?:youtu\.be\/|[?&]v=|embed\/|shorts\/|live\/)([A-Za-z0-9_-]{11})/);if(m)return m[1];return /^[A-Za-z0-9_-]{11}$/.test(u)?u:"";};
-const search=d=>"https://www.youtube.com/results?search_query="+encodeURIComponent(`Jeremy's IT Lab CCNA Day ${d} ${DAYS[d]}`);
+const search=d=>"https://www.youtube.com/results?search_query="+encodeURIComponent(`Jeremy's IT Lab CCNA Day ${d} ${(TITLES[d]||DAYS[d])}`);
 const playIcon='<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1.8v8.4L10 6z" fill="currentColor"/></svg>';
 
 function toast(t){const el=$("#toast");el.textContent=t;el.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove("on"),2600);}
@@ -2013,22 +2430,86 @@ const vDone=d=>!!state["net-v"+d];
 function dayStat(){ensure();const k=today();return (state._daily[k]=state._daily[k]||{sec:0,ticks:0,vids:0});}
 
 /* ---------- links ---------- */
-let LINKS={};
+let LINKS={}, LABS={}, TITLES={}, SHARED=false;
+const PLAYLIST=String(CFG.playlist||"PLxbwE86jKRgMpuZuLBivzlM8s2Dk5lXBQ").trim();
+const T=d=>TITLES[d]||DAYS[d];
 Object.entries(CFG.videoLinks||{}).forEach(([d,u])=>{const id=ytId(u);if(id)LINKS[d]=id;});
+function applyFound(o,force){
+  if(!o)return;
+  Object.entries(o.links||{}).forEach(([d,id])=>{id=ytId(id);if(id&&(force||!LINKS[d]))LINKS[d]=id;});
+  Object.entries(o.labs||{}).forEach(([d,id])=>{id=ytId(id);if(id&&(force||!LABS[d]))LABS[d]=id;});
+  Object.entries(o.titles||{}).forEach(([d,t])=>{if(t&&(force||!TITLES[d]))TITLES[d]=String(t).slice(0,90);});
+}
 function setLinks(obj){Object.entries(obj||{}).forEach(([d,id])=>{if(ytId(id))LINKS[d]=ytId(id);else delete LINKS[d];});videoRefresh();}
+function setShared(o){if(!o)return;SHARED=Object.keys(o.links||{}).length>0;LINKS={};Object.entries(CFG.videoLinks||{}).forEach(([d,u])=>{const id=ytId(u);if(id)LINKS[d]=id;});applyFound(o,true);applyFound(state._pl,false);videoRefresh();}
+applyFound(state._pl,false);
+
+/* read Jeremy's playlist with YouTube's own player and match "Day N" titles */
+function parseTitle(t){
+  t=String(t||""); const m=t.match(/day\s*0?(\d{1,2})\b/i); if(!m)return null;
+  const d=+m[1]; if(d<1||d>NDAYS)return null;
+  const lab=/\blab\b/i.test(t);
+  let name=t.split(/\s*[|–—]\s*|\s+-\s+/).map(x=>x.trim()).find(x=>x&&!/day\s*\d|free\s*ccna|ccna\s*200|complete course|jeremy/i.test(x))||"";
+  name=name.replace(/\(\s*lab\s*\)|\blab\b/ig,"").replace(/\s{2,}/g," ").trim();
+  return {d,lab,name};
+}
+const oembed=id=>fetch("https://www.youtube.com/oembed?format=json&url="+encodeURIComponent("https://www.youtube.com/watch?v="+id)).then(r=>{if(!r.ok)throw new Error("oe");return r.json();}).then(j=>j.title||"");
+function cueTitle(pl,id){return new Promise(res=>{try{pl.cueVideoById(id);}catch(e){return res("");}let n=0;const iv=setInterval(()=>{let v={};try{v=pl.getVideoData()||{};}catch(e){}if(v.video_id===id&&v.title){clearInterval(iv);res(v.title);}else if(++n>30){clearInterval(iv);res("");}},200);});}
+let discovering=null;
+function discover(onP){
+  if(discovering)return discovering;
+  discovering=(async()=>{
+    await loadYT();
+    const host=document.createElement("div");host.setAttribute("aria-hidden","true");host.style.cssText="position:fixed;left:-10000px;top:0;width:320px;height:180px;overflow:hidden";
+    const inner=document.createElement("div");host.appendChild(inner);document.body.appendChild(host);
+    let pl=null;
+    try{
+      const ids=await new Promise((res,rej)=>{
+        const to=setTimeout(()=>rej(new Error("timeout")),25000);
+        pl=new YT.Player(inner,{width:320,height:180,playerVars:{listType:"playlist",list:PLAYLIST,autoplay:0,mute:1},events:{onReady:()=>{let n=0;const iv=setInterval(()=>{let a=null;try{a=pl.getPlaylist();}catch(e){}if(a&&a.length){clearInterval(iv);clearTimeout(to);res(a.slice());}else if(++n>60){clearInterval(iv);clearTimeout(to);rej(new Error("empty"));}},250);}}});
+      });
+      const titles={}; let done=0; onP&&onP(0,ids.length);
+      let useOE=true; try{titles[ids[0]]=await oembed(ids[0]);done=1;}catch(e){useOE=false;}
+      if(useOE){let i=1;await Promise.all(Array.from({length:6},async()=>{while(i<ids.length){const k=i++;try{titles[ids[k]]=await oembed(ids[k]);}catch(e){}done++;onP&&onP(done,ids.length);}}));}
+      for(const id of ids){if(!titles[id]){titles[id]=await cueTitle(pl,id);}if(!useOE){done++;onP&&onP(done,ids.length);}}
+      const out={links:{},labs:{},titles:{},total:ids.length,at:Date.now(),list:PLAYLIST};
+      ids.forEach(id=>{const r=parseTitle(titles[id]);if(!r)return;if(r.lab){if(!out.labs[r.d])out.labs[r.d]=id;}else if(!out.links[r.d]){out.links[r.d]=id;if(r.name)out.titles[r.d]=r.name;}});
+      return out;
+    }finally{try{pl&&pl.destroy();}catch(e){}host.remove();discovering=null;}
+  })();
+  return discovering;
+}
+let autoTried=false;
+function linkedCount(){return range(1,NDAYS).filter(d=>LINKS[d]).length;}
+async function autoDiscover(force){
+  if(linkedCount()>=NDAYS&&!force)return true;
+  if(autoTried&&!force)return linkedCount()>0;
+  autoTried=true;
+  const note=$("#vLinksNote");
+  try{
+    const out=await discover((a,b)=>{note.textContent=`Linking videos from Jeremy’s playlist… ${a} of ${b} checked`;});
+    const n=Object.keys(out.links).length;
+    if(n){state._pl=out;applyFound(out,false);save();videoRefresh();toast(`Linked ${n} of ${NDAYS} videos from the playlist`);}
+    else{videoRefresh();note.textContent="Couldn’t match any “Day” titles in the playlist. Add links on the Admin page or in config.js.";}
+    return n>0;
+  }catch(e){videoRefresh();note.textContent="Couldn’t read the playlist right now (check your connection or ad blocker). Videos open a YouTube search until then.";autoTried=false;return false;}
+}
+const _sv=setView; setView=function(v,top){_sv(v,top);if(v==="videos")autoDiscover();};
+setTimeout(()=>{if(document.body.dataset.view==="videos")autoDiscover();},0);
 
 /* ---------- build the videos page ---------- */
 const ccnaPi=TRACKS.net.R.findIndex(p=>p.type==="hop"&&/^CCNA/.test(p.title));
 const ccna=TRACKS.net.R[ccnaPi]; const sprints=(ccna&&ccna.cm&&ccna.cm.sprints)||[];
+const FOFF=ccna?Math.max(0,ccna.secs.findIndex(x=>/^1\./.test(x.t))):0;
 $("#vidList").innerHTML=SPRINT_DAYS.map(([a,b],k)=>`<section class="vgroup card" data-sprint="${k}"><div class="vg-head"><h2><small>Sprint ${k+1}</small>${esc(sprints[k]?sprints[k].t:"")}</h2><span data-vgc="${k}"></span></div><ul class="vlist">${
-  range(a,b).map(d=>`<li class="vrow" data-day="${d}"><label class="item"><input type="checkbox" data-id="net-v${d}" aria-label="Mark Day ${d} as watched"></label><button class="vplay" data-play="${d}"><i>${playIcon}</i><span><span class="vday">Day ${d}</span><span class="vtitle">${esc(DAYS[d])}</span></span></button><span class="vprog"><span class="vbar"><i></i></span><span class="vpct">0%</span></span><a class="vyt" data-yt="${d}" target="_blank" rel="noopener">YouTube</a></li>`).join("")
+  range(a,b).map(d=>`<li class="vrow" data-day="${d}"><label class="item"><input type="checkbox" data-id="net-v${d}" aria-label="Mark Day ${d} as watched"></label><button class="vplay" data-play="${d}"><i>${playIcon}</i><span><span class="vday">Day ${d}</span><span class="vtitle">${esc(DAYS[d])}</span></span></button><span class="vprog"><span class="vbar"><i></i></span><span class="vpct">0%</span></span><span class="vlinks"><a class="vyt vlab" data-lab="${d}" target="_blank" rel="noopener" hidden>Lab</a><a class="vyt" data-yt="${d}" target="_blank" rel="noopener">YouTube</a></span></li>`).join("")
 }</ul></section>`).join("");
 
 const chipHTML=days=>`<div class="vchips">${days.map(d=>`<button class="vchip" data-play="${d}" data-chip="${d}" title="Day ${d}: ${esc(DAYS[d])}">${playIcon}Day ${d}</button>`).join("")}</div>`;
 if(ccnaPi>=0){
   Object.entries(TOPIC_DAYS).forEach(([k,days])=>{
     const [si,ii]=k.split("-");
-    const cb=document.querySelector(`input[data-id="net-i${ccnaPi}-${si}-${ii}"]`);
+    const cb=document.querySelector(`input[data-id="net-i${ccnaPi}-${+si+FOFF}-${ii}"]`);
     if(cb)cb.closest("li").insertAdjacentHTML("beforeend",chipHTML(days));
   });
   $$(`#net-s${ccnaPi} .sp`).forEach((li,k)=>{if(SPRINT_DAYS[k])li.insertAdjacentHTML("beforeend",chipHTML(range(...SPRINT_DAYS[k])));});
@@ -2047,8 +2528,10 @@ function videoRefresh(){
     if(row){
       row.classList.toggle("done",dn);
       row.querySelector(".vbar i").style.width=(dn?100:p)+"%";
+      row.querySelector(".vtitle").textContent=T(d);
+      const lb=row.querySelector(".vlab"); if(LABS[d]){lb.hidden=false;lb.href=`https://www.youtube.com/watch?v=${LABS[d]}`;lb.title=`Day ${d} lab video`;}else lb.hidden=true;
       row.querySelector(".vpct").textContent=dn?"Done":p+"%";
-      const a=row.querySelector(".vyt"); a.href=LINKS[d]?`https://www.youtube.com/watch?v=${LINKS[d]}`:search(d);
+      const a=row.querySelector(".vyt[data-yt]"); a.href=LINKS[d]?`https://www.youtube.com/watch?v=${LINKS[d]}`:search(d);
     }
     $$(`[data-chip="${d}"]`).forEach(c=>{c.classList.toggle("done",dn);c.classList.toggle("part",!dn&&p>0);});
   }
@@ -2057,10 +2540,10 @@ function videoRefresh(){
   $("#vsTime").textContent=dur(state._watch);
   $("#vsToday").textContent=dur((state._daily[today()]||{}).sec);
   const nx=nextVideo(), btn=$("#vContinue"), txt=$("#vContinueTxt");
-  if(nx){const p=pctOf(nx);btn.textContent=p>0?`Resume Day ${nx}`:`Start Day ${nx}`;btn.dataset.play=nx;txt.textContent=p>0?`${DAYS[nx]}, ${p}% watched, from ${clock((state._v[nx]||{}).t)}`:DAYS[nx];btn.hidden=false;}
+  if(nx){const p=pctOf(nx);btn.textContent=p>0?`Resume Day ${nx}`:`Start Day ${nx}`;btn.dataset.play=nx;txt.textContent=p>0?`${T(nx)}, ${p}% watched, from ${clock((state._v[nx]||{}).t)}`:T(nx);btn.hidden=false;}
   else{btn.hidden=true;txt.textContent="Every video is done. Time for practice exams.";}
-  const linked=Object.keys(LINKS).filter(d=>+d>=1&&+d<=NDAYS).length;
-  $("#vLinksNote").textContent=linked>=NDAYS?"":linked===0?"Video links haven’t been added yet, so topics open a YouTube search and watch time can’t be tracked. An admin can add them from the Admin page."+(window.DT_CLOUD?"":" (Or add them in config.js.)"):`${linked} of ${NDAYS} videos have links. The rest open a YouTube search, which isn’t tracked.`;
+  const linked=linkedCount();
+  if(!discovering)$("#vLinksNote").textContent=linked>=NDAYS?"":linked===0?"Videos link themselves from Jeremy’s playlist the first time you open this page. Until then, topics open a YouTube search.":`${linked} of ${NDAYS} videos have links. The rest open a YouTube search, which isn’t tracked.`;
   const ring=$('[data-ring="vid"]'); if(ring){const C=2*Math.PI*7.5;ring.style.strokeDasharray=C;ring.style.strokeDashoffset=C*(1-done/NDAYS);}
 }
 
@@ -2087,10 +2570,15 @@ function plUpdate(){
 function openVideo(d){
   d=+d; if(!DAYS[d])return;
   closeVideo(true); curDay=d;
-  $("#plTitle").innerHTML=`<small>Day ${d}</small>${esc(DAYS[d])}`;
+  $("#plTitle").innerHTML=`<small>Day ${d}</small>${esc(T(d))}`;
   const id=LINKS[d]; const mount=$("#plMount");
   $("#plYT").href=id?`https://www.youtube.com/watch?v=${id}`:search(d);
   $("#pl").hidden=false; document.body.style.overflow="hidden"; plUpdate();
+  if(!id&&!openVideo.retried){
+    mount.innerHTML=`<div class="pl-empty"><div><p>Finding Day ${d} in Jeremy’s playlist…</p></div></div>`;
+    autoDiscover(true).then(()=>{if(curDay===d&&!$("#pl").hidden){openVideo.retried=true;openVideo(d);openVideo.retried=false;}});
+    return;
+  }
   if(!id){
     mount.innerHTML=`<div class="pl-empty"><div><p>This video’s link hasn’t been added yet, so it can’t play here or be tracked.${window.DT_ADMIN?" Add it under Admin, Video links.":" Ask your admin to add it."}</p><a class="btn" style="--c:var(--net)" href="${search(d)}" target="_blank" rel="noopener">Find it on YouTube</a></div></div>`;
     return;
@@ -2126,7 +2614,7 @@ function complete(d){
   let auto=0;
   Object.entries(TOPIC_DAYS).forEach(([k,days])=>{
     if(!days.includes(d))return;
-    const id=`net-i${ccnaPi}-${k}`;
+    const [si,ii]=k.split("-"); const id=`net-i${ccnaPi}-${+si+FOFF}-${ii}`;
     if(!state[id]&&days.every(vDone)){state[id]=1;auto++;}
   });
   save(); update();
@@ -2236,7 +2724,7 @@ async function onUser(u){
       localStorage.setItem(key,JSON.stringify(cloud)); location.reload(); return;
     }
     const lk=await F.getDoc(F.doc(db,"config","videos"));
-    if(lk.exists())setLinks(lk.data().links||{});
+    if(lk.exists())setShared(lk.data());
   }catch(e){toast("Couldn’t load your saved progress. Working from this device for now.");}
   enter();
   push(true);
@@ -2261,7 +2749,7 @@ $("#signOut").addEventListener("click",async()=>{await push(true);try{localStora
 
 /* ---------- sync ---------- */
 function summary(){return {net:trackCount("net"),ai:trackCount("ai"),vids:{done:range(1,NDAYS).filter(vDone).length,total:NDAYS},watchSec:state._watch||0};}
-function trimmedDaily(){const ks=Object.keys(state._daily||{}).sort().slice(-60);const o={};ks.forEach(k=>o[k]=state._daily[k]);state._daily=o;return o;}
+function trimmedDaily(){const ks=Object.keys(state._daily||{}).sort().slice(-400);const o={};ks.forEach(k=>o[k]=state._daily[k]);state._daily=o;return o;}
 async function push(now){
   if(!me)return; clearTimeout(pushT);
   if(!now){pushT=setTimeout(()=>push(true),4000);return;}
@@ -2279,6 +2767,7 @@ document.addEventListener("visibilitychange",()=>{if(document.hidden&&me)push(tr
    Admin
    ========================================================= */
 let students=[], adminReady=false;
+const normDaily=d=>{const o={};Object.entries(d||{}).forEach(([k,x])=>{x=x||{};o[k]=Object.assign({},x,{sec:(x.sec||0)+(x.focus||0)+(x.prac||0)});});return o;};
 function initAdmin(){
   if(!me.emailVerified){$("#aVerify").hidden=false;$("#aBody").hidden=true;$("#aStats").hidden=true;return;}
   $("#aVerify").hidden=true;$("#aBody").hidden=false;$("#aStats").hidden=false;
@@ -2293,29 +2782,30 @@ $("#aVerified").addEventListener("click",async()=>{
 $("#aResend").addEventListener("click",async()=>{try{await A.sendEmailVerification(me);toast("Verification email sent.");}catch(e){toast(errText(e));}});
 
 async function loadStudents(){
-  $("#aRows").innerHTML=`<tr><td colspan="7" class="aempty">Loading students…</td></tr>`;
+  $("#aRows").innerHTML=`<tr><td colspan="8" class="aempty">Loading students…</td></tr>`;
   try{
     const snap=await F.getDocs(F.collection(db,"users"));
-    students=snap.docs.map(d=>({id:d.id,...d.data()}));
+    students=snap.docs.map(d=>{const x={id:d.id,...d.data()};x.daily=normDaily(x.daily);return x;});
     renderStudents();
-  }catch(e){$("#aRows").innerHTML=`<tr><td colspan="7" class="aempty">Couldn’t load students. Check that firestore.rules has your admin email and that you’ve verified it.</td></tr>`;}
+  }catch(e){$("#aRows").innerHTML=`<tr><td colspan="8" class="aempty">Couldn’t load students. Check that firestore.rules has your admin email and that you’ve verified it.</td></tr>`;}
 }
 const lastDays=n=>{const out=[];const d=new Date();for(let i=n-1;i>=0;i--){const x=new Date(d);x.setDate(d.getDate()-i);out.push(dateKey(x));}return out;};
 const ago=t=>{if(!t)return "Never";const m=Math.round((Date.now()-t)/60000);if(m<2)return "Just now";if(m<60)return `${m} min ago`;const h=Math.round(m/60);if(h<24)return `${h} h ago`;const d=Math.round(h/24);return d===1?"Yesterday":`${d} days ago`;};
 const pc=o=>o&&o.total?Math.round(o.done/o.total*100):0;
+const stuStreak=dy=>{dy=dy||{};const act=x=>!!x&&((x.sec||0)>=60||(x.ticks||0)>0);const d=new Date();if(!act(dy[dateKey(d)]))d.setDate(d.getDate()-1);let n=0;while(act(dy[dateKey(d)])){n++;d.setDate(d.getDate()-1);}return n;};
 const pctCell=(o,c)=>`<span class="apct" style="--c:${c}"><span><i style="width:${pc(o)}%"></i></span>${pc(o)}%</span>`;
 function renderStudents(){
   const q=$("#aSearch").value.trim().toLowerCase(), sort=$("#aSort").value, d7=lastDays(7), d14=lastDays(14), t=today();
   const sumSec=(s,ks)=>ks.reduce((a,k)=>a+((((s.daily||{})[k]||{}).sec)||0),0);
   const all=students;
   const activeToday=all.filter(s=>((s.daily||{})[t]||{}).sec||((s.daily||{})[t]||{}).ticks||(s.lastActive&&dateKey(new Date(s.lastActive))===t)).length;
-  $("#aStats").innerHTML=`<div class="vstat"><small>Students</small><b>${all.length}</b></div><div class="vstat"><small>Active today</small><b>${activeToday}</b></div><div class="vstat"><small>Watch time, last 7 days</small><b>${dur(all.reduce((a,s)=>a+sumSec(s,d7),0))}</b></div><div class="vstat"><small>Videos completed</small><b>${all.reduce((a,s)=>a+((((s.summary||{}).vids||{}).done)||0),0)}</b></div>`;
+  $("#aStats").innerHTML=`<div class="vstat"><small>Students</small><b>${all.length}</b></div><div class="vstat"><small>Active today</small><b>${activeToday}</b></div><div class="vstat"><small>Study time, last 7 days</small><b>${dur(all.reduce((a,s)=>a+sumSec(s,d7),0))}</b></div><div class="vstat"><small>Videos completed</small><b>${all.reduce((a,s)=>a+((((s.summary||{}).vids||{}).done)||0),0)}</b></div>`;
   let list=all.filter(s=>!q||(s.name||"").toLowerCase().includes(q)||(s.email||"").toLowerCase().includes(q));
   list.sort(sort==="name"?(a,b)=>(a.name||"").localeCompare(b.name||""):sort==="progress"?(a,b)=>(pc((b.summary||{}).net)+pc((b.summary||{}).ai))-(pc((a.summary||{}).net)+pc((a.summary||{}).ai)):(a,b)=>(b.lastActive||0)-(a.lastActive||0));
-  if(!list.length){$("#aRows").innerHTML=`<tr><td colspan="7" class="aempty">${all.length?"No students match that search.":"No students yet. Share your site link; students appear here after they create an account."}</td></tr>`;return;}
+  if(!list.length){$("#aRows").innerHTML=`<tr><td colspan="8" class="aempty">${all.length?"No students match that search.":"No students yet. Share your site link; students appear here after they create an account."}</td></tr>`;return;}
   $("#aRows").innerHTML=list.map(s=>{
     const sm=s.summary||{}, mx=Math.max(1,...d14.map(k=>((s.daily||{})[k]||{}).sec||0));
-    return `<tr data-uid="${esc(s.id)}" tabindex="0"><td><b>${esc(s.name||"Unnamed")}</b><small>${esc(s.email||"")}</small></td><td>${ago(s.lastActive)}</td><td>${pctCell(sm.net,"var(--net)")}</td><td>${pctCell(sm.ai,"var(--ai)")}</td><td>${(sm.vids||{}).done||0} of ${NDAYS}</td><td>${dur(sumSec(s,d7))}</td><td><div class="spark">${d14.map(k=>{const x=(s.daily||{})[k]||{};const h=x.sec?Math.max(8,Math.round(x.sec/mx*100)):0;return `<i class="${h?"":"z"}" style="height:${h||8}%" title="${k}: ${dur(x.sec)} watched, ${x.ticks||0} items ticked, ${x.vids||0} videos done"></i>`;}).join("")}</div></td></tr>`;
+    return `<tr data-uid="${esc(s.id)}" tabindex="0"><td><b>${esc(s.name||"Unnamed")}</b><small>${esc(s.email||"")}</small></td><td>${ago(s.lastActive)}</td><td>${pctCell(sm.net,"var(--net)")}</td><td>${pctCell(sm.ai,"var(--ai)")}</td><td>${(sm.vids||{}).done||0} of ${NDAYS}</td><td>${(()=>{const n=stuStreak(s.daily);return n?`<b style="color:var(--gold)">${n}</b><small>${n===1?"day":"days"}</small>`:"<small>None</small>";})()}</td><td>${dur(sumSec(s,d7))}</td><td><div class="spark">${d14.map(k=>{const x=(s.daily||{})[k]||{};const h=x.sec?Math.max(8,Math.round(x.sec/mx*100)):0;return `<i class="${h?"":"z"}" style="height:${h||8}%" title="${k}: ${dur(x.sec)} studied, ${x.ticks||0} items ticked, ${x.vids||0} videos done"></i>`;}).join("")}</div></td></tr>`;
   }).join("");
 }
 $("#aSearch").addEventListener("input",renderStudents);
@@ -2329,15 +2819,15 @@ async function showStudent(uid){
   const box=$("#aDetail"); box.hidden=false; box.innerHTML=`<p>Loading ${esc(s.name||"student")}…</p>`;
   box.scrollIntoView({behavior:"smooth",block:"start"});
   let st={};
-  try{const snap=await F.getDoc(F.doc(db,"progress",uid));st=snap.exists()?(snap.data().state||{}):{};}catch(e){box.innerHTML="<p>Couldn’t load this student’s progress.</p>";return;}
-  const d30=lastDays(30), daily=st._daily||s.daily||{}, mx=Math.max(1,...d30.map(k=>(daily[k]||{}).sec||0));
+  try{const snap=await F.getDoc(F.doc(db,"progress",uid));st=snap.exists()?(snap.data().state||{}):{};if(window.migrateState)st=migrateState(st);}catch(e){box.innerHTML="<p>Couldn’t load this student’s progress.</p>";return;}
+  const d30=lastDays(30), daily=st._daily?normDaily(st._daily):(s.daily||{}), mx=Math.max(1,...d30.map(k=>(daily[k]||{}).sec||0));
   const stages=tk=>STAGES[tk].map(g=>{const p=g.ids.length?Math.round(g.ids.filter(i=>st[i]).length/g.ids.length*100):0;return `<div class="ad-stage"><span>${g.n}. ${esc(g.t)}</span><span class="apct" style="--c:var(--${tk})"><span><i style="width:${p}%"></i></span>${p}%</span></div>`;}).join("");
   const v=st._v||{};
   const sum30=d30.reduce((a,k)=>a+((daily[k]||{}).sec||0),0), ticks30=d30.reduce((a,k)=>a+((daily[k]||{}).ticks||0),0), days30=d30.filter(k=>(daily[k]||{}).sec||(daily[k]||{}).ticks).length;
   box.innerHTML=`<div class="ad-head"><div><h2>${esc(s.name||"Unnamed")}</h2><p>${esc(s.email||"")}. Joined ${s.createdAt?new Date(s.createdAt).toLocaleDateString():"unknown"}, last active ${ago(s.lastActive).toLowerCase()}.</p></div><button class="btn ghost" id="aClose">Close</button></div>
-   <div class="astats card" style="margin-top:20px"><div class="vstat"><small>Watch time, 30 days</small><b>${dur(sum30)}</b></div><div class="vstat"><small>Days studied, 30 days</small><b>${days30}</b></div><div class="vstat"><small>Items ticked, 30 days</small><b>${ticks30}</b></div><div class="vstat"><small>Total watch time</small><b>${dur(st._watch)}</b></div></div>
-   <h3 class="ad-sub">Minutes watched per day, last 30 days</h3>
-   <div class="bars">${d30.map((k,i)=>{const x=daily[k]||{};const h=x.sec?Math.max(3,Math.round(x.sec/mx*100)):0;return `<div title="${k}: ${dur(x.sec)} watched, ${x.ticks||0} items ticked, ${x.vids||0} videos done"><i class="${h?"":"z"}" style="height:${h||2}%"></i>${i%5===0||i===29?`<small>${k.slice(5)}</small>`:""}</div>`;}).join("")}</div>
+   <div class="astats card" style="margin-top:20px"><div class="vstat"><small>Study time, 30 days</small><b>${dur(sum30)}</b></div><div class="vstat"><small>Days studied, 30 days</small><b>${days30}</b></div><div class="vstat"><small>Items ticked, 30 days</small><b>${ticks30}</b></div><div class="vstat"><small>Total watch time</small><b>${dur(st._watch)}</b></div></div>
+   <h3 class="ad-sub">Study minutes per day, last 30 days (videos, focus timer and practice)</h3>
+   <div class="bars">${d30.map((k,i)=>{const x=daily[k]||{};const h=x.sec?Math.max(3,Math.round(x.sec/mx*100)):0;return `<div title="${k}: ${dur(x.sec)} studied, ${x.ticks||0} items ticked, ${x.vids||0} videos done"><i class="${h?"":"z"}" style="height:${h||2}%"></i>${i%5===0||i===29?`<small>${k.slice(5)}</small>`:""}</div>`;}).join("")}</div>
    <h3 class="ad-sub">CCNA videos</h3>
    <div class="heat">${range(1,NDAYS).map(d=>{const p=(v[d]||{}).p||0,dn=st["net-v"+d];return `<i class="${dn?"d":p>=50?"p2":p>0?"p1":""}" title="Day ${d}: ${esc(DAYS[d])}, ${dn?"done":p+"% watched"}">${d}</i>`;}).join("")}</div>
    <div class="legend2"><span><i style="background:var(--sunk);box-shadow:inset 0 0 0 1px var(--line)"></i>Not started</span><span><i style="background:color-mix(in srgb,var(--net) 22%,var(--surface))"></i>Under 50%</span><span><i style="background:color-mix(in srgb,var(--net) 50%,var(--surface))"></i>50% or more</span><span><i style="background:var(--ok)"></i>Done</span></div>
@@ -2347,7 +2837,7 @@ async function showStudent(uid){
 
 /* video links editor */
 function buildLinkGrid(){
-  $("#aLinkGrid").innerHTML=range(1,NDAYS).map(d=>`<label><span><b>Day ${d}</b> ${esc(DAYS[d])}</span><input data-link="${d}" placeholder="YouTube link" value="${LINKS[d]?"https://youtu.be/"+LINKS[d]:""}"></label>`).join("");
+  $("#aLinkGrid").innerHTML=range(1,NDAYS).map(d=>`<label><span><b>Day ${d}</b> ${esc(T(d))}</span><input data-link="${d}" placeholder="YouTube link" value="${LINKS[d]?"https://youtu.be/"+LINKS[d]:""}"></label>`).join("");
   linkCount();
 }
 function linkCount(){
@@ -2365,12 +2855,829 @@ $("#aBulkApply").addEventListener("click",()=>{
   });
   linkCount(); toast(filled?`Filled ${filled} link${filled>1?"s":""}. Check them, then save.`:"No YouTube links found in the pasted text.");
 });
+let lastImport=null;
+$("#aImport").addEventListener("click",async()=>{
+  const b=$("#aImport"); b.disabled=true; $("#aLinkMsg").textContent="";
+  try{
+    const out=await discover((a,t)=>{$("#aLinkCount").textContent=`Reading playlist… ${a} of ${t} videos checked`;});
+    lastImport=out; applyFound(out,true);
+    $$("[data-link]").forEach(i=>{const d=i.dataset.link;if(out.links[d])i.value="https://youtu.be/"+out.links[d];});
+    const keep=$$("[data-link]").map(i=>i.value); buildLinkGrid(); $$("[data-link]").forEach((i,k)=>i.value=keep[k]); linkCount();
+    const n=Object.keys(out.links).length, miss=range(1,NDAYS).filter(d=>!out.links[d]);
+    $("#aLinkMsg").textContent=`Found ${n} of ${NDAYS} lecture videos and ${Object.keys(out.labs).length} labs in ${out.total} playlist videos.${miss.length?` Missing: Day ${miss.join(", ")}.`:""} Check them, then save.`;
+    videoRefresh();
+  }catch(e){$("#aLinkMsg").textContent="Couldn’t read the playlist. Check your connection or ad blocker and try again.";linkCount();}
+  b.disabled=false;
+});
 $("#aSaveLinks").addEventListener("click",async()=>{
   const links={}; $$("[data-link]").forEach(i=>{const id=ytId(i.value);if(id)links[i.dataset.link]=id;});
+  const labs=Object.assign({},LABS), titles=Object.assign({},TITLES);
   $("#aLinkMsg").textContent="Saving…";
-  try{await F.setDoc(F.doc(db,"config","videos"),{links,updatedAt:Date.now()});LINKS={};setLinks(links);$("#aLinkMsg").textContent=`Saved ${Object.keys(links).length} links for every student.`;}
+  try{await F.setDoc(F.doc(db,"config","videos"),{links,labs,titles,updatedAt:Date.now()});setShared({links,labs,titles});$("#aLinkMsg").textContent=`Saved ${Object.keys(links).length} links for every student.`;}
   catch(e){$("#aLinkMsg").textContent="Couldn’t save. Check that your admin email is in firestore.rules and verified.";}
 });
+})();
+
+</script>
+<script>
+
+/* =========================================================
+   Today, practice, focus timer, badges, search, theme
+   ========================================================= */
+(function(){
+const pad=n=>String(n).padStart(2,"0");
+const dk=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const TODAY=()=>dk(new Date());
+const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const toast=t=>{const el=$("#toast");if(!el)return;el.textContent=t;el.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove("on"),2800);};
+function day(k){state._daily=state._daily||{};k=k||TODAY();return (state._daily[k]=state._daily[k]||{sec:0,ticks:0,vids:0});}
+const studySec=x=>x?((x.sec||0)+(x.focus||0)+(x.prac||0)):0;
+const active=x=>!!x&&(studySec(x)>=60||(x.ticks||0)>0);
+const minTxt=s=>{const m=Math.round((s||0)/60);return m<60?`${m} min`:`${Math.floor(m/60)} h ${m%60} min`;};
+let saveT=null; const softSave=()=>{clearTimeout(saveT);saveT=setTimeout(save,1500);};
+
+/* ---------- theme ---------- */
+const THEMES=["auto","light","dark"];
+const ICONS={auto:'<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor"/></svg>',
+ light:'<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3.2" fill="currentColor"/><g stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M8 1v1.6M8 13.4V15M1 8h1.6M13.4 8H15M3 3l1.1 1.1M11.9 11.9L13 13M3 13l1.1-1.1M11.9 4.1L13 3"/></g></svg>',
+ dark:'<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 10.2A6 6 0 0 1 5.8 2.5a6 6 0 1 0 7.7 7.7z" fill="currentColor"/></svg>'};
+function applyTheme(t){
+  if(t==="auto")document.documentElement.removeAttribute("data-theme");else document.documentElement.setAttribute("data-theme",t);
+  const b=$("#themeBtn"); b.innerHTML=ICONS[t]; b.setAttribute("aria-label",`Theme: ${t==="auto"?"automatic":t}. Click to change`); b.title=`Theme: ${t==="auto"?"automatic":t}`;
+}
+let theme="auto"; try{theme=localStorage.getItem("dualTrack.theme")||"auto";}catch(e){}
+applyTheme(theme);
+$("#themeBtn").addEventListener("click",()=>{theme=THEMES[(THEMES.indexOf(theme)+1)%3];try{localStorage.setItem("dualTrack.theme",theme);}catch(e){}applyTheme(theme);toast(`Theme: ${theme==="auto"?"follows your device":theme}`);});
+
+/* ---------- today ---------- */
+function streaks(){
+  const D=state._daily||{}; let cur=0; const d=new Date();
+  if(!active(D[dk(d)]))d.setDate(d.getDate()-1);
+  while(active(D[dk(d)])){cur++;d.setDate(d.getDate()-1);}
+  let best=0,run=0,prev=null;
+  Object.keys(D).filter(k=>active(D[k])).sort().forEach(k=>{const t=new Date(k+"T00:00:00");run=prev&&Math.round((t-prev)/864e5)===1?run+1:1;best=Math.max(best,run);prev=t;});
+  return {cur,best:Math.max(best,cur),today:active(D[TODAY()])};
+}
+const fmtLong=d=>d.toLocaleDateString(undefined,{weekday:"long",day:"numeric",month:"long"});
+function renderToday(){
+  if(!$("#gRing"))return;
+  const t=day(), hpw=Math.max(2,+(state._hpw||15)), goal=Math.round(hpw*60/7), done=Math.round(studySec(t)/60);
+  const C=2*Math.PI*40, r=$("#gRing"); r.style.strokeDasharray=C; r.style.strokeDashoffset=C*(1-Math.min(1,goal?done/goal:0));
+  $("#todayDate").textContent=fmtLong(new Date());
+  $("#gBig").innerHTML=`${done} <small>of ${goal} min</small>`;
+  $("#gTxt").textContent=done>=goal?"Goal reached. Anything more is a bonus.":done>0?`${goal-done} min to go, based on ${hpw} hours a week.`:`Based on your plan of ${hpw} hours a week.`;
+  $("#gVid").textContent=Math.round((t.sec||0)/60);$("#gFoc").textContent=Math.round((t.focus||0)/60);$("#gPra").textContent=Math.round((t.prac||0)/60);$("#gTick").textContent=t.ticks||0;
+  const s=streaks();
+  $("#stCur").textContent=s.cur; $("#stLbl").textContent=s.cur===1?"day in a row":"days in a row";
+  $("#stTxt").textContent=s.cur===0?"Study for a minute or tick one item to start a streak.":s.today?`Best so far: ${s.best} days. Today counts.`:`Best so far: ${s.best} days. Study today to keep it going.`;
+  const now=new Date(), mon=new Date(now); mon.setDate(now.getDate()-((now.getDay()+6)%7));
+  $("#wdots").innerHTML=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].map((n,i)=>{const d=new Date(mon);d.setDate(mon.getDate()+i);const k=dk(d);return `<div><i class="${active((state._daily||{})[k])?"on":""} ${k===TODAY()?"td":""}" title="${n}: ${minTxt(studySec((state._daily||{})[k]))}"></i>${n.slice(0,2)}</div>`;}).join("");
+  // exam
+  const ex=state._exam, out=$("#exOut"); $("#exDate").value=ex||"";
+  if(ex){const days=Math.ceil((new Date(ex+"T00:00:00")-new Date(TODAY()+"T00:00:00"))/864e5);
+    out.innerHTML=days>0?`<b>${days}</b><span>${days===1?"day":"days"} to go</span><p class="tsub" style="margin-top:8px">${Math.ceil(days/7)} weeks. ${(()=>{const v=[];for(let d=1;d<=63;d++)if(!state["net-v"+d])v.push(d);return v.length?`${v.length} videos left, about ${Math.ceil(v.length/Math.max(1,Math.ceil(days/7)))} a week.`:"All videos done. Focus on practice exams.";})()}</p>`:days===0?`<b>Today</b><p class="tsub" style="margin-top:8px">Good luck. Read each question twice.</p>`:`<p class="tsub">Exam date passed. Set your next one.</p>`;}
+  else out.innerHTML=`<p class="tsub">Booking a date is one of the best ways to stop putting things off. Set it here to get a countdown and a weekly video pace.</p>`;
+  renderCal();
+}
+$("#exDate").addEventListener("change",e=>{state._exam=e.target.value||undefined;if(!state._exam)delete state._exam;save();renderToday();});
+function renderCal(){
+  const D=state._daily||{}, now=new Date(), start=new Date(now), cw=($(".cal-wrap")&&$(".cal-wrap").clientWidth)||480, weeks=Math.max(12,Math.min(53,Math.floor((cw-4)/19)));
+  start.setDate(now.getDate()-((now.getDay()+6)%7)-(weeks-1)*7);
+  let html="", total=0, days=0, lastMo=-1;
+  for(let w=0;w<weeks;w++){
+    const ws=new Date(start); ws.setDate(start.getDate()+w*7);
+    const mo=ws.getMonth(); html+=`<span class="mo">${mo!==lastMo?ws.toLocaleDateString(undefined,{month:"short"}):""}</span>`; lastMo=mo;
+    for(let i=0;i<7;i++){
+      const d=new Date(ws); d.setDate(ws.getDate()+i); const k=dk(d), x=D[k], m=studySec(x)/60;
+      if(d>now){html+=`<i class="fut"></i>`;continue;}
+      if(active(x)){days++;total+=m;}
+      const l=!active(x)?0:m<15?1:m<45?2:m<90?3:4;
+      html+=`<i class="${l?"l"+l:""} ${k===TODAY()?"td":""}" title="${d.toLocaleDateString(undefined,{day:"numeric",month:"short"})}: ${minTxt(studySec(x))}, ${(x&&x.ticks)||0} items ticked"></i>`;
+    }
+  }
+  $("#cal").innerHTML=html; const mo=Math.round(weeks/4.35); $("#heatTitle").textContent=mo>=12?"Your last 12 months":`Your last ${mo} months`;
+  $("#heatSum").textContent=days?`${days} study days, ${minTxt(total*60)} in total`:"Your study days will light up here";
+}
+
+/* ---------- badges ---------- */
+const vDoneN=()=>{let n=0;for(let d=1;d<=63;d++)if(state["net-v"+d])n++;return n;};
+const ticksN=tk=>Object.keys(state).filter(k=>k.startsWith(tk+"-")&&!k.startsWith(tk+"-v")).length;
+const stagePct=(tk,re)=>{const h=[...document.querySelectorAll(`#${tk}Route .hop`)].find(x=>re.test(x.querySelector(".hop-head h2").textContent));return h?+(h.dataset.pct||0):0;};
+const maxDay=()=>Math.max(0,...Object.values(state._daily||{}).map(studySec));
+const P=()=>state._prac||{};
+const BADGES=[
+ {id:"first",n:"First step",d:"Tick your first item",c:"var(--net)",g:"1",p:()=>[Math.min(1,ticksN("net")+ticksN("ai")),1]},
+ {id:"vid1",n:"Lights, camera",d:"Finish your first video",c:"var(--net)",g:"▶",p:()=>[Math.min(1,vDoneN()),1]},
+ {id:"sprint1",n:"Sprint 1 done",d:"Finish Days 1 to 4",c:"var(--net)",g:"S1",p:()=>[[1,2,3,4].filter(d=>state["net-v"+d]).length,4]},
+ {id:"vid20",n:"Twenty in",d:"Finish 20 CCNA videos",c:"var(--net)",g:"20",p:()=>[Math.min(20,vDoneN()),20]},
+ {id:"vid63",n:"Full course",d:"Finish all 63 videos",c:"var(--net)",g:"63",p:()=>[vDoneN(),63]},
+ {id:"st3",n:"Warming up",d:"Study 3 days in a row",c:"var(--gold)",g:"3",p:()=>[Math.min(3,streaks().best),3]},
+ {id:"st7",n:"One full week",d:"Study 7 days in a row",c:"var(--gold)",g:"7",p:()=>[Math.min(7,streaks().best),7]},
+ {id:"st30",n:"Unstoppable",d:"Study 30 days in a row",c:"var(--gold)",g:"30",p:()=>[Math.min(30,streaks().best),30]},
+ {id:"marathon",n:"Deep work day",d:"Study 2 hours in one day",c:"var(--ok)",g:"2h",p:()=>[Math.min(120,Math.round(maxDay()/60)),120]},
+ {id:"focus10",n:"Focused",d:"Complete 10 focus sessions",c:"var(--ok)",g:"F",p:()=>[Math.min(10,state._fsess||0),10]},
+ {id:"sub25",n:"Subnet solver",d:"Get 25 subnetting questions fully right",c:"var(--ok)",g:"/24",p:()=>[Math.min(25,(P().sub||{}).ok||0),25]},
+ {id:"sub10s",n:"On a roll",d:"10 subnetting questions right in a row",c:"var(--ok)",g:"10",p:()=>[Math.min(10,(P().sub||{}).best||0),10]},
+ {id:"ports",n:"Port expert",d:"Answer 30 port questions right",c:"var(--ok)",g:"443",p:()=>[Math.min(30,(P().port||{}).ok||0),30]},
+ {id:"ccna50",n:"Halfway to CCNA",d:"Reach 50% of the CCNA stage",c:"var(--net)",g:"½",p:()=>[Math.min(50,stagePct("net",/^CCNA/)),50]},
+ {id:"n8n",n:"First automation",d:"Finish the n8n stage",c:"var(--ai)",g:"n8n",p:()=>[stagePct("ai",/^No-code/),100]},
+ {id:"dual",n:"Dual tracker",d:"Reach 10% on both tracks",c:"var(--ai)",g:"2×",p:()=>{const c=tk=>{const a=[...document.querySelectorAll(`#${tk}Route input[data-id]`)];return a.length?Math.round(a.filter(x=>x.checked).length/a.length*100):0;};return [Math.min(10,c("net"),c("ai")),10];}}
+];
+let badgeInit=false;
+function renderBadges(){
+  if(!$("#badges"))return;
+  state._badges=state._badges||{}; let got=0, fresh=[];
+  const html=BADGES.map(b=>{
+    const [v,max]=b.p(); const ok=v>=max;
+    if(ok){got++; if(!state._badges[b.id]){state._badges[b.id]=Date.now(); if(badgeInit)fresh.push(b);}}
+    return `<div class="bdg card ${state._badges[b.id]?"":"lock"}" style="--c:${b.c}"><span class="bi">${esc(b.g)}</span><div><b>${esc(b.n)}</b><small>${esc(b.d)}${state._badges[b.id]?"":` (${v} of ${max})`}</small><div class="bp"><i style="width:${Math.round(v/max*100)}%"></i></div></div></div>`;
+  }).join("");
+  $("#badges").innerHTML=html;
+  $("#bCount").textContent=`${Object.keys(state._badges).length} of ${BADGES.length} earned`;
+  if(fresh.length){toast(`Badge earned: ${fresh.map(b=>b.n).join(", ")}`);softSave();}
+  badgeInit=true;
+}
+
+/* ---------- practice ---------- */
+const pr=k=>{state._prac=state._prac||{};return (state._prac[k]=state._prac[k]||{n:0,ok:0,streak:0,best:0});};
+function bump(k,ok,secs){const s=pr(k);s.n++;if(ok){s.ok++;s.streak++;s.best=Math.max(s.best,s.streak);}else s.streak=0;const t=day();t.prac=(t.prac||0)+Math.min(600,Math.max(0,Math.round(secs)));t.pq=(t.pq||0)+1;save();renderPrac();update();}
+function renderPrac(){
+  const s=pr("sub"), t=day();
+  $("#psAcc").textContent=s.n?Math.round(s.ok/s.n*100)+"%":"–";
+  $("#psBest").textContent=s.best||0;
+  $("#psToday").textContent=t.pq||0;
+  $("#psTime").textContent=minTxt(t.prac||0);
+}
+$$(".pseg button").forEach(b=>b.addEventListener("click",()=>{
+  $$(".pseg button").forEach(x=>x.setAttribute("aria-selected",x===b));
+  $$("[data-dpane]").forEach(p=>p.hidden=p.dataset.dpane!==b.dataset.drill);
+  const f=$(`[data-dpane="${b.dataset.drill}"] input`); if(f)f.focus();
+}));
+const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const ip2s=n=>[n>>>24,(n>>>16)&255,(n>>>8)&255,n&255].join(".");
+const s2ip=s=>{const m=String(s).trim().match(/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/);if(!m)return null;const o=m.slice(1).map(Number);if(o.some(x=>x>255))return null;return ((o[0]<<24)>>>0)+(o[1]<<16)+(o[2]<<8)+o[3];};
+let SQ=null;
+function newSub(){
+  const lv=$("#subLevel").value, p=lv==="easy"?rnd(24,30):lv==="mixed"?rnd(16,30):rnd(8,30);
+  const kind=lv==="hard"?rnd(0,3):rnd(0,2); let ip;
+  if(kind===0)ip=((10<<24)>>>0)+(rnd(0,255)<<16)+(rnd(0,255)<<8)+rnd(1,254);
+  else if(kind===1)ip=((172<<24)>>>0)+(rnd(16,31)<<16)+(rnd(0,255)<<8)+rnd(1,254);
+  else if(kind===2)ip=((192<<24)>>>0)+(168<<16)+(rnd(0,255)<<8)+rnd(1,254);
+  else ip=((rnd(1,223)<<24)>>>0)+(rnd(0,255)<<16)+(rnd(0,255)<<8)+rnd(1,254);
+  const mask=p===0?0:((0xFFFFFFFF<<(32-p))>>>0), net=(ip&mask)>>>0, bc=(net|(~mask>>>0))>>>0;
+  SQ={ip,p,mask,net,bc,first:net+1,last:bc-1,hosts:Math.pow(2,32-p)-2,t0:Date.now(),done:false};
+  $("#subQ").innerHTML=`${ip2s(ip)}<small> /${p}</small>`; $("#subMask").textContent=""; $("#subExp").textContent=""; $("#subRes").textContent="";
+  $$('[data-dpane="sub"] input').forEach(i=>{i.value="";i.className="";i.nextElementSibling.textContent="";i.nextElementSibling.className="ans";});
+  $("#subHint").hidden=false;
+}
+function checkSub(){
+  if(!SQ)return; if(SQ.done){newSub();return;}
+  const want={net:ip2s(SQ.net),bc:ip2s(SQ.bc),first:ip2s(SQ.first),last:ip2s(SQ.last),hosts:String(SQ.hosts)};
+  let all=true;
+  $$('[data-dpane="sub"] input').forEach(i=>{
+    const f=i.dataset.f, v=i.value.trim(); let ok;
+    if(f==="hosts")ok=v.replace(/[,\s]/g,"")===want.hosts; else {const n=s2ip(v);ok=n!==null&&ip2s(n)===want[f];}
+    i.className=ok?"ok":"bad"; const a=i.nextElementSibling; a.textContent=ok?"Correct":`Answer: ${want[f]}`; a.className="ans"+(ok?"":" bad"); if(!ok)all=false;
+  });
+  const o=SQ.p%8===0?SQ.p/8-1:Math.floor(SQ.p/8), mo=(SQ.mask>>>(24-o*8))&255, blk=256-mo, val=(SQ.ip>>>(24-o*8))&255, lo=Math.floor(val/blk)*blk;
+  $("#subExp").innerHTML=`<b>How it works:</b> /${SQ.p} is ${ip2s(SQ.mask)}. The interesting octet is octet ${o+1}, where the mask is ${mo}, so the block size is 256 − ${mo} = <b>${blk}</b>. ${val} falls in the block ${lo} to ${lo+blk-1}, which gives the network and broadcast addresses. Usable hosts are 2<sup>${32-SQ.p}</sup> − 2 = ${SQ.hosts.toLocaleString()}.`;
+  const secs=(Date.now()-SQ.t0)/1000; SQ.done=true;
+  bump("sub",all,secs);
+  const s=pr("sub"); $("#subRes").textContent=all?`All correct in ${Math.round(secs)} s. Streak ${s.streak}.`:"Not quite. Check the answers below.";
+  $("#subRes").className="dres "+(all?"ok":"bad");
+}
+$("#subCheck").addEventListener("click",checkSub);
+$("#subNext").addEventListener("click",()=>{newSub();$('[data-f="net"]').focus();});
+$("#subHint").addEventListener("click",()=>{if(SQ){$("#subMask").textContent=`Mask: ${ip2s(SQ.mask)}`;$("#subHint").hidden=true;}});
+$("#subLevel").addEventListener("change",newSub);
+
+let BQ=null;
+function newBin(){
+  let m=$("#binMode").value; if(m==="mix")m=["d2b","b2d","d2h","h2d"][rnd(0,3)];
+  const n=rnd(0,255); const b8=n.toString(2).padStart(8,"0");
+  BQ={m,n,t0:Date.now(),done:false};
+  const q={d2b:[String(n),"Convert to 8-bit binary"],b2d:[b8.slice(0,4)+" "+b8.slice(4),"Convert to decimal"],d2h:[String(n),"Convert to hexadecimal"],h2d:["0x"+n.toString(16).toUpperCase().padStart(2,"0"),"Convert to decimal"]}[m];
+  $("#binQ").textContent=q[0]; $("#binAsk").textContent=q[1]; $("#binIn").value=""; $("#binIn").className=""; $("#binAns").textContent=""; $("#binExp").textContent=""; $("#binRes").textContent="";
+}
+function checkBin(){
+  if(!BQ)return; if(BQ.done){newBin();return;}
+  const v=$("#binIn").value.trim().toLowerCase().replace(/\s|_/g,""); let ok=false, want;
+  if(BQ.m==="d2b"){want=BQ.n.toString(2).padStart(8,"0");ok=/^[01]+$/.test(v)&&parseInt(v,2)===BQ.n;}
+  else if(BQ.m==="d2h"){want=BQ.n.toString(16).toUpperCase();ok=/^(0x)?[0-9a-f]+$/.test(v)&&parseInt(v.replace(/^0x/,""),16)===BQ.n;}
+  else {want=String(BQ.n);ok=v===want;}
+  $("#binIn").className=ok?"ok":"bad"; $("#binAns").textContent=ok?"Correct":`Answer: ${want}`; $("#binAns").className="ans"+(ok?"":" bad");
+  const bits=[128,64,32,16,8,4,2,1].filter(b=>BQ.n&b);
+  $("#binExp").innerHTML=BQ.m.includes("h")?`<b>Hex:</b> ${BQ.n} = ${Math.floor(BQ.n/16)} × 16 + ${BQ.n%16}, which is ${(BQ.n>>4).toString(16).toUpperCase()}${(BQ.n&15).toString(16).toUpperCase()}.`:`<b>Bit values:</b> ${bits.length?bits.join(" + ")+" = "+BQ.n:"no bits set = 0"}.`;
+  BQ.done=true; bump("bin",ok,(Date.now()-BQ.t0)/1000);
+  const s=pr("bin"); $("#binRes").textContent=ok?`Correct. Streak ${s.streak}.`:"Not quite."; $("#binRes").className="dres "+(ok?"ok":"bad");
+}
+$("#binCheck").addEventListener("click",checkBin);
+$("#binNext").addEventListener("click",()=>{newBin();$("#binIn").focus();});
+$("#binMode").addEventListener("change",newBin);
+
+const PORTS=[["FTP data","File Transfer Protocol, data channel",[20],"TCP"],["FTP control","File Transfer Protocol, commands",[21],"TCP"],["SSH","Secure Shell, encrypted remote login",[22],"TCP"],["Telnet","Unencrypted remote login",[23],"TCP"],["SMTP","Sending email between servers",[25],"TCP"],["DNS","Domain Name System",[53],"UDP and TCP"],["DHCP server","DHCP server listens on",[67],"UDP"],["DHCP client","DHCP client listens on",[68],"UDP"],["TFTP","Trivial File Transfer Protocol",[69],"UDP"],["HTTP","Web traffic, unencrypted",[80],"TCP"],["POP3","Downloading email",[110],"TCP"],["NTP","Network Time Protocol",[123],"UDP"],["IMAP","Reading email on the server",[143],"TCP"],["SNMP","SNMP agent, polled by the manager",[161],"UDP"],["SNMP trap","SNMP traps sent to the manager",[162],"UDP"],["HTTPS","Web traffic over TLS",[443],"TCP"],["Syslog","Sending log messages",[514],"UDP"],["RDP","Windows Remote Desktop",[3389],"TCP"]];
+let PQ=null, deck=[];
+function newPort(){
+  if(!deck.length)deck=PORTS.map((_,i)=>i).sort(()=>Math.random()-.5);
+  const p=PORTS[deck.pop()]; PQ={p,t0:Date.now(),done:false};
+  $("#portQ").textContent=p[0]; $("#portAsk").textContent=p[1]; $("#portIn").value=""; $("#portIn").className=""; $("#portAns").textContent=""; $("#portExp").textContent=""; $("#portRes").textContent="";
+  $("#portLeft").textContent=`${PORTS.length-deck.length} of ${PORTS.length} in this round`;
+}
+function checkPort(){
+  if(!PQ)return; if(PQ.done){newPort();return;}
+  const v=+$("#portIn").value.trim(), ok=PQ.p[2].includes(v);
+  $("#portIn").className=ok?"ok":"bad"; $("#portAns").textContent=ok?"Correct":`Answer: ${PQ.p[2].join(" or ")}`; $("#portAns").className="ans"+(ok?"":" bad");
+  $("#portExp").innerHTML=`<b>${esc(PQ.p[0])}</b> uses ${PQ.p[3]} port ${PQ.p[2].join(" and ")}.`;
+  PQ.done=true; bump("port",ok,(Date.now()-PQ.t0)/1000);
+  const s=pr("port"); $("#portRes").textContent=ok?`Correct. Streak ${s.streak}.`:"Not quite."; $("#portRes").className="dres "+(ok?"ok":"bad");
+}
+$("#portCheck").addEventListener("click",checkPort);
+$("#portNext").addEventListener("click",()=>{newPort();$("#portIn").focus();});
+$('[data-panel="practice"]').addEventListener("keydown",e=>{
+  if(e.target.tagName!=="INPUT")return;
+  const pane=e.target.closest("[data-dpane]"); if(!pane)return; const k=pane.dataset.dpane;
+  if(e.key==="Enter"){e.preventDefault();({sub:checkSub,bin:checkBin,port:checkPort})[k]();}
+  else if((e.key==="n"||e.key==="N")&&(k==="sub"?SQ&&SQ.done:k==="bin"?BQ&&BQ.done:PQ&&PQ.done)){e.preventDefault();({sub:newSub,bin:newBin,port:newPort})[k]();const f=pane.querySelector("input");if(f)f.focus();}
+});
+newSub(); newBin(); newPort(); renderPrac();
+
+/* ---------- focus timer ---------- */
+let F={len:25*60,left:25*60,run:false,trk:"net",last:0,iv:null,acc:0};
+const mmss=s=>`${Math.floor(s/60)}:${pad(Math.floor(s%60))}`;
+function fRender(){
+  $("#fTime").textContent=mmss(F.left); $("#fBar").style.width=((F.len-F.left)/F.len*100)+"%";
+  $("#fStart").textContent=F.run?"Pause":F.left<F.len?"Resume":"Start";
+  const fab=$("#fab"); fab.classList.toggle("run",F.run||F.left<F.len);
+  $("#fabTxt").innerHTML=F.run||F.left<F.len?mmss(F.left):'Focus<span class="fl"> timer</span>';
+  const t=day(); $("#fNote").textContent=`${t.fs||0} session${t.fs===1?"":"s"} today, ${minTxt(t.focus||0)} focused`;
+  document.title=F.run?`${mmss(F.left)} focus | Dual Track`:"Dual Track: Networking and AI Automation Roadmap";
+}
+function chime(){try{const a=new (window.AudioContext||window.webkitAudioContext)();[660,880,990].forEach((f,i)=>{const o=a.createOscillator(),g=a.createGain();o.frequency.value=f;o.connect(g);g.connect(a.destination);const t=a.currentTime+i*.22;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.2,t+.02);g.gain.exponentialRampToValueAtTime(.0001,t+.5);o.start(t);o.stop(t+.55);});}catch(e){}}
+function fTick(){
+  const now=Date.now(), dt=Math.min(5,(now-F.last)/1000); F.last=now; F.left=Math.max(0,F.left-dt);
+  const t=day(); F.acc+=dt; if(F.acc>=1){const w=Math.floor(F.acc);t.focus=(t.focus||0)+w;F.acc-=w;}
+  if(F.left<=0){
+    clearInterval(F.iv);F.run=false; t.fs=(t.fs||0)+1; state._fsess=(state._fsess||0)+1;
+    chime(); toast(`Focus session done: ${Math.round(F.len/60)} min of ${F.trk==="net"?"networking":"AI automation"}. Take a 5 minute break.`);
+    F.left=F.len; save(); update();
+  } else if(Math.round(F.left)%15===0)softSave();
+  fRender(); renderToday();
+}
+$("#fStart").addEventListener("click",()=>{
+  if(F.run){F.run=false;clearInterval(F.iv);save();}
+  else{F.run=true;F.last=Date.now();F.iv=setInterval(fTick,1000);}
+  fRender();
+});
+$("#fReset").addEventListener("click",()=>{F.run=false;clearInterval(F.iv);F.left=F.len;save();fRender();});
+$("#fOpts").addEventListener("click",e=>{const b=e.target.closest("[data-min]");if(!b||F.run)return;F.len=F.left=+b.dataset.min*60;$$("#fOpts button").forEach(x=>x.setAttribute("aria-pressed",x===b));fRender();});
+$("#fTrk").addEventListener("click",e=>{const b=e.target.closest("[data-trk]");if(!b)return;F.trk=b.dataset.trk;$$("#fTrk button").forEach(x=>x.setAttribute("aria-pressed",x===b));});
+$("#fab").addEventListener("click",e=>{e.stopPropagation();const p=$("#fpanel");p.hidden=!p.hidden;$("#fab").setAttribute("aria-expanded",!p.hidden);});
+document.addEventListener("click",e=>{if(!e.target.closest("#fpanel")&&!e.target.closest("#fab"))$("#fpanel").hidden=true;});
+window.addEventListener("beforeunload",()=>{if(F.run)save();});
+fRender();
+
+/* ---------- command palette ---------- */
+let IDX=null, sel=0, res=[];
+function buildIndex(){
+  const out=[];
+  const tabs=[["plan","Plan","Today, timeline, weekly plan, skill map, badges"],["net","Networking","Network engineer track"],["ai","AI Automation","AI automation track"],["videos","Videos","CCNA video course"],["practice","Practice","Subnetting, binary and port drills"],["courses","Courses","Your study stack"]];
+  if(!$("#adminTab").hidden)tabs.push(["admin","Admin","Class progress and video links"]);
+  tabs.forEach(([v,t,s])=>out.push({type:"Page",c:"var(--ink)",t,s,go:()=>setView(v,true)}));
+  [["sub","Subnetting practice"],["bin","Binary and hex practice"],["port","Port numbers practice"]].forEach(([k,t])=>out.push({type:"Practice",c:"var(--ok)",t,s:"Practice",go:()=>{setView("practice",true);$(`.pseg [data-drill="${k}"]`).click();}}));
+  ["net","ai"].forEach(tk=>{
+    const tn=tk==="net"?"Networking":"AI automation", c=`var(--${tk})`;
+    $$(`#${tk}Route .hop`).forEach(h=>{
+      const st=h.querySelector(".hop-head h2").textContent;
+      out.push({type:"Stage",c,t:st,s:tn,go:()=>openStage(tk,h.id)});
+      $$(".items li, .crs, .sp",h).forEach(li=>{const t=li.querySelector(".item-t");if(!t)return;out.push({type:li.classList.contains("crs")?"Course":li.classList.contains("sp")?"Sprint":"Topic",c,t:t.textContent,s:`${tn}: ${st}`,go:()=>openStage(tk,h.id,li)});});
+    });
+  });
+  $$(".vrow").forEach(r=>out.push({type:"Video",c:"var(--net)",t:`Day ${r.dataset.day}: ${r.querySelector(".vtitle").textContent}`,s:"CCNA video",go:()=>{setView("videos",false);r.querySelector(".vplay").click();}}));
+  if(window.DT_extraIndex)out.push(...window.DT_extraIndex());
+  out.forEach(o=>o.k=(o.t+" "+o.s+" "+o.type).toLowerCase());
+  return out;
+}
+function cpSearch(){
+  const q=$("#cpIn").value.trim().toLowerCase(), words=q.split(/\s+/).filter(Boolean);
+  if(!IDX)IDX=buildIndex();
+  if(!words.length)res=IDX.filter(o=>o.type==="Page"||o.type==="Practice").concat(IDX.filter(o=>o.type==="Video").slice(0,0));
+  else res=IDX.filter(o=>words.every(w=>o.k.includes(w))).map(o=>({o,sc:(o.t.toLowerCase().startsWith(q)?0:o.t.toLowerCase().includes(q)?1:2)+({Page:0,Stage:.1,Video:.2,Practice:.2,Notes:.25,Topic:.3,Sprint:.3,Course:.4,Quiz:.5})[o.type]})).sort((a,b)=>a.sc-b.sc).map(x=>x.o).slice(0,40);
+  sel=0; cpRender();
+}
+function cpRender(){
+  const L=$("#cpList");
+  if(!res.length){L.innerHTML=`<li class="cp-empty">Nothing found. Try a shorter word, like “ospf” or “rag”.</li>`;return;}
+  L.innerHTML=res.map((o,i)=>`<li role="option" data-i="${i}" class="${i===sel?"on":""}" aria-selected="${i===sel}"><span class="cpt" style="--c:${o.c}">${o.type}</span><span class="cpx"><b>${esc(o.t)}</b><small>${esc(o.s)}</small></span></li>`).join("");
+  const on=L.querySelector(".on"); if(on)on.scrollIntoView({block:"nearest"});
+}
+function cpOpen(){IDX=null;$("#cp").hidden=false;$("#cpIn").value="";cpSearch();setTimeout(()=>$("#cpIn").focus(),10);}
+function cpClose(){$("#cp").hidden=true;}
+function cpGo(i){const o=res[i];if(!o)return;cpClose();o.go();}
+$("#cpOpen").addEventListener("click",cpOpen);
+$("#cpIn").addEventListener("input",cpSearch);
+$("#cpIn").addEventListener("keydown",e=>{
+  if(e.key==="ArrowDown"){e.preventDefault();sel=Math.min(res.length-1,sel+1);cpRender();}
+  else if(e.key==="ArrowUp"){e.preventDefault();sel=Math.max(0,sel-1);cpRender();}
+  else if(e.key==="Enter"){e.preventDefault();cpGo(sel);}
+  else if(e.key==="Escape"){cpClose();}
+});
+$("#cpList").addEventListener("click",e=>{const li=e.target.closest("[data-i]");if(li)cpGo(+li.dataset.i);});
+$("#cp").addEventListener("click",e=>{if(e.target.id==="cp")cpClose();});
+document.addEventListener("keydown",e=>{
+  const typing=/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)||e.target.isContentEditable;
+  if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){e.preventDefault();$("#cp").hidden?cpOpen():cpClose();}
+  else if(e.key==="/"&&!typing&&$("#cp").hidden&&!document.body.classList.contains("gated")){e.preventDefault();cpOpen();}
+  else if(e.key==="Escape"&&!$("#cp").hidden)cpClose();
+});
+
+/* ---------- hook into updates ---------- */
+const _u3=update; update=function(){_u3();renderToday();renderBadges();};
+update();
+setInterval(()=>{if(!document.hidden)renderToday();},60000);
+let rzT; window.addEventListener("resize",()=>{clearTimeout(rzT);rzT=setTimeout(renderCal,200);});
+})();
+
+</script>
+<script>
+
+/* =========================================================
+   CCNA notes: reader, links from topics/videos, search, quiz cards
+   ========================================================= */
+(function(){
+const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const pad=n=>String(n).padStart(2,"0");
+const TODAY=()=>{const d=new Date();return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;};
+const toast=t=>{const el=$("#toast");if(!el)return;el.textContent=t;el.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove("on"),2600);};
+const DC={"Network Fundamentals":"#2563eb","Network Access":"#7c3aed","IP Connectivity":"#059669","IP Services":"#ea580c","Security Fundamentals":"#dc2626","Automation & Programmability":"#0891b2"};
+const docIcon='<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h4l2.5 2.5V11H3z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M4.5 6h3M4.5 8h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>';
+
+/* ---------- loading ---------- */
+let loading=null;
+function loadNotes(){
+  if(window.CCNA_NOTES)return Promise.resolve(window.CCNA_NOTES);
+  if(loading)return loading;
+  loading=new Promise((res,rej)=>{
+    const s=document.createElement("script"); s.src="notes.js"; s.async=true;
+    s.onload=()=>window.CCNA_NOTES?res(window.CCNA_NOTES):rej(new Error("empty"));
+    s.onerror=()=>{loading=null;rej(new Error("missing"));};
+    document.head.appendChild(s);
+  });
+  return loading;
+}
+const N=d=>window.CCNA_NOTES&&window.CCNA_NOTES.days.find(x=>x.d===+d);
+const isRead=d=>!!(state._nread&&state._nread[d]);
+
+/* ---------- reader ---------- */
+let ctxDays=[], cur=0;
+let fs=1; try{fs=+(localStorage.getItem("dualTrack.nfs")||1)||1;}catch(e){}
+function applyFs(){$("#nrBody").style.setProperty("--nfs",fs);try{localStorage.setItem("dualTrack.nfs",fs);}catch(e){}}
+function openNotes(days,start,sec){
+  days=(days||[]).map(Number).filter(d=>d>=1&&d<=63);
+  if(!days.length&&start!=="cheat")days=[1];
+  ctxDays=days.length>1?days:[];
+  const nr=$("#nr"); nr.hidden=false; document.body.style.overflow="hidden";
+  $("#nrBody").innerHTML='<p class="nr-load">Loading notes…</p>';
+  loadNotes().then(()=>show(start||days[0],sec)).catch(()=>{
+    $("#nrTitle").textContent="Notes not found";
+    $("#nrBody").innerHTML='<p class="nr-load">The notes file (notes.js) isn’t on the site yet. Upload notes.js next to index.html in your GitHub repository, then reload.</p>';
+  });
+}
+function closeNotes(){$("#nr").hidden=true;if($("#pl").hidden)document.body.style.overflow="";}
+function show(d,sec){
+  const box=$(".nr-box");
+  if(d==="cheat"){
+    cur="cheat"; box.style.setProperty("--dc","var(--gold)");
+    $("#nrDom").textContent="Last-week revision"; $("#nrTitle").innerHTML="Master cheat sheet"; $("#nrLab").textContent="Everything to memorise on two pages.";
+    $("#nrDays").innerHTML=""; $("#nrToc").innerHTML=""; $("#nrActs").innerHTML="";
+    $("#nrBody").innerHTML=`<div class="nr-cheat">${window.CCNA_NOTES.cheat.map((u,i)=>`<img src="${u}" alt="Master cheat sheet, page ${i+1}">`).join("")}</div>`;
+    $("#nrPrev").disabled=false; $("#nrNext").disabled=true; $("#nrPrev").textContent="Day 63"; $("#nrNext").textContent="Next day";
+    $("#nrBody").scrollTop=0; return;
+  }
+  const n=N(d); if(!n)return; cur=n.d;
+  box.style.setProperty("--dc",DC[n.domain]||"var(--net)");
+  $("#nrDom").textContent=n.domain;
+  $("#nrTitle").innerHTML=`<small>Day ${n.d}</small>${esc(n.title)}`;
+  $("#nrLab").textContent=n.lab?`Lab: ${n.lab}`:"";
+  $("#nrDays").innerHTML=ctxDays.length?ctxDays.map(x=>`<button data-nd="${x}" aria-current="${x===n.d}" class="${isRead(x)?"rd":""}">Day ${x}</button>`).join(""):"";
+  $("#nrToc").innerHTML=n.secs.map(([id,t])=>`<button data-sec="${id}">${esc(t)}</button>`).join("");
+  const vd=state["net-v"+n.d], p=((state._v||{})[n.d]||{}).p||0;
+  $("#nrActs").innerHTML=`<button class="btn" style="--c:var(--net)" data-watch="${n.d}">${vd?"Rewatch":p?"Resume":"Watch"} Day ${n.d}</button><button class="btn ghost" id="nrRead">${isRead(n.d)?"Read ✓":"Mark as read"}</button>${window.DT_practiceActs?window.DT_practiceActs(n.d):""}`;
+  $("#nrBody").innerHTML=`<article class="notes">${n.html}</article>`;
+  const ck=state._nck||{};
+  $$("#nrBody [data-nck]").forEach(c=>c.checked=!!ck[c.dataset.nck]);
+  applyFs();
+  $("#nrPrev").disabled=n.d<=1; $("#nrNext").disabled=false;
+  $("#nrPrev").textContent=n.d>1?`Day ${n.d-1}`:"Previous day"; $("#nrNext").textContent=n.d<63?`Day ${n.d+1}`:"Cheat sheet";
+  const body=$("#nrBody"); body.scrollTop=0;
+  if(sec){const el=document.getElementById(sec);if(el)setTimeout(()=>el.scrollIntoView({block:"start"}),30);}
+}
+$("#nr").addEventListener("click",e=>{
+  if(e.target.id==="nr"){closeNotes();return;}
+  const t=e.target;
+  if(t.closest("#nrClose")){closeNotes();return;}
+  const dd=t.closest("[data-nd]"); if(dd){show(+dd.dataset.nd);return;}
+  const sc=t.closest("[data-sec]"); if(sc){const el=document.getElementById(sc.dataset.sec);if(el)el.scrollIntoView({behavior:"smooth",block:"start"});return;}
+  if(t.closest("#nrRead")){state._nread=state._nread||{};if(isRead(cur))delete state._nread[cur];else{state._nread[cur]=Date.now();toast(`Day ${cur} notes marked as read`);}save();show(cur);refreshMarks();return;}
+  const w=t.closest("[data-watch]"); if(w){closeNotes();const row=document.querySelector(`.vrow[data-day="${w.dataset.watch}"] .vplay`);if(row)row.click();return;}
+  if(t.closest("#nrPrev")){if(cur==="cheat")show(63);else if(cur>1)show(cur-1);return;}
+  if(t.closest("#nrNext")){if(cur===63)show("cheat");else if(cur!=="cheat")show(cur+1);return;}
+  if(t.closest("#nrSmall")){fs=Math.max(.85,Math.round((fs-.1)*100)/100);applyFs();return;}
+  if(t.closest("#nrBig")){fs=Math.min(1.4,Math.round((fs+.1)*100)/100);applyFs();return;}
+  const rv=t.closest(".nreveal"); if(rv){const em=rv.nextElementSibling;em.hidden=!em.hidden;rv.textContent=em.hidden?"Show answer":"Hide answer";return;}
+});
+$("#nr").addEventListener("change",e=>{const c=e.target.closest("[data-nck]");if(!c)return;state._nck=state._nck||{};if(c.checked)state._nck[c.dataset.nck]=1;else delete state._nck[c.dataset.nck];save();});
+document.addEventListener("keydown",e=>{
+  if($("#nr").hidden)return;
+  if(/INPUT|TEXTAREA|SELECT/.test(e.target.tagName))return;
+  if(e.key==="Escape"){closeNotes();e.stopPropagation();}
+  else if(e.key==="ArrowRight")$("#nrNext").click();
+  else if(e.key==="ArrowLeft")$("#nrPrev").click();
+},true);
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-notes]"); if(!b)return;
+  e.preventDefault(); e.stopPropagation();
+  const days=b.dataset.notes.split(",").filter(Boolean).map(Number);
+  openNotes(days,b.dataset.start?+b.dataset.start:days[0]);
+},true);
+
+/* ---------- links into the notes ---------- */
+// topic and sprint chip rows
+$$(".vchips").forEach(row=>{
+  const days=[...row.querySelectorAll("[data-chip]")].map(b=>b.dataset.chip);
+  if(days.length)row.insertAdjacentHTML("beforeend",`<button class="vchip nchip" data-notes="${days.join(",")}" title="Read the notes for Day ${days.join(", ")}">${docIcon}Notes</button>`);
+});
+// video rows
+$$(".vrow").forEach(r=>{
+  const d=r.dataset.day, links=r.querySelector(".vlinks");
+  if(links)links.insertAdjacentHTML("afterbegin",`<a class="vyt vnotes" href="#" data-notes="${d}" data-nr="${d}">Notes</a>`);
+});
+$$(".vlinks").forEach(v=>v.style.minWidth="182px");
+// videos page header
+$("#vContinue").insertAdjacentHTML("afterend",' <button class="btn ghost" id="vNotesAll" data-notes="'+Array.from({length:63},(_,i)=>i+1).join(",")+'">Open the notes</button> <button class="btn ghost" id="vCheat">Cheat sheet</button>');
+$("#vCheat").addEventListener("click",()=>openNotes([], "cheat"));
+// CCNA stage watch pane: a notes course row
+(()=>{
+  const list=document.querySelector('#net-s0 [data-pane="watch"] .crs-list'); if(!list)return;
+  list.insertAdjacentHTML("beforeend",`<li class="crs"><label class="item"><input type="checkbox" data-id="net-notes" aria-label="CCNA notes finished"><span class="badge" style="--c:var(--gold)" aria-hidden="true">NT</span><span><span class="item-t">CCNA study notes: Days 1–63</span><span class="crs-d">Easy-language notes for every Day: tables, IOS commands, exam traps, a lab and a quick quiz. Read each Day right after its video.</span></span></label><a class="crs-link" href="#" data-notes="${Array.from({length:63},(_,i)=>i+1).join(",")}">Open notes</a></li>`);
+})();
+// player footer
+$("#plYT").insertAdjacentHTML("beforebegin",'<a href="#" id="plNotes">Read the notes</a>');
+$("#plNotes").addEventListener("click",e=>{e.preventDefault();const t=$("#plTitle small");const d=t?+t.textContent.replace(/\D/g,""):1;openNotes([d],d);});
+function refreshMarks(){
+  $$("[data-nr]").forEach(a=>a.classList.toggle("rd",isRead(a.dataset.nr)));
+}
+refreshMarks();
+
+/* ---------- search entries ---------- */
+window.DT_extraIndex=()=>{
+  const out=[{type:"Notes",c:"var(--gold)",t:"Master cheat sheet",s:"CCNA notes, last-week revision",go:()=>openNotes([], "cheat")}];
+  if(!window.CCNA_NOTES)return out;
+  window.CCNA_NOTES.days.forEach(n=>{
+    out.push({type:"Notes",c:"var(--gold)",t:`Day ${n.d}: ${n.title}`,s:`CCNA notes, ${n.domain}`,go:()=>openNotes([n.d],n.d)});
+    n.secs.forEach(([id,t])=>out.push({type:"Notes",c:"var(--gold)",t,s:`Notes, Day ${n.d}: ${n.title}`,go:()=>openNotes([n.d],n.d,id)}));
+    (n.quiz||[]).forEach(q=>out.push({type:"Quiz",c:"var(--gold)",t:q.q,s:`Answer: ${q.a}`,go:()=>openNotes([n.d],n.d)}));
+  });
+  return out;
+};
+
+/* ---------- quiz cards (practice) ---------- */
+let cards=[], cardCur=null, t0=0;
+function deck(){
+  const scope=$("#fcScope").value;
+  return cards.filter(c=>scope==="all"||state["net-v"+c.d]);
+}
+function fcStats(){
+  const fc=state._fc||{}, all=deck(), known=all.filter(c=>(fc[c.id]||{}).b>=2).length;
+  const learning=all.filter(c=>(fc[c.id]||{}).b===1).length; $("#fcRes").textContent=all.length?`${known} of ${all.length} known${learning?`, ${learning} learning`:""}`:"";
+}
+function nextCard(){
+  const fc=state._fc||{}, all=deck();
+  $("#fcA").hidden=true; $("#fcAct").hidden=false; $("#fcGrade").hidden=true;
+  if(!all.length){cardCur=null;$("#fcFrom").textContent="";$("#fcQ").textContent="Finish a video first, or switch to All 63 days.";fcStats();return;}
+  const minB=Math.min(...all.map(c=>(fc[c.id]||{}).b||0));
+  let pool=all.filter(c=>((fc[c.id]||{}).b||0)<=minB+1&&(!cardCur||c.id!==cardCur.id));
+  if(!pool.length)pool=all;
+  pool.sort((a,b)=>(((fc[a.id]||{}).b||0)-((fc[b.id]||{}).b||0))||Math.random()-.5);
+  cardCur=pool[Math.floor(Math.random()*Math.min(pool.length,8))];
+  $("#fcFrom").textContent=`Day ${cardCur.d}: ${cardCur.title}`;
+  $("#fcQ").textContent=cardCur.q; $("#fcA").textContent=cardCur.a||"(no answer in the notes)"; t0=Date.now();
+  fcStats();
+}
+function grade(ok){
+  if(!cardCur)return;
+  state._fc=state._fc||{}; const c=state._fc[cardCur.id]=state._fc[cardCur.id]||{b:0};
+  c.b=ok?Math.min(5,(c.b||0)+1):0; c.t=Date.now();
+  state._daily=state._daily||{}; const k=TODAY(), t=state._daily[k]=state._daily[k]||{sec:0,ticks:0,vids:0};
+  t.prac=(t.prac||0)+Math.min(300,Math.round((Date.now()-t0)/1000)); t.pq=(t.pq||0)+1;
+  save(); update(); nextCard();
+}
+function reveal(){if(!cardCur)return;$("#fcA").hidden=false;$("#fcAct").hidden=true;$("#fcGrade").hidden=false;}
+$("#fcShow").addEventListener("click",reveal);
+$("#fcYes").addEventListener("click",()=>grade(true));
+$("#fcNo").addEventListener("click",()=>grade(false));
+$("#fcNotes").addEventListener("click",()=>{if(cardCur)openNotes([cardCur.d],cardCur.d);});
+$("#fcScope").addEventListener("change",nextCard);
+document.addEventListener("keydown",e=>{
+  const pane=$('[data-dpane="cards"]'); if(!pane||pane.hidden||document.body.dataset.view!=="practice")return;
+  if(/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)||!$("#nr").hidden||!$("#cp").hidden)return;
+  if(e.key===" "){e.preventDefault();if(!$("#fcA").hidden)return;reveal();}
+  else if(e.key==="1"&&!$("#fcGrade").hidden)grade(false);
+  else if(e.key==="2"&&!$("#fcGrade").hidden)grade(true);
+});
+function initCards(){
+  loadNotes().then(N=>{cards=[];N.days.forEach(n=>(n.quiz||[]).forEach((q,i)=>cards.push({id:`${n.d}-${i}`,d:n.d,title:n.title,q:q.q,a:q.a})));nextCard();})
+  .catch(()=>{$("#fcQ").textContent="Upload notes.js to your site to use quiz cards.";});
+}
+
+/* load notes quietly in the background so search and cards are ready */
+const idle=window.requestIdleCallback||(f=>setTimeout(f,1200));
+idle(()=>{loadNotes().then(()=>{initCards();}).catch(()=>{initCards();});});
+
+const _u4=update; update=function(){_u4();refreshMarks();};
+})();
+
+</script>
+<script>
+
+/* =========================================================
+   Anki decks and Packet Tracer labs: topic chips, notes reader, practice library, search
+   ========================================================= */
+(function(){
+/* [Day, title, file] from CCNA-Flashcards/ and CCNA-Labs/; file names must match exactly */
+const ANKI=[[2,"Interfaces and Cables","Day 02 Flashcards - Interfaces and Cables.apkg"],
+ [3,"TCP-IP","Day 03 Flashcards - TCP-IP.apkg"],
+ [4,"Intro to the CLI","Day 04 Flashcards - Intro to the CLI.apkg"],
+ [5,"Ethernet LAN Switching (Part 1)","Day 05 Flashcards - Ethernet LAN Switching (Part 1).apkg"],
+ [6,"Ethernet LAN Switching (Part 2)","Day 06 Flashcards - Ethernet LAN Switching (Part 2).apkg"],
+ [7,"IPv4 Addresses (Part 1)","Day 07 Flashcards - IPv4 Addresses (Part 1).apkg"],
+ [8,"IPv4 Addresses (Part 2)","Day 08 Flashcards - IPv4 Addresses (Part 2).apkg"],
+ [9,"Switch Interfaces","Day 09 Flashcards - Switch Interfaces.apkg"],
+ [10,"IPv4 Header","Day 10 Flashcards - IPv4 Header.apkg"],
+ [11,"Routing Fundamentals","Day 11 (part 1) Flashcards - Routing Fundamentals.apkg"],
+ [11,"Static Routing","Day 11 (part 2) Flashcards - Static Routing.apkg"],
+ [13,"Subnetting","Day 13 Flashcards - Subnetting.apkg"],
+ [16,"VLANs (Part 1)","Day 16 Flashcards - VLANs (Part 1).apkg"],
+ [17,"VLANs (Part 2)","Day 17 Flashcards - VLANs (Part 2).apkg"],
+ [18,"VLANs (Part 3)","Day 18 Flashcards - VLANs (Part 3).apkg"],
+ [19,"DTP & VTP","Day 19 Flashcards - DTP & VTP.apkg"],
+ [20,"STP (Part 1)","Day 20 Flashcards - STP (Part 1).apkg"],
+ [21,"STP (Part 2)","Day 21 Flashcards - STP (Part 2).apkg"],
+ [21,"PortFast","Day 21-1 Flashcards - PortFast.apkg"],
+ [21,"BPDU Guard & BPDU Filter","Day 21-2 Flashcards - BPDU Guard & BPDU Filter.apkg"],
+ [21,"Root Guard","Day 21-3 Flashcards - Root Guard.apkg"],
+ [21,"Loop Guard","Day 21-4 Flashcards - Loop Guard.apkg"],
+ [22,"Rapid STP","Day 22 Flashcards - Rapid STP.apkg"],
+ [23,"EtherChannel","Day 23 Flashcards - EtherChannel.apkg"],
+ [24,"Dynamic Routing","Day 24 Flashcards - Dynamic Routing.apkg"],
+ [25,"RIP & EIGRP","Day 25 Flashcards (1) - RIP & EIGRP.apkg"],
+ [25,"EIGRP Terms","Day 25 Flashcards (2 - Lab Video) - EIGRP Terms.apkg"],
+ [26,"OSPF (Part 1)","Day 26 Flashcards - OSPF (Part 1).apkg"],
+ [27,"OSPF (Part 2)","Day 27 Flashcards - OSPF (Part 2).apkg"],
+ [28,"OSPF (Part 3)","Day 28 Flashcards - OSPF (Part 3).apkg"],
+ [29,"FHRPs","Day 29 Flashcards - FHRPs.apkg"],
+ [30,"TCP & UDP","Day 30 Flashcards - TCP & UDP.apkg"],
+ [31,"IPv6 (Part 1)","Day 31 Flashcards - IPv6 (Part 1).apkg"],
+ [32,"IPv6 (Part 2)","Day 32 Flashcards - IPv6 (Part 2).apkg"],
+ [33,"IPv6 (Part 3)","Day 33 Flashcards - IPv6 (Part 3).apkg"],
+ [34,"Standard ACLs","Day 34 Flashcards - Standard ACLs.apkg"],
+ [35,"Extended ACLs","Day 35 Flashcards - Extended ACLs.apkg"],
+ [36,"CDP & LLDP","Day 36 Flashcards - CDP & LLDP.apkg"],
+ [37,"NTP","Day 37 Flashcards - NTP.apkg"],
+ [38,"DNS","Day 38 Flashcards - DNS.apkg"],
+ [39,"DHCP","Day 39 Flashcards - DHCP.apkg"],
+ [40,"SNMP","Day 40 Flashcards - SNMP.apkg"],
+ [41,"Syslog","Day 41 Flashcards - Syslog.apkg"],
+ [42,"SSH","Day 42 Flashcards - SSH.apkg"],
+ [43,"FTP & TFTP","Day 43 Flashcards - FTP & TFTP.apkg"],
+ [44,"NAT (Part 1)","Day 44 Flashcards - NAT (Part 1).apkg"],
+ [45,"NAT (Part 2)","Day 45 Flashcards - NAT (Part 2).apkg"],
+ [46,"QoS (Part 1)","Day 46 Flashcards - QoS (Part 1).apkg"],
+ [47,"QoS (Part 2)","Day 47 Flashcards - QoS (Part 2).apkg"],
+ [48,"Security Fundamentals","Day 48 Flashcards - Security Fundamentals.apkg"],
+ [49,"Port Security","Day 49 Flashcards - Port Security.apkg"],
+ [50,"DHCP Snooping","Day 50 Flashcards - DHCP Snooping.apkg"],
+ [51,"Dynamic ARP Inspection","Day 51 Flashcards - Dynamic ARP Inspection.apkg"],
+ [52,"LAN Architectures","Day 52  Flashcards - LAN Architectures.apkg"],
+ [53,"WAN Architectures","Day 53 Flashcards - WAN Architectures.apkg"],
+ [54,"Virtualization & Cloud","Day 54 (Part 1) Flashcards - Virtualization & Cloud.apkg"],
+ [54,"Containers","Day 54 (Part 2) Flashcards - Containers.apkg"],
+ [54,"VRF","Day 54 (Part 3) Flashcards - VRF.apkg"],
+ [55,"Wireless Fundamentals","Day 55 Flashcards - Wireless Fundamentals.apkg"],
+ [56,"Wireless Architectures","Day 56 Flashcards - Wireless Architectures.apkg"],
+ [57,"Wireless Security","Day 57 Flashcards - Wireless Security.apkg"],
+ [58,"Wireless Configuration","Day 58 Flashcards - Wireless Configuration.apkg"],
+ [59,"Network Automation","Day 59 (Part 1) Flashcards - Network Automation.apkg"],
+ [59,"AI & Machine Learning","Day 59 (Part 2) Flashcards - AI & Machine Learning.apkg"],
+ [60,"JSON, XML, & YAML","Day 60 Flashcards - JSON, XML, & YAML.apkg"],
+ [61,"REST APIs","Day 61 (Part 1) Flashcards - REST APIs.apkg"],
+ [61,"REST Authentication","Day 61 (Part 2) Flashcards - REST Authentication.apkg"],
+ [62,"SDN","Day 62 Flashcards - SDN.apkg"],
+ [63,"Ansible, Puppet, Chef","Day 63 (part 1) Flashcards - Ansible, Puppet, Chef.apkg"],
+ [63,"Terraform","Day 63 (part 2) Flashcards - Terraform.apkg"]];
+const LABF=[[1,"Packet Tracer Introduction","Day 01 Lab - Packet Tracer Introduction.pkt"],
+ [2,"Connecting Devices","Day 02 Lab - Connecting Devices.pkt"],
+ [3,"OSI Model","Day 03 Lab - OSI Model.pkt"],
+ [4,"Basic Device Security","Day 04 Lab - Basic Device Security.pkt"],
+ [6,"Ethernet LAN Switching","Day 06 Lab - Ethernet LAN Switching.pkt"],
+ [8,"IPv4 Addresses","Day 08 Lab - IPv4 Addresses.pkt"],
+ [9,"Interface Configuration","Day 09 Lab - Interface Configuration.pkt"],
+ [11,"Configuring Static Routes","Day 11 Lab - Configuring Static Routes.pkt"],
+ [11,"Troubleshooting Static Routes","Day 11 Lab - Troubleshooting Static Routes.pkt"],
+ [12,"Life of a Packet","Day 12 Lab - Life of a Packet.pkt"],
+ [15,"VLSM","Day 15 Lab - VLSM.pkt"],
+ [16,"VLANs (Part 1)","Day 16 Lab - VLANs (Part 1).pkt"],
+ [17,"VLANs (Part 2)","Day 17 Lab - VLANs (Part 2).pkt"],
+ [18,"Multilayer Switching","Day 18 Lab - Multilayer Switching.pkt"],
+ [19,"DTP & VTP","Day 19 Lab - DTP & VTP.pkt"],
+ [20,"Analyzing STP","Day 20 Lab - Analyzing STP.pkt"],
+ [21,"Configuring Spanning Tree","Day 21 Lab - Configuring Spanning Tree.pkt"],
+ [22,"Rapid STP","Day 22 Lab - Rapid STP.pkt"],
+ [23,"EtherChannel","Day 23 Lab - EtherChannel.pkt"],
+ [24,"Floating Static Routes","Day 24 Lab - Floating Static Routes.pkt"],
+ [25,"EIGRP Configuration","Day 25 Lab - EIGRP Configuration.pkt"],
+ [26,"OSPF (Part 1)","Day 26 Lab - OSPF (Part 1).pkt"],
+ [27,"OSPF (Part 2)","Day 27 Lab - OSPF (Part 2).pkt"],
+ [28,"OSPF (Part 3)","Day 28 Lab - OSPF (Part 3).pkt"],
+ [29,"HSRP Configuration","Day 29 Lab - HSRP Configuration.pkt"],
+ [31,"IPv6 Configuration (Part 1)","Day 31 Lab - IPv6 Configuration (Part 1).pkt"],
+ [32,"IPv6 Configuration (Part 2)","Day 32 Lab - IPv6 Configuration (Part 2).pkt"],
+ [33,"IPv6 Static Routes","Day 33 Lab - IPv6 Static Routes.pkt"],
+ [34,"Standard ACLs","Day 34 Lab - Standard ACLs.pkt"],
+ [35,"Extended ACLs","Day 35 Lab - Extended ACLs.pkt"],
+ [36,"CDP & LLDP","Day 36 Lab - CDP & LLDP.pkt"],
+ [37,"NTP","Day 37 Lab - NTP.pkt"],
+ [38,"DNS","Day 38 Lab - DNS.pkt"],
+ [39,"DHCP","Day 39 Lab - DHCP.pkt"],
+ [40,"SNMP","Day 40 Lab - SNMP.pkt"],
+ [41,"Syslog","Day 41 Lab - Syslog.pkt"],
+ [42,"SSH","Day 42 Lab - SSH.pkt"],
+ [43,"FTP & TFTP","Day 43 Lab - FTP & TFTP.pkt"],
+ [44,"Static NAT","Day 44 Lab - Static NAT.pkt"],
+ [45,"Dynamic NAT","Day 45 Lab - Dynamic NAT.pkt"],
+ [46,"Voice VLANs","Day 46 Lab - Voice VLANs.pkt"],
+ [47,"QoS","Day 47 Lab - QoS.pkt"],
+ [49,"Port Security","Day 49 Lab - Port Security.pkt"],
+ [50,"DHCP Snooping","Day 50 Lab - DHCP Snooping.pkt"],
+ [51,"Dynamic ARP Inspection","Day 51 Lab - Dynamic ARP Inspection.pkt"],
+ [52,"STP & HSRP Synchronization","Day 52 Lab - STP & HSRP Synchronization.pkt"],
+ [53,"GRE Tunnels","Day 53 Lab - GRE Tunnels.pkt"],
+ [58,"Wireless LANs","Day 58 Lab - Wireless LANs.pkt"]];
+const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const A=ANKI.map(([d,t,f])=>({k:"a",d,t,f,u:"CCNA-Flashcards/"+encodeURIComponent(f)}));
+const L=LABF.map(([d,t,f])=>({k:"l",d,t,f,u:"CCNA-Labs/"+encodeURIComponent(f)}));
+const byF={}; [...A,...L].forEach(x=>byF[x.f]=x);
+const files=fs=>fs.map(f=>byF[f]||console.warn("Missing practice file:",f)).filter(Boolean);
+const onDays=(list,days)=>list.filter(x=>days.includes(x.d));
+const uniq=a=>a.filter((x,i)=>a.indexOf(x)===i).sort((x,y)=>x.d-y.d||x.f.localeCompare(y.f,"en",{numeric:true}));
+const labDone=f=>!!(state._labs&&state._labs[f]);
+const ankiIcon='<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><rect x="1.5" y="3" width="7" height="7.5" rx="1.3" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M4 1.5h5.2c.7 0 1.3.6 1.3 1.3V9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>';
+const labIcon='<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><rect x="1" y="1.5" width="10" height="6.5" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M4 10.5h4M6 8v2.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>';
+const docIcon='<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h4l2.5 2.5V11H3z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M4.5 6h3M4.5 8h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>';
+
+/* CCNA topics whose best practice is more than their own Days' files */
+const AI_DECK="Day 59 (Part 2) Flashcards - AI & Machine Learning.apkg";
+const FIX=[
+  [/^VLANs, access ports, voice VLAN/,{add:["Day 46 Lab - Voice VLANs.pkt"]}],
+  [/^Management access: console, SSH/,{add:["Day 04 Lab - Basic Device Security.pkt"]}],
+  [/^Static routing IPv4 and IPv6/,{add:["Day 24 Lab - Floating Static Routes.pkt"]}],
+  [/^First-hop redundancy concept/,{add:["Day 52 Lab - STP & HSRP Synchronization.pkt"]}],
+  [/^Device password security/,{add:["Day 04 Lab - Basic Device Security.pkt"]}],
+  [/^Wireless security: WPA2/,{add:["Day 58 Lab - Wireless LANs.pkt"]}],
+  [/^Traditional vs controller-based/,{drop:[AI_DECK]}]
+];
+/* CCNA topics with no video Days of their own */
+const EXTRA=[
+  [/^Binary, decimal and hex/,{notes:[7,31],add:["Day 07 Flashcards - IPv4 Addresses (Part 1).apkg","Day 31 Flashcards - IPv6 (Part 1).apkg"]}],
+  [/^OSI 7-layer model/,{notes:[3],add:["Day 03 Flashcards - TCP-IP.apkg","Day 03 Lab - OSI Model.pkt"]}],
+  [/^Encapsulation and PDUs/,{notes:[3],add:["Day 03 Flashcards - TCP-IP.apkg","Day 03 Lab - OSI Model.pkt"]}],
+  [/^TCP vs UDP/,{notes:[30],add:["Day 30 Flashcards - TCP & UDP.apkg"]}],
+  [/^Well-known ports/,{notes:[30],add:["Day 30 Flashcards - TCP & UDP.apkg"]}],
+  [/^Install Cisco Packet Tracer/,{add:["Day 01 Lab - Packet Tracer Introduction.pkt"],all:"l"}],
+  [/^AI and machine learning in network operations/,{notes:[59],add:[AI_DECK]}],
+  [/^Use flashcards for facts/,{all:"a",only:true}],
+  [/^Complete at least 100 hours of labs/,{all:"l",only:true}]
+];
+
+/* ---------- chips ---------- */
+const SETS={}; let nSet=0;
+function addSet(k,title,items){const id="px"+(++nSet);SETS[id]={k,title,items};return id;}
+function chipInner(s){
+  if(s.k==="a")return `${ankiIcon}Anki${s.items.length>1?` <span class="pxn">${s.items.length}</span>`:""}`;
+  const n=s.items.filter(x=>labDone(x.f)).length, all=n===s.items.length;
+  return `${labIcon}${s.items.length>1?"Labs":"Lab"}${s.items.length>1?` <span class="pxn">${all?"✓":`${n}/${s.items.length}`}</span>`:all?" ✓":""}`;
+}
+function chip(k,title,items,none){
+  if(!items.length)return none?`<span class="vchip pxnone" title="${esc(none)}">${k==="a"?"No Anki deck":"No PT lab"}</span>`:"";
+  const id=addSet(k,title,items);
+  return `<button class="vchip ${k==="a"?"pxa":"pxl"}" data-px="${id}" aria-haspopup="true" aria-expanded="false" title="${k==="a"?"Anki flashcards":"Packet Tracer labs"}: ${esc(title)}">${chipInner(SETS[id])}</button>`;
+}
+const allChip=k=>`<button class="vchip ${k==="a"?"pxa":"pxl"}" data-pxall="${k}">${k==="a"?`${ankiIcon}All ${A.length} Anki decks`:`${labIcon}All ${L.length} Packet Tracer labs`}</button>`;
+const dayTxt=days=>days.length>1?`Days ${days.join(", ")}`:`Day ${days[0]}`;
+function rowChips(title,days,a,l){
+  return chip("a",title,a,days.length?`There’s no Anki deck for ${dayTxt(days)}. Use the quiz cards in the notes.`:"")
+    +chip("l",title,l,days.length?`Jeremy’s IT Lab has no Packet Tracer lab for ${dayTxt(days)}: it’s a theory topic, so revise it with the Anki deck and notes.`:"");
+}
+const hop=$$("#netRoute .hop").find(h=>/^CCNA \(200-301\)/.test((h.querySelector(".hop-head h2")||{}).textContent||""));
+if(hop)$$("li",hop).forEach(li=>{
+  const tEl=li.querySelector(".item-t"); if(!tEl||tEl.closest("li")!==li)return;
+  const title=tEl.textContent.trim(), row=[...li.children].find(c=>c.classList.contains("vchips"));
+  if(row){
+    const days=[...row.querySelectorAll("[data-chip]")].map(b=>+b.dataset.chip); if(!days.length)return;
+    let a=onDays(A,days), l=onDays(L,days);
+    const fx=(FIX.find(([re])=>re.test(title))||[])[1];
+    if(fx){const add=files(fx.add||[]), drop=fx.drop||[];a=uniq([...a,...add.filter(x=>x.k==="a")]).filter(x=>!drop.includes(x.f));l=uniq([...l,...add.filter(x=>x.k==="l")]).filter(x=>!drop.includes(x.f));}
+    row.insertAdjacentHTML("beforeend",rowChips(title,days,a,l));
+    return;
+  }
+  const ex=(EXTRA.find(([re])=>re.test(title))||[])[1]; if(!ex)return;
+  const add=files(ex.add||[]), nd=ex.notes||[];
+  let h=nd.length?`<button class="vchip nchip" data-notes="${nd.join(",")}" title="Read the notes for ${dayTxt(nd)}">${docIcon}Notes</button>`:"";
+  if(!ex.only)h+=rowChips(title,nd,add.filter(x=>x.k==="a"),add.filter(x=>x.k==="l"));
+  if(ex.all)h+=allChip(ex.all);
+  li.insertAdjacentHTML("beforeend",`<div class="vchips">${h}</div>`);
+});
+
+/* notes reader: deck and lab buttons for the open Day */
+window.DT_practiceActs=d=>{
+  const a=onDays(A,[d]), l=onDays(L,[d]), t=`Day ${d}`;
+  return (a.length?`<button class="btn ghost" style="--c:var(--anki)" data-px="${addSet("a",t,a)}" aria-haspopup="true" aria-expanded="false">Anki deck${a.length>1?`s (${a.length})`:""}</button>`:"")
+    +(l.length?`<button class="btn ghost" style="--c:var(--lab)" data-px="${addSet("l",t,l)}" aria-haspopup="true" aria-expanded="false">Packet Tracer lab${l.length>1?`s (${l.length})`:""}</button>`:"");
+};
+
+/* ---------- popover menu ---------- */
+const menu=document.createElement("div"); menu.className="pxm"; menu.hidden=true; menu.setAttribute("role","dialog"); document.body.appendChild(menu);
+let menuFor=null;
+const fileRow=x=>`<li class="pxf"><a href="${x.u}" download="${esc(x.f)}" title="Download ${esc(x.f)}"><i style="--c:var(--${x.k==="a"?"anki":"lab"})">${x.k==="a"?"APKG":"PKT"}</i><span>Day ${x.d}: ${esc(x.t)}<small>${x.k==="a"?"Anki flashcard deck":"Packet Tracer lab"}</small></span></a>${x.k==="l"?`<label><input type="checkbox" data-pxdone="${esc(x.f)}"${labDone(x.f)?" checked":""}>Done</label>`:""}</li>`;
+function openMenu(btn){
+  const s=SETS[btn.dataset.px]; if(!s)return;
+  if(menuFor===btn&&!menu.hidden){closeMenu();return;}
+  closeMenu(); menuFor=btn;
+  menu.setAttribute("aria-label",`${s.k==="a"?"Anki flashcards":"Packet Tracer labs"}: ${s.title}`);
+  menu.innerHTML=`<h4>${s.k==="a"?"Anki flashcards":"Packet Tracer labs"}: ${esc(s.title)}</h4><ul>${s.items.map(fileRow).join("")}</ul><p class="pxm-hint">${s.k==="a"
+    ?'Open the .apkg file with <a href="https://apps.ankiweb.net/" target="_blank" rel="noopener">Anki</a> (double-click it, or File &gt; Import).'
+    :"Open the .pkt file with Cisco Packet Tracer, then tick it as done."} <a href="#" data-pxall="${s.k}">See all ${s.k==="a"?"decks":"labs"}</a></p>`;
+  menu.hidden=false; btn.setAttribute("aria-expanded","true");
+  const r=btn.getBoundingClientRect(), mw=menu.offsetWidth, mh=menu.offsetHeight;
+  let top=r.bottom+6; if(top+mh>innerHeight-8&&r.top-mh-6>8)top=r.top-mh-6;
+  menu.style.top=Math.max(8,Math.min(top,innerHeight-mh-8))+"px";
+  menu.style.left=Math.max(8,Math.min(r.left,innerWidth-mw-8))+"px";
+  const f=menu.querySelector("a"); if(f)f.focus({preventScroll:true});
+}
+function closeMenu(){if(menu.hidden)return;menu.hidden=true;if(menuFor){menuFor.setAttribute("aria-expanded","false");if(menu.contains(document.activeElement))menuFor.focus({preventScroll:true});}menuFor=null;}
+document.addEventListener("click",e=>{
+  const all=e.target.closest("[data-pxall]"); if(all){e.preventDefault();e.stopPropagation();closeMenu();openLib(0);return;}
+  const b=e.target.closest("[data-px]"); if(b){e.preventDefault();e.stopPropagation();openMenu(b);return;}
+  if(!menu.contains(e.target))closeMenu();
+},true);
+window.addEventListener("keydown",e=>{if(e.key==="Escape"&&!menu.hidden){closeMenu();e.stopPropagation();}},true);
+window.addEventListener("scroll",e=>{if(!menu.hidden&&!menu.contains(e.target))closeMenu();},true);
+window.addEventListener("resize",closeMenu);
+document.addEventListener("change",e=>{
+  const c=e.target.closest("[data-pxdone]"); if(!c)return;
+  state._labs=state._labs||{};
+  if(c.checked)state._labs[c.dataset.pxdone]=Date.now(); else delete state._labs[c.dataset.pxdone];
+  save(); refresh();
+});
+
+/* ---------- practice library ---------- */
+const dayTitle=d=>{const t=document.querySelector(`.vrow[data-day="${d}"] .vtitle`);return t?t.textContent:"";};
+function renderLib(){
+  const scope=$("#pxScope").value; let shown=0;
+  $("#pxList").innerHTML=Array.from({length:63},(_,i)=>i+1).map(d=>{
+    const a=onDays(A,[d]), l=onDays(L,[d]); if(!a.length&&!l.length)return "";
+    const hide=scope==="done"?!state["net-v"+d]:scope==="todo"?!l.some(x=>!labDone(x.f)):false;
+    if(!hide)shown++;
+    return `<li data-pxday="${d}"${hide?" hidden":""}><div class="pxlib-d"><small>Day ${d}</small><b>${esc(dayTitle(d))}</b></div><ul class="pxlib-f">${[...a,...l].map(fileRow).join("")}</ul></li>`;
+  }).join("")+(shown?"":`<li class="pxlib-empty">${scope==="done"?"Watch a video first, or switch to All 63 days.":"Every lab is done. Nice work."}</li>`);
+  const done=L.filter(x=>labDone(x.f)).length;
+  $("#pxRes").textContent=`${A.length} Anki decks, ${L.length} labs, ${done} of ${L.length} labs done`;
+}
+$("#pxScope").addEventListener("change",renderLib);
+$('.pseg [data-drill="pxlib"]').addEventListener("click",renderLib);
+function openLib(d){
+  setView("practice",true);
+  if(d)$("#pxScope").value="all";
+  $('.pseg [data-drill="pxlib"]').click();
+  if(d){const r=document.querySelector(`[data-pxday="${d}"]`);if(r)setTimeout(()=>r.scrollIntoView({block:"center"}),40);}
+}
+
+function refresh(){
+  $$(".vchip[data-px]").forEach(b=>{const s=SETS[b.dataset.px];if(!s||s.k!=="l")return;b.innerHTML=chipInner(s);b.classList.toggle("done",s.items.every(x=>labDone(x.f)));});
+  $$("[data-pxdone]").forEach(c=>c.checked=labDone(c.dataset.pxdone));
+  if(!$('[data-dpane="pxlib"]').hidden)renderLib();
+}
+refresh();
+const _u5=update; update=function(){_u5();refresh();};
+
+/* ---------- search entries ---------- */
+const _ix=window.DT_extraIndex;
+window.DT_extraIndex=()=>{
+  const out=_ix?_ix():[];
+  out.push({type:"Practice",c:"var(--ok)",t:"Anki decks and Packet Tracer labs",s:`Practice: ${A.length} decks, ${L.length} labs`,go:()=>openLib(0)});
+  A.forEach(x=>out.push({type:"Anki",c:"var(--anki)",t:`Day ${x.d}: ${x.t}`,s:"Anki flashcard deck",go:()=>openLib(x.d)}));
+  L.forEach(x=>out.push({type:"Lab",c:"var(--lab)",t:`Day ${x.d}: ${x.t}`,s:"Packet Tracer lab",go:()=>openLib(x.d)}));
+  return out;
+};
 })();
 
 </script>
