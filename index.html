@@ -11,7 +11,7 @@
 :root{
   --bg:#F5F6F9; --surface:#FFFFFF; --sunk:#F0F2F6; --ink:#0F172A; --muted:#5A6377; --faint:#8790A3; --line:#E3E6ED; --rail:#E6E9F0;
   --net:#0A66C2; --ai:#C2306A; --gold:#B07D00; --ok:#12805C; --focus:#2C55E0;
-  --anki:#0E7C86; --lab:#6D45C9;
+  --anki:#0E7C86; --lab:#6D45C9; --bad:#C93838;
   --accent:var(--net);
   --shadow:0 1px 2px rgba(15,23,42,.04),0 6px 20px -12px rgba(15,23,42,.14);
   box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
@@ -21,7 +21,7 @@
   :root:not([data-theme="light"]){
     --bg:#0B111D; --surface:#121A29; --sunk:#0E1522; --ink:#E8EDF6; --muted:#9AA5BA; --faint:#6F7A90; --line:#222D42; --rail:#1C263A;
     --net:#5DADF2; --ai:#FF6E9C; --gold:#EDBE4A; --ok:#3DCF97; --focus:#8EA6FF;
-    --anki:#4CC9D4; --lab:#B39AF5;
+    --anki:#4CC9D4; --lab:#B39AF5; --bad:#FF7B7B;
     --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px -14px rgba(0,0,0,.6);
     color-scheme:dark;
   }
@@ -29,7 +29,7 @@
 :root[data-theme="dark"]{
     --bg:#0B111D; --surface:#121A29; --sunk:#0E1522; --ink:#E8EDF6; --muted:#9AA5BA; --faint:#6F7A90; --line:#222D42; --rail:#1C263A;
     --net:#5DADF2; --ai:#FF6E9C; --gold:#EDBE4A; --ok:#3DCF97; --focus:#8EA6FF;
-    --anki:#4CC9D4; --lab:#B39AF5;
+    --anki:#4CC9D4; --lab:#B39AF5; --bad:#FF7B7B;
     --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px -14px rgba(0,0,0,.6);
     color-scheme:dark;
 }
@@ -859,6 +859,247 @@ footer p{max-width:80ch;margin:0 0 8px}
 .pxlib-f .pxf{padding:4px}
 .pxlib-empty{color:var(--muted);padding:20px 0}
 @media (max-width:640px){.pxlib-how{grid-template-columns:1fr}.pxlib>li{grid-template-columns:1fr;gap:6px}}
+/* progress dashboards: student Progress page and admin class dashboard */
+body[data-view="me"]{--accent:var(--net)}
+.panel[data-panel="admin"] .wrap{max-width:1220px}
+.dsh-mini-h{font-size:13px;font-weight:650;color:var(--muted);margin:26px 0 0}
+.dsh-wk{height:84px;margin-top:22px}
+.dsh-top{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:4px}
+.dsh-top button{width:100%;display:grid;grid-template-columns:30px minmax(0,1fr) 80px auto;gap:12px;align-items:center;border:0;background:none;padding:6px 8px;margin:0 -8px;border-radius:10px;font:inherit;color:var(--ink);cursor:pointer;text-align:left}
+.dsh-top button:hover{background:var(--sunk)}
+.dsh-top .dsh-av{width:30px;height:30px;font-size:12px}
+.dsh-top .nm{font-size:14px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dsh-top b{font-size:13.5px;font-weight:650;text-align:right;font-variant-numeric:tabular-nums}
+.dsh-page{padding-bottom:96px}
+.dsh-hero{display:grid;grid-template-columns:auto minmax(0,1fr) minmax(250px,300px);gap:28px;align-items:center;padding:28px;margin-top:34px}
+.dsh-ringw{position:relative;width:150px;height:150px}
+.dsh-ring{width:100%;height:100%;display:block}
+.dsh-ring .trk{fill:none;stroke:var(--rail);stroke-width:12}
+.dsh-ring .val{fill:none;stroke:var(--net);stroke-width:12;stroke-linecap:round;transition:stroke-dashoffset .9s cubic-bezier(.2,.8,.2,1)}
+.dsh-ring-n{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
+.dsh-ring-n b{font-size:48px;font-weight:720;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.dsh-ring-n b small{font-size:20px;font-weight:650;color:var(--muted);margin-left:1px}
+.dsh-ring-n span{font-size:12.5px;color:var(--muted);font-weight:650;margin-top:3px}
+.dsh-eyebrow{display:block;font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--faint)}
+.dsh-hero-t h2{font-size:clamp(1.4rem,3vw,1.85rem);margin:6px 0 8px;letter-spacing:-.025em}
+.dsh-hero-t p{color:var(--muted);font-size:15.5px;max-width:48ch;line-height:1.55}
+.dsh-pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.dsh-pill{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:650;padding:4px 11px 4px 8px;border-radius:99px;background:color-mix(in srgb,var(--c) 13%,transparent);color:var(--ink);white-space:nowrap}
+.dsh-pill svg{color:var(--c);flex:none}
+.dsh-pill.plain{background:var(--sunk);color:var(--muted);padding-left:11px}
+.dsh-build{border-left:1px solid var(--line);padding-left:24px}
+.dsh-build h3{font-size:13px;color:var(--muted);font-weight:650;margin-bottom:10px}
+.dsh-build ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.dsh-build li{display:grid;grid-template-columns:minmax(0,1fr) 64px 44px;gap:10px;align-items:center;font-size:13.5px;cursor:default}
+.dsh-build li b{text-align:right;font-variant-numeric:tabular-nums;font-size:13.5px;font-weight:650}
+.dsh-build li b small{color:var(--faint);font-weight:600;font-size:11.5px}
+.dsh-build p{font-size:12px;color:var(--faint);margin-top:12px;line-height:1.45}
+.dsh-meter{display:block;height:6px;border-radius:99px;background:var(--rail);overflow:hidden}
+.dsh-meter i{display:block;height:100%;background:var(--net);border-radius:99px}
+.dsh-kpis{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));margin-top:16px}
+.dsh-kpis .vstat{padding:18px 20px}
+.dsh-kpis .vstat b{font-size:23px}
+.dsh-kpis .vstat b small{display:inline;font-size:14px;color:var(--faint);font-weight:650;margin-left:2px}
+.dsh-kpis .vstat em{display:block;font-style:normal;font-size:12.5px;font-weight:650;margin-top:3px;color:var(--muted)}
+.dsh-kpis .vstat em.up{color:var(--ok)}
+.dsh-kpis .vstat em.down{color:var(--bad)}
+.dsh-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:16px}
+.dsh-c{padding:24px;margin-top:16px;min-width:0}
+.dsh-grid>.dsh-c{margin-top:0}
+.dsh-ch{display:flex;justify-content:space-between;align-items:baseline;gap:6px 14px;flex-wrap:wrap}
+.dsh-ch h2{font-size:17px;letter-spacing:-.01em}
+.dsh-ch>span{font-size:13px;color:var(--muted)}
+.dsh-sub{font-size:13.5px;color:var(--muted);margin:4px 0 20px}
+.dsh-empty{color:var(--muted);font-size:14px;padding:18px 0 4px}
+/* domain bars */
+.dsh-dom{list-style:none;margin:0;padding:0;display:grid;gap:13px}
+.dsh-dom li{display:grid;grid-template-columns:minmax(0,1fr) 42px;gap:5px 12px;align-items:center;cursor:default}
+.dsh-dom-t{grid-column:1/-1;display:flex;justify-content:space-between;gap:8px;font-size:14px;font-weight:600;align-items:baseline}
+.dsh-dom-t small{color:var(--faint);font-weight:600;font-size:12px;white-space:nowrap}
+.dsh-dom-t em{font-style:normal;font-size:11px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:var(--muted);background:var(--sunk);box-shadow:inset 0 0 0 1px var(--line);border-radius:5px;padding:1px 6px;margin-left:8px}
+.dsh-bar{display:block;height:10px;background:var(--sunk);border-radius:2px;overflow:hidden}
+.dsh-bar i{display:block;height:100%;background:var(--net);border-radius:0 4px 4px 0;transition:width .7s cubic-bezier(.2,.8,.2,1)}
+.dsh-dom b{font-size:13.5px;text-align:right;font-variant-numeric:tabular-nums;font-weight:650}
+.dsh-dom li:hover .dsh-bar i{filter:brightness(1.12)}
+.dsh-callout{margin-top:18px;font-size:13.5px;color:var(--muted);padding:10px 13px;border-radius:10px;background:var(--sunk);line-height:1.5}
+.dsh-callout b{color:var(--ink)}
+/* activity heatmap */
+.dsh-heat{overflow-x:auto;padding-bottom:2px}
+.dsh-heat-g{display:grid;grid-template-columns:28px repeat(20,minmax(11px,1fr));gap:3px;min-width:300px}
+.dsh-heat-g>.dsh-heat-m{display:contents}
+.dsh-heat-m span{font-size:10.5px;color:var(--faint);white-space:nowrap;line-height:1.2;height:14px;overflow:visible}
+.dsh-heat-g>div{display:grid;grid-template-rows:repeat(7,1fr);gap:3px}
+.dsh-heat-d span{font-size:10px;color:var(--faint);line-height:1;align-self:center}
+.dsh-heat-g i,.dsh-heat-l i{display:block;aspect-ratio:1;border-radius:3px;background:var(--sunk);box-shadow:inset 0 0 0 1px var(--line)}
+.dsh-heat-g i.l1,.dsh-heat-l i.l1{background:color-mix(in srgb,var(--net) 28%,var(--surface));box-shadow:none}
+.dsh-heat-g i.l2,.dsh-heat-l i.l2{background:color-mix(in srgb,var(--net) 52%,var(--surface));box-shadow:none}
+.dsh-heat-g i.l3,.dsh-heat-l i.l3{background:color-mix(in srgb,var(--net) 76%,var(--surface));box-shadow:none}
+.dsh-heat-g i.l4,.dsh-heat-l i.l4{background:var(--net);box-shadow:none}
+.dsh-heat-g i.f{background:none;box-shadow:none}
+.dsh-heat-g i:not(.f):hover{outline:2px solid var(--ink);outline-offset:1px}
+.dsh-heat-l{display:flex;align-items:center;gap:4px;margin-top:12px;font-size:12px;color:var(--faint);flex-wrap:wrap}
+.dsh-heat-l i{width:11px;height:11px}
+.dsh-heat-l span:first-child{margin-right:2px}
+.dsh-heat-l .k{margin-left:auto}
+.dsh-facts{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:16px;font-size:13.5px;color:var(--muted)}
+.dsh-facts b{color:var(--ink);font-variant-numeric:tabular-nums}
+/* course map */
+.dsh-map{display:grid;grid-template-columns:repeat(auto-fill,minmax(46px,1fr));gap:6px}
+.dsh-day{aspect-ratio:1;border-radius:9px;background:var(--sunk);box-shadow:inset 0 0 0 1px var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;border:0;padding:0;font:inherit;color:var(--muted);cursor:default;min-width:0}
+button.dsh-day{cursor:pointer}
+button.dsh-day:hover,button.dsh-day:focus-visible{box-shadow:inset 0 0 0 2px var(--ink);outline:none}
+.dsh-day b{font-size:13.5px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1}
+.dsh-day.p1{background:color-mix(in srgb,var(--net) 20%,var(--surface));color:var(--ink);box-shadow:none}
+.dsh-day.p2{background:color-mix(in srgb,var(--net) 46%,var(--surface));color:var(--ink);box-shadow:none}
+.dsh-day.d{background:var(--ok);color:var(--surface);box-shadow:none}
+.dsh-day span{display:flex;gap:3px;height:7px}
+.dsh-dot,.dsh-day span i{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--surface);box-shadow:inset 0 0 0 1.5px var(--c)}
+.dsh-dot.on,.dsh-day span i.on{background:var(--c);box-shadow:0 0 0 1.5px var(--surface)}
+.dsh-dot.half,.dsh-day span i.half{background:linear-gradient(90deg,var(--c) 50%,var(--surface) 50%);box-shadow:inset 0 0 0 1.5px var(--c),0 0 0 1.5px var(--surface)}
+.dsh-day span i.n,.dsh-dot.n{--c:var(--gold)}
+.dsh-day span i.lb,.dsh-dot.lb{--c:var(--lab)}
+.dsh-day span i.q,.dsh-dot.q{--c:var(--anki)}
+.dsh-legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;color:var(--muted);margin-top:14px;align-items:center}
+.dsh-legend span{display:inline-flex;align-items:center;gap:6px}
+.dsh-legend .sw{width:13px;height:13px;border-radius:4px;display:inline-block}
+/* next steps */
+.dsh-steps{list-style:none;margin:0;padding:0}
+.dsh-steps li{display:grid;grid-template-columns:36px minmax(0,1fr) auto;gap:12px;align-items:center;padding:11px 0;border-top:1px solid var(--line)}
+.dsh-steps li:first-child{border-top:0;padding-top:0}
+.dsh-steps .ic{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:color-mix(in srgb,var(--c) 14%,transparent);color:var(--c)}
+.dsh-steps b{display:block;font-size:14.5px;font-weight:650;line-height:1.3}
+.dsh-steps small{display:block;color:var(--muted);font-size:13px;margin-top:2px;line-height:1.4}
+.dsh-steps .btn{padding:7px 13px;font-size:13.5px;border-radius:9px;white-space:nowrap}
+/* practice drills */
+.dsh-drills{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.dsh-drills li{display:grid;grid-template-columns:120px minmax(0,1fr) 44px;gap:12px;align-items:center;font-size:14px;cursor:default}
+.dsh-drills li span:first-child small{display:block;font-size:12px;color:var(--faint)}
+.dsh-drills li b{text-align:right;font-variant-numeric:tabular-nums;font-weight:650}
+.dsh-cards{margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}
+.dsh-cards .dsh-ch h3{font-size:14px;font-weight:650}
+.dsh-stack{display:flex;gap:2px;height:12px;margin-top:10px}
+.dsh-stack i{display:block;background:var(--c);min-width:0}
+.dsh-stack i:first-child{border-radius:3px 0 0 3px}
+.dsh-stack i:last-child{border-radius:0 3px 3px 0}
+.dsh-stack i:only-child{border-radius:3px}
+/* share and coach note */
+.dsh-share{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px 28px;align-items:center;padding:24px;margin-top:16px}
+.dsh-share h2{font-size:17px}
+.dsh-share p{color:var(--muted);font-size:14px;margin-top:4px;max-width:60ch}
+.dsh-share-b{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end}
+.dsh-name{display:grid;gap:5px;font-size:13px;font-weight:650;color:var(--muted)}
+.dsh-name input{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:9px 12px;font:inherit;font-size:14.5px;color:var(--ink);min-width:220px}
+.dsh-msg{margin-top:34px;padding:20px 22px;border-radius:16px;background:color-mix(in srgb,var(--net) 7%,var(--surface));box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--net) 28%,var(--line))}
+.dsh-msg p{margin-top:8px;white-space:pre-line;font-size:15.5px;line-height:1.6}
+.dsh-msg small{display:block;color:var(--faint);font-size:12.5px;margin-top:8px}
+.dsh-coach textarea{width:100%;min-height:96px;border:1px solid var(--line);background:var(--sunk);border-radius:12px;padding:10px 12px;font:inherit;font-size:14.5px;color:var(--ink);resize:vertical}
+.dsh-coach .row{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;margin-top:12px}
+.dsh-coach .row span{color:var(--muted);font-size:13.5px}
+/* class charts */
+.dsh-cols{display:flex;align-items:flex-end;gap:2px;height:150px;border-bottom:1px solid var(--line);position:relative;margin:22px 0 26px}
+.dsh-cols::before{content:"";position:absolute;left:0;right:0;top:0;border-top:1px solid var(--line)}
+.dsh-cols>div{flex:1;height:100%;display:flex;align-items:flex-end;justify-content:center;position:relative;min-width:0;cursor:default}
+.dsh-cols i{display:block;width:100%;max-width:24px;background:var(--net);border-radius:4px 4px 0 0}
+.dsh-cols i.z{background:var(--rail);border-radius:0;height:2px!important}
+.dsh-cols>div:hover i{filter:brightness(1.15)}
+.dsh-cols>div:hover i.z{background:var(--faint)}
+.dsh-cols small{position:absolute;top:100%;margin-top:6px;font-size:10.5px;color:var(--faint);white-space:nowrap}
+.dsh-cols em{position:absolute;left:50%;font-style:normal;font-size:10.5px;font-weight:700;color:var(--ink);white-space:nowrap;transform:translate(-50%,-4px)}
+.dsh-ymax{position:absolute;right:0;top:-18px;font-size:11px;color:var(--faint)}
+/* roster */
+.dsh-rhead{display:flex;justify-content:space-between;align-items:center;gap:12px 20px;flex-wrap:wrap;margin-top:56px}
+.dsh-rhead h2{font-size:22px}
+.dsh-roster .atools{margin-top:16px}
+.dsh-filters{display:flex;flex-wrap:wrap;gap:6px}
+.dsh-f{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:5px 12px 5px 10px;font:inherit;font-size:13.5px;font-weight:600;color:var(--muted);display:inline-flex;gap:7px;align-items:center;cursor:pointer}
+.dsh-f:hover{color:var(--ink)}
+.dsh-f[aria-pressed="true"]{color:var(--ink);background:var(--sunk);border-color:color-mix(in srgb,var(--ink) 30%,var(--line))}
+.dsh-f i{width:8px;height:8px;border-radius:50%;background:var(--c)}
+.dsh-f b{font-variant-numeric:tabular-nums;color:var(--ink);font-weight:700}
+.dsh-table{min-width:1080px}
+.dsh-table th,.dsh-table td{padding-left:12px;padding-right:12px}
+.dsh-table th:first-child,.dsh-table td:first-child{padding-left:18px}
+.dsh-table td:nth-child(n+2){white-space:nowrap}
+.dsh-who{display:flex;align-items:center;gap:12px;min-width:200px}
+.dsh-av{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:700;background:var(--sunk);color:var(--muted);box-shadow:inset 0 0 0 1px var(--line);flex:none}
+.dsh-who em{font-style:normal;font-size:11px;font-weight:700;color:var(--muted);background:var(--sunk);border-radius:5px;padding:1px 6px;margin-left:6px}
+.dsh-table td .dsh-of{color:var(--faint);font-size:12.5px;margin-left:3px;display:inline}
+.dsh-table td .dsh-sm{display:block;color:var(--faint);font-size:12px}
+.dsh-note{font-size:13px;color:var(--faint);margin-top:12px;line-height:1.5}
+/* import and setup */
+.dsh-import{padding:24px;margin-top:40px}
+.dsh-drop{display:flex;flex-direction:column;align-items:center;gap:4px;padding:28px 20px;border:1.5px dashed color-mix(in srgb,var(--ink) 22%,var(--line));border-radius:14px;color:var(--muted);cursor:pointer;text-align:center;font-size:14px;transition:background .15s,border-color .15s}
+.dsh-drop b{color:var(--ink);margin-top:6px}
+.dsh-drop:hover,.dsh-drop.over{border-color:var(--net);background:color-mix(in srgb,var(--net) 6%,var(--surface))}
+.dsh-drop input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.dsh-drop:focus-within{outline:2px solid var(--focus);outline-offset:2px}
+.dsh-files{list-style:none;padding:0;margin:14px 0 0;display:flex;flex-wrap:wrap;gap:8px}
+.dsh-files:empty{display:none}
+.dsh-files li{display:inline-flex;gap:6px;align-items:center;padding:4px 4px 4px 12px;border-radius:99px;background:var(--sunk);font-size:13px;font-weight:600}
+.dsh-files li small{color:var(--faint);font-weight:500}
+.dsh-files button{border:0;background:none;width:24px;height:24px;border-radius:50%;cursor:pointer;color:var(--muted);display:grid;place-items:center}
+.dsh-files button:hover{background:var(--line);color:var(--ink)}
+.dsh-setup{margin-top:16px;overflow:hidden}
+.dsh-setup summary{padding:20px 24px;cursor:pointer;list-style:none;display:flex;gap:14px;align-items:center}
+.dsh-setup summary::-webkit-details-marker{display:none}
+.dsh-setup summary::before{content:"";width:9px;height:9px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(-45deg);transition:transform .2s;flex:none}
+.dsh-setup details[open] summary::before{transform:rotate(45deg)}
+.dsh-setup summary small{display:block;color:var(--muted);font-size:13.5px;margin-top:2px}
+.dsh-setup ol{margin:0;padding:0 28px 24px 70px;color:var(--muted);font-size:14.5px}
+.dsh-setup li{margin:7px 0}
+.dsh-setup li b{color:var(--ink)}
+.dsh-setup a{color:var(--net)}
+.dsh-setup code{background:var(--sunk);padding:1px 6px;border-radius:5px;font-size:.88em;color:var(--ink)}
+/* student slide-over */
+.sd{position:fixed;inset:0;z-index:34;display:flex;justify-content:flex-end;background:rgba(8,12,22,.45)}
+.sd[hidden]{display:none}
+.sd-box{width:min(940px,100%);height:100%;background:var(--bg);overflow:auto;box-shadow:-20px 0 60px -30px rgba(0,0,0,.5);animation:sdIn .28s cubic-bezier(.2,.8,.2,1)}
+@keyframes sdIn{from{transform:translateX(40px);opacity:0}to{transform:none;opacity:1}}
+.sd-top{position:sticky;top:0;z-index:2;display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding:22px 30px 18px;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.sd-top h2{font-size:24px;margin-top:4px;letter-spacing:-.02em}
+.sd-top p{color:var(--muted);font-size:14px;margin-top:4px}
+.sd-body{padding:4px 30px 70px}
+.sd-body .dsh-hero{margin-top:20px}
+.sd-body .dsh-coach{margin-top:20px}
+.sd-foot{margin-top:24px;display:flex;justify-content:flex-end}
+/* tooltip and footer link */
+.dtip{position:fixed;z-index:70;max-width:290px;padding:8px 11px;border-radius:9px;background:var(--ink);color:var(--surface);font-size:12.5px;line-height:1.45;white-space:pre-line;pointer-events:none;box-shadow:0 10px 26px -12px rgba(0,0,0,.45)}
+.dtip[hidden]{display:none}
+.ft-teach a{color:var(--net);font-weight:650}
+@media (max-width:900px){
+  .dsh-hero{grid-template-columns:auto minmax(0,1fr)}
+  .dsh-build{grid-column:1/-1;border-left:0;padding-left:0;border-top:1px solid var(--line);padding-top:20px}
+  .dsh-kpis{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .dsh-kpis .vstat:nth-child(4){border-left:0}
+  .dsh-kpis .vstat:nth-child(n+4){border-top:1px solid var(--line)}
+  .dsh-grid{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  .dsh-hero{grid-template-columns:1fr;padding:22px;gap:20px}
+  .dsh-ringw{width:124px;height:124px}
+  .dsh-ring-n b{font-size:40px}
+  .dsh-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .dsh-kpis .vstat:nth-child(4){border-left:1px solid var(--line)}
+  .dsh-kpis .vstat:nth-child(odd){border-left:0}
+  .dsh-kpis .vstat:nth-child(n+3){border-top:1px solid var(--line)}
+  .dsh-kpis .vstat{padding:16px}
+  .dsh-c{padding:20px}
+  .dsh-share{grid-template-columns:1fr}
+  .dsh-name input{min-width:0;width:100%}
+  .dsh-steps li{grid-template-columns:36px minmax(0,1fr)}
+  .dsh-steps .btn{grid-column:2;justify-self:start}
+  .dsh-drills li{grid-template-columns:100px minmax(0,1fr) 40px}
+  .sd-top{padding:16px 16px 14px}
+  .sd-body{padding:4px 16px 60px}
+  .dsh-setup ol{padding:0 18px 20px 40px}
+}
+@media print{
+  .bar,footer,.fab,.fpanel,.toast,.dsh-share,.sd,.dtip,.cp,.gate,.nr,.pl{display:none!important}
+  body{background:#fff}
+  .card{box-shadow:none}
+  .thead{padding-top:0}
+  .dsh-hero,.dsh-kpis,.dsh-c{break-inside:avoid}
+}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.lanes.pre .seg{transform:none}}
 </style>
 <script src="config.js"></script>
@@ -896,6 +1137,8 @@ footer p{max-width:80ch;margin:0 0 8px}
  </div>
 </div>
 <div class="toast" id="toast" role="status"></div>
+<div class="sd" id="sd" hidden><div class="sd-box" role="dialog" aria-modal="true" aria-labelledby="sdTitle"><div class="sd-top"><div id="sdHead"></div><button class="ibtn" id="sdClose" aria-label="Close student details"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div><div class="sd-body" id="sdBody"></div></div></div>
+<div class="dtip" id="dtTip" role="tooltip" hidden></div>
 <div class="nr" id="nr" hidden role="dialog" aria-modal="true" aria-labelledby="nrTitle">
  <div class="nr-box">
   <div class="nr-head">
@@ -945,6 +1188,7 @@ footer p{max-width:80ch;margin:0 0 8px}
    <button class="tab" role="tab" data-go="videos"><svg class="ring" viewBox="0 0 20 20" aria-hidden="true"><circle class="r0" cx="10" cy="10" r="7.5"/><circle class="r1" cx="10" cy="10" r="7.5" stroke="var(--net)" data-ring="vid"/></svg>Videos</button>
    <button class="tab" role="tab" data-go="practice">Practice</button>
    <button class="tab" role="tab" data-go="courses">Courses</button>
+   <button class="tab" role="tab" data-go="me">Progress</button>
    <button class="tab" role="tab" data-go="admin" id="adminTab" hidden>Admin</button>
   </nav>
   <div class="bar-tools">
@@ -1115,19 +1359,57 @@ footer p{max-width:80ch;margin:0 0 8px}
 </section>
 
 <!-- ADMIN -->
+<section class="panel" data-panel="me" hidden>
+ <div class="wrap">
+  <header class="thead">
+   <h1>Your progress</h1>
+   <p>Everything you’ve done for CCNA in one place: how ready you are, which exam domains need work, and what to do next.</p>
+  </header>
+  <div id="meBody" class="dsh-page"></div>
+ </div>
+</section>
+
 <section class="panel" data-panel="admin" hidden>
  <div class="wrap">
   <header class="thead">
-   <h1 style="color:var(--ink)">Class progress</h1>
-   <p>Every student’s progress, daily watch time and videos, updated each time they study. Select a student for their full breakdown.</p>
+   <h1 style="color:var(--ink)">Class dashboard</h1>
+   <p id="aLead">See how every student is doing: who’s on track, who needs a push, and where the class gets stuck.</p>
    <div class="averify" id="aVerify" hidden><p>Verify your email address to unlock admin access. Open the link we emailed you, then press the button below.</p><button class="btn" id="aVerified">I’ve verified my email</button> <button class="btn ghost" id="aResend">Resend email</button></div>
-   <div class="astats card" id="aStats"></div>
   </header>
-  <div id="aBody">
-   <div class="atools"><input type="search" id="aSearch" placeholder="Search students by name or email" aria-label="Search students"><select id="aSort" aria-label="Sort students"><option value="active">Most recently active</option><option value="progress">Most progress</option><option value="name">Name</option></select><button class="tbtn" id="aRefresh">Refresh</button></div>
-   <div class="card atable-wrap"><table class="atable"><thead><tr><th>Student</th><th>Last active</th><th>Networking</th><th>AI automation</th><th>Videos</th><th>Streak</th><th>Study, 7 days</th><th>Last 14 days</th></tr></thead><tbody id="aRows"></tbody></table></div>
-   <div class="adetail card" id="aDetail" hidden></div>
-   <div class="alinks card">
+  <div id="aBody" class="dsh-page">
+   <div class="dsh-kpis card" id="aStats"></div>
+   <div class="dsh-grid">
+    <section class="card dsh-c"><div class="dsh-ch"><h2>Class study time</h2><span id="aActSum"></span></div><p class="dsh-sub">Hours studied per day by the whole class, last 30 days</p><div id="aAct"></div></section>
+    <section class="card dsh-c"><div class="dsh-ch"><h2>CCNA domain mastery</h2><span>Class average</span></div><p class="dsh-sub">Topics, videos, labs and quiz cards per exam domain</p><div id="aDom"></div></section>
+   </div>
+   <section class="card dsh-c"><div class="dsh-ch"><h2>Video course progress</h2><span id="aFunSum"></span></div><p class="dsh-sub">How many students have finished each Jeremy’s IT Lab Day</p><div id="aFunnel"></div></section>
+   <section class="dsh-roster">
+    <div class="dsh-rhead"><h2>Students</h2><div class="dsh-filters" id="aFilters" role="group" aria-label="Filter by status"></div></div>
+    <div class="atools"><input type="search" id="aSearch" placeholder="Search students by name or email" aria-label="Search students"><select id="aSort" aria-label="Sort students"><option value="active">Most recently active</option><option value="ready">Most ready</option><option value="help">Needs most help</option><option value="streak">Longest streak</option><option value="name">Name</option></select><button class="tbtn" id="aCsv">Export CSV</button><button class="tbtn" id="aRefresh">Refresh</button></div>
+    <div class="card atable-wrap"><table class="atable dsh-table"><thead><tr><th>Student</th><th>Status</th><th>CCNA readiness</th><th>Videos</th><th>Labs</th><th>Quiz cards</th><th>Streak</th><th>Study, 7 days</th><th>Last 14 days</th><th>Last active</th></tr></thead><tbody id="aRows"></tbody></table></div>
+    <p class="dsh-note" id="aStatusKey"></p>
+   </section>
+   <section class="card dsh-import" id="aImportBox">
+    <div class="dsh-ch"><h2>Student reports</h2><span id="aRepCount"></span></div>
+    <p class="dsh-sub" id="aImportLead">Students press <b>Download progress report</b> on their Progress page and send you the file. Drop the files here to add them to the dashboard. They stay in this browser only.</p>
+    <label class="dsh-drop" id="aDrop"><input type="file" id="aFiles" accept=".json,application/json" multiple><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M13 17V5M8 10l5-5 5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 17v3a2 2 0 002 2h14a2 2 0 002-2v-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><b>Drop report files here</b><span>or click to choose. Progress backups work too.</span></label>
+    <ul class="dsh-files" id="aFileList"></ul>
+   </section>
+   <section class="card dsh-setup" id="aSetup" hidden>
+    <details>
+     <summary><span><b>Turn on live student accounts</b><small>Optional, about 15 minutes, free. Students sign in and their progress appears here automatically, with no files to send.</small></span></summary>
+     <ol>
+      <li>Open the <a href="https://console.firebase.google.com/" target="_blank" rel="noopener">Firebase console</a> and add a project. The free Spark plan is enough.</li>
+      <li><b>Build › Authentication › Get started</b>, then enable <b>Email/Password</b>.</li>
+      <li>In Authentication › <b>Settings › Authorized domains</b>, add <code>qarnimalik47.github.io</code>.</li>
+      <li><b>Build › Firestore Database › Create database</b> in production mode.</li>
+      <li>In Firestore › <b>Rules</b>, paste the contents of <code>firestore.rules</code> from your repository, with your own email in place of <code>your-email@example.com</code>, then <b>Publish</b>.</li>
+      <li><b>Project settings › Your apps › Web (&lt;/&gt;)</b>, register the app and copy the <code>firebaseConfig</code> values into <code>config.js</code> as <code>firebase: { … }</code>. Put your email in <code>adminEmails</code> too, then commit.</li>
+      <li>Open the site, create an account with that email and verify it. The Admin tab appears, and every student who signs up shows up here live.</li>
+     </ol>
+    </details>
+   </section>
+   <div class="alinks card" id="aLinks" hidden>
     <h2>Video links</h2>
     <p>Paste the YouTube link for each Jeremy’s IT Lab Day once, and every student’s page uses it. Topics without a link open a YouTube search instead, which can’t be tracked. You can also paste many links at once below, one per line, either in Day order or as “Day 13 https://youtu.be/…”.</p>
     <textarea id="aBulk" placeholder="Day 1 https://youtu.be/...&#10;Day 2 https://youtu.be/..."></textarea>
@@ -1242,6 +1524,7 @@ footer p{max-width:80ch;margin:0 0 8px}
 
 <footer>
  <div class="wrap">
+  <p class="ft-teach">Teacher or mentor? <a href="#admin">Open the class dashboard</a> to see your students’ progress.</p>
   <p>Jeremy’s IT Lab Day numbers follow his original CCNA 200-301 playlist, and NetAcad module numbers follow CCNA v7 (ITN, SRWE, ENSA). If your class uses a newer version, match by topic name.</p>
   <p>Course links open a YouTube search for the playlist so they keep working if a link changes. Certification codes, tools and AI frameworks change often; check official pages before booking an exam or starting a build. Income figures vary widely by employer and country.</p>
  </div>
@@ -1930,6 +2213,9 @@ const PHASES=[
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const KEY="dualTrackRoadmap.v1"+(()=>{try{const u=window.DUAL_TRACK_CONFIG&&window.DUAL_TRACK_CONFIG.firebase&&localStorage.getItem("dualTrack.uid");return u?":"+u:""}catch(e){return ""}})();
 let state={};
+/* remember a deep link to a page that only exists after sign-in, across the sign-in reloads */
+window.DT_HASH0=location.hash;
+try{if(/^#(admin|me)$/.test(location.hash))sessionStorage.setItem("dt-hash0",location.hash);else window.DT_HASH0=sessionStorage.getItem("dt-hash0")||location.hash;}catch(e){}
 try{state=JSON.parse(localStorage.getItem(KEY)||"{}")||{}}catch(e){state={}}
 if(typeof state!=="object"||Array.isArray(state))state={};
 window.migrateState=function(st){
@@ -2248,7 +2534,7 @@ function openStage(tk,id,target){
     el.classList.remove("flash"); void el.offsetWidth; el.classList.add("flash");
   });
 }
-const VIEWS=["plan","net","ai","videos","practice","courses"];
+const VIEWS=["plan","net","ai","videos","practice","courses","me"].concat(window.DUAL_TRACK_CONFIG&&window.DUAL_TRACK_CONFIG.firebase?[]:["admin"]);
 function setView(v,top){
   if(!VIEWS.includes(v))v="plan";
   document.body.dataset.view=v;
@@ -2655,7 +2941,7 @@ if(!CFG.firebase)return;
 window.DT_CLOUD=true;
 const BASE="dualTrackRoadmap.v1", UIDK="dualTrack.uid";
 document.body.classList.add("gated"); $("#gate").hidden=false;
-let A,F,auth,db,me=null,pushT=null,isAdmin=false,signingUp=false;
+let A,F,auth,db,me=null,pushT=null,isAdmin=false,signingUp=false,synced=false;
 
 function gateMsg(t,ok){const m=$("#aMsg");m.textContent=t||"";m.classList.toggle("ok",!!ok);}
 let mode="in";
@@ -2730,6 +3016,7 @@ async function onUser(u){
   push(true);
 }
 function enter(){
+  synced=true;
   isAdmin=ADMINS.includes((me.email||"").toLowerCase());
   window.DT_ADMIN=isAdmin&&me.emailVerified;
   document.body.classList.remove("gated"); $("#gate").hidden=true;
@@ -2739,8 +3026,11 @@ function enter(){
   const r=$("#acctRole"); r.textContent=isAdmin?"Admin":"Student"; r.classList.toggle("admin",isAdmin);
   $("#adminTab").hidden=!isAdmin;
   VIEWS_EXTRA();
+  window.DT_ME={uid:me.uid,name,email:me.email,live:true};
+  document.dispatchEvent(new Event("dt:me"));
   if(isAdmin)initAdmin();
-  if(location.hash==="#admin")setView("admin",true);
+  if(location.hash==="#admin"||window.DT_HASH0==="#admin")setView("admin",true);
+  try{sessionStorage.removeItem("dt-hash0");}catch(e){}
 }
 function VIEWS_EXTRA(){if(!VIEWS.includes("admin")&&isAdmin)VIEWS.push("admin");}
 $("#acctBtn").addEventListener("click",e=>{e.stopPropagation();const m=$("#acctMenu");m.hidden=!m.hidden;$("#acctBtn").setAttribute("aria-expanded",!m.hidden);});
@@ -2751,7 +3041,8 @@ $("#signOut").addEventListener("click",async()=>{await push(true);try{localStora
 function summary(){return {net:trackCount("net"),ai:trackCount("ai"),vids:{done:range(1,NDAYS).filter(vDone).length,total:NDAYS},watchSec:state._watch||0};}
 function trimmedDaily(){const ks=Object.keys(state._daily||{}).sort().slice(-400);const o={};ks.forEach(k=>o[k]=state._daily[k]);state._daily=o;return o;}
 async function push(now){
-  if(!me)return; clearTimeout(pushT);
+  /* never push before the cloud copy has been loaded: a reload mid-sync would overwrite it with an empty state */
+  if(!me||!synced)return; clearTimeout(pushT);
   if(!now){pushT=setTimeout(()=>push(true),4000);return;}
   try{
     state._updated=Date.now(); localStorage.setItem(BASE+":"+me.uid,JSON.stringify(state));
@@ -2764,15 +3055,16 @@ window.onStateSaved=()=>push(false);
 document.addEventListener("visibilitychange",()=>{if(document.hidden&&me)push(true);});
 
 /* =========================================================
-   Admin
+   Admin: class data and coach notes for the progress dashboards
    ========================================================= */
-let students=[], adminReady=false;
-const normDaily=d=>{const o={};Object.entries(d||{}).forEach(([k,x])=>{x=x||{};o[k]=Object.assign({},x,{sec:(x.sec||0)+(x.focus||0)+(x.prac||0)});});return o;};
+let adminReady=false;
+const normDaily=d=>{const o={};Object.entries(d||{}).forEach(([k,x])=>{o[k]=Object.assign({},x||{});});return o;};
 function initAdmin(){
-  if(!me.emailVerified){$("#aVerify").hidden=false;$("#aBody").hidden=true;$("#aStats").hidden=true;return;}
-  $("#aVerify").hidden=true;$("#aBody").hidden=false;$("#aStats").hidden=false;
+  if(!me.emailVerified){$("#aVerify").hidden=false;$("#aBody").hidden=true;return;}
+  $("#aVerify").hidden=true;$("#aBody").hidden=false;$("#aLinks").hidden=false;
   if(adminReady)return; adminReady=true;
-  buildLinkGrid(); loadStudents();
+  buildLinkGrid();
+  if(window.DT_dash)window.DT_dash.loadClass();
 }
 $("#aVerified").addEventListener("click",async()=>{
   try{await me.reload();me=auth.currentUser;await me.getIdToken(true);}catch(_){}
@@ -2781,59 +3073,20 @@ $("#aVerified").addEventListener("click",async()=>{
 });
 $("#aResend").addEventListener("click",async()=>{try{await A.sendEmailVerification(me);toast("Verification email sent.");}catch(e){toast(errText(e));}});
 
-async function loadStudents(){
-  $("#aRows").innerHTML=`<tr><td colspan="8" class="aempty">Loading students…</td></tr>`;
-  try{
-    const snap=await F.getDocs(F.collection(db,"users"));
-    students=snap.docs.map(d=>{const x={id:d.id,...d.data()};x.daily=normDaily(x.daily);return x;});
-    renderStudents();
-  }catch(e){$("#aRows").innerHTML=`<tr><td colspan="8" class="aempty">Couldn’t load students. Check that firestore.rules has your admin email and that you’ve verified it.</td></tr>`;}
-}
-const lastDays=n=>{const out=[];const d=new Date();for(let i=n-1;i>=0;i--){const x=new Date(d);x.setDate(d.getDate()-i);out.push(dateKey(x));}return out;};
-const ago=t=>{if(!t)return "Never";const m=Math.round((Date.now()-t)/60000);if(m<2)return "Just now";if(m<60)return `${m} min ago`;const h=Math.round(m/60);if(h<24)return `${h} h ago`;const d=Math.round(h/24);return d===1?"Yesterday":`${d} days ago`;};
-const pc=o=>o&&o.total?Math.round(o.done/o.total*100):0;
-const stuStreak=dy=>{dy=dy||{};const act=x=>!!x&&((x.sec||0)>=60||(x.ticks||0)>0);const d=new Date();if(!act(dy[dateKey(d)]))d.setDate(d.getDate()-1);let n=0;while(act(dy[dateKey(d)])){n++;d.setDate(d.getDate()-1);}return n;};
-const pctCell=(o,c)=>`<span class="apct" style="--c:${c}"><span><i style="width:${pc(o)}%"></i></span>${pc(o)}%</span>`;
-function renderStudents(){
-  const q=$("#aSearch").value.trim().toLowerCase(), sort=$("#aSort").value, d7=lastDays(7), d14=lastDays(14), t=today();
-  const sumSec=(s,ks)=>ks.reduce((a,k)=>a+((((s.daily||{})[k]||{}).sec)||0),0);
-  const all=students;
-  const activeToday=all.filter(s=>((s.daily||{})[t]||{}).sec||((s.daily||{})[t]||{}).ticks||(s.lastActive&&dateKey(new Date(s.lastActive))===t)).length;
-  $("#aStats").innerHTML=`<div class="vstat"><small>Students</small><b>${all.length}</b></div><div class="vstat"><small>Active today</small><b>${activeToday}</b></div><div class="vstat"><small>Study time, last 7 days</small><b>${dur(all.reduce((a,s)=>a+sumSec(s,d7),0))}</b></div><div class="vstat"><small>Videos completed</small><b>${all.reduce((a,s)=>a+((((s.summary||{}).vids||{}).done)||0),0)}</b></div>`;
-  let list=all.filter(s=>!q||(s.name||"").toLowerCase().includes(q)||(s.email||"").toLowerCase().includes(q));
-  list.sort(sort==="name"?(a,b)=>(a.name||"").localeCompare(b.name||""):sort==="progress"?(a,b)=>(pc((b.summary||{}).net)+pc((b.summary||{}).ai))-(pc((a.summary||{}).net)+pc((a.summary||{}).ai)):(a,b)=>(b.lastActive||0)-(a.lastActive||0));
-  if(!list.length){$("#aRows").innerHTML=`<tr><td colspan="8" class="aempty">${all.length?"No students match that search.":"No students yet. Share your site link; students appear here after they create an account."}</td></tr>`;return;}
-  $("#aRows").innerHTML=list.map(s=>{
-    const sm=s.summary||{}, mx=Math.max(1,...d14.map(k=>((s.daily||{})[k]||{}).sec||0));
-    return `<tr data-uid="${esc(s.id)}" tabindex="0"><td><b>${esc(s.name||"Unnamed")}</b><small>${esc(s.email||"")}</small></td><td>${ago(s.lastActive)}</td><td>${pctCell(sm.net,"var(--net)")}</td><td>${pctCell(sm.ai,"var(--ai)")}</td><td>${(sm.vids||{}).done||0} of ${NDAYS}</td><td>${(()=>{const n=stuStreak(s.daily);return n?`<b style="color:var(--gold)">${n}</b><small>${n===1?"day":"days"}</small>`:"<small>None</small>";})()}</td><td>${dur(sumSec(s,d7))}</td><td><div class="spark">${d14.map(k=>{const x=(s.daily||{})[k]||{};const h=x.sec?Math.max(8,Math.round(x.sec/mx*100)):0;return `<i class="${h?"":"z"}" style="height:${h||8}%" title="${k}: ${dur(x.sec)} studied, ${x.ticks||0} items ticked, ${x.vids||0} videos done"></i>`;}).join("")}</div></td></tr>`;
-  }).join("");
-}
-$("#aSearch").addEventListener("input",renderStudents);
-$("#aSort").addEventListener("change",renderStudents);
-$("#aRefresh").addEventListener("click",loadStudents);
-$("#aRows").addEventListener("click",e=>{const tr=e.target.closest("tr[data-uid]");if(tr)showStudent(tr.dataset.uid);});
-$("#aRows").addEventListener("keydown",e=>{const tr=e.target.closest("tr[data-uid]");if(tr&&e.key==="Enter")showStudent(tr.dataset.uid);});
-
-async function showStudent(uid){
-  const s=students.find(x=>x.id===uid); if(!s)return;
-  const box=$("#aDetail"); box.hidden=false; box.innerHTML=`<p>Loading ${esc(s.name||"student")}…</p>`;
-  box.scrollIntoView({behavior:"smooth",block:"start"});
-  let st={};
-  try{const snap=await F.getDoc(F.doc(db,"progress",uid));st=snap.exists()?(snap.data().state||{}):{};if(window.migrateState)st=migrateState(st);}catch(e){box.innerHTML="<p>Couldn’t load this student’s progress.</p>";return;}
-  const d30=lastDays(30), daily=st._daily?normDaily(st._daily):(s.daily||{}), mx=Math.max(1,...d30.map(k=>(daily[k]||{}).sec||0));
-  const stages=tk=>STAGES[tk].map(g=>{const p=g.ids.length?Math.round(g.ids.filter(i=>st[i]).length/g.ids.length*100):0;return `<div class="ad-stage"><span>${g.n}. ${esc(g.t)}</span><span class="apct" style="--c:var(--${tk})"><span><i style="width:${p}%"></i></span>${p}%</span></div>`;}).join("");
-  const v=st._v||{};
-  const sum30=d30.reduce((a,k)=>a+((daily[k]||{}).sec||0),0), ticks30=d30.reduce((a,k)=>a+((daily[k]||{}).ticks||0),0), days30=d30.filter(k=>(daily[k]||{}).sec||(daily[k]||{}).ticks).length;
-  box.innerHTML=`<div class="ad-head"><div><h2>${esc(s.name||"Unnamed")}</h2><p>${esc(s.email||"")}. Joined ${s.createdAt?new Date(s.createdAt).toLocaleDateString():"unknown"}, last active ${ago(s.lastActive).toLowerCase()}.</p></div><button class="btn ghost" id="aClose">Close</button></div>
-   <div class="astats card" style="margin-top:20px"><div class="vstat"><small>Study time, 30 days</small><b>${dur(sum30)}</b></div><div class="vstat"><small>Days studied, 30 days</small><b>${days30}</b></div><div class="vstat"><small>Items ticked, 30 days</small><b>${ticks30}</b></div><div class="vstat"><small>Total watch time</small><b>${dur(st._watch)}</b></div></div>
-   <h3 class="ad-sub">Study minutes per day, last 30 days (videos, focus timer and practice)</h3>
-   <div class="bars">${d30.map((k,i)=>{const x=daily[k]||{};const h=x.sec?Math.max(3,Math.round(x.sec/mx*100)):0;return `<div title="${k}: ${dur(x.sec)} studied, ${x.ticks||0} items ticked, ${x.vids||0} videos done"><i class="${h?"":"z"}" style="height:${h||2}%"></i>${i%5===0||i===29?`<small>${k.slice(5)}</small>`:""}</div>`;}).join("")}</div>
-   <h3 class="ad-sub">CCNA videos</h3>
-   <div class="heat">${range(1,NDAYS).map(d=>{const p=(v[d]||{}).p||0,dn=st["net-v"+d];return `<i class="${dn?"d":p>=50?"p2":p>0?"p1":""}" title="Day ${d}: ${esc(DAYS[d])}, ${dn?"done":p+"% watched"}">${d}</i>`;}).join("")}</div>
-   <div class="legend2"><span><i style="background:var(--sunk);box-shadow:inset 0 0 0 1px var(--line)"></i>Not started</span><span><i style="background:color-mix(in srgb,var(--net) 22%,var(--surface))"></i>Under 50%</span><span><i style="background:color-mix(in srgb,var(--net) 50%,var(--surface))"></i>50% or more</span><span><i style="background:var(--ok)"></i>Done</span></div>
-   <div class="ad-cols"><div><h3 class="ad-sub" style="color:var(--net)">Networking stages</h3>${stages("net")}</div><div><h3 class="ad-sub" style="color:var(--ai)">AI automation stages</h3>${stages("ai")}</div></div>`;
-  $("#aClose").onclick=()=>{box.hidden=true;};
-}
+window.DT_CLASS={
+  async load(){
+    const [us,ps]=await Promise.all([F.getDocs(F.collection(db,"users")),F.getDocs(F.collection(db,"progress"))]);
+    const prog={}; ps.docs.forEach(d=>{prog[d.id]=(d.data()||{}).state||{};});
+    return us.docs.map(d=>{
+      const x=d.data()||{}; let st=prog[d.id]||{};
+      if(window.migrateState)st=migrateState(st);
+      if(!st._daily&&x.daily)st=Object.assign({},st,{_daily:normDaily(x.daily)});
+      return {id:d.id,src:"live",name:x.name||"",email:x.email||"",createdAt:x.createdAt||0,lastActive:x.lastActive||0,state:st,isMe:d.id===me.uid};
+    });
+  },
+  async loadNote(uid){const s=await F.getDoc(F.doc(db,"notes",uid||me.uid));return s.exists()?s.data():null;},
+  async saveNote(uid,text){const n={text:String(text||"").slice(0,2000),updatedAt:Date.now(),by:me.displayName||me.email.split("@")[0]};await F.setDoc(F.doc(db,"notes",uid),n);return n;}
+};
 
 /* video links editor */
 function buildLinkGrid(){
@@ -3661,6 +3914,8 @@ function openLib(d){
   if(d){const r=document.querySelector(`[data-pxday="${d}"]`);if(r)setTimeout(()=>r.scrollIntoView({block:"center"}),40);}
 }
 
+window.DT_PRACTICE={A,L,openLib};
+
 function refresh(){
   $$(".vchip[data-px]").forEach(b=>{const s=SETS[b.dataset.px];if(!s||s.k!=="l")return;b.innerHTML=chipInner(s);b.classList.toggle("done",s.items.every(x=>labDone(x.f)));});
   $$("[data-pxdone]").forEach(c=>c.checked=labDone(c.dataset.pxdone));
@@ -3678,6 +3933,438 @@ window.DT_extraIndex=()=>{
   L.forEach(x=>out.push({type:"Lab",c:"var(--lab)",t:`Day ${x.d}: ${x.t}`,s:"Packet Tracer lab",go:()=>openLib(x.d)}));
   return out;
 };
+})();
+
+</script>
+<script>
+
+/* =========================================================
+   Progress dashboards: the student Progress page and the admin class dashboard
+   ========================================================= */
+(function(){
+const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const pad=n=>String(n).padStart(2,"0");
+const dk=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const range=(a,b)=>Array.from({length:Math.max(0,b-a+1)},(_,i)=>a+i);
+const toast=t=>{const el=$("#toast");if(!el)return;el.textContent=t;el.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove("on"),2800);};
+const NDAYS=63, QPER=4, QTOTAL=NDAYS*QPER;
+const DOMS=[["Network fundamentals",20],["Network access",20],["IP connectivity",25],["IP services",10],["Security fundamentals",15],["Automation and programmability",10]];
+/* exam domain of each Day, from notes.js */
+const DAYDOM="000000000000000111111112222220000441333333333334444000114155555";
+const domOf=d=>+DAYDOM[d-1];
+const P=window.DT_PRACTICE||{A:[],L:[],openLib(){}};
+
+/* ---------- what counts, read from the roadmap ---------- */
+const ccna=$$("#netRoute .hop").find(h=>/^CCNA/.test((h.querySelector(".hop-head h2")||{}).textContent||""));
+const DOM_IDS=DOMS.map(()=>[]);
+if(ccna)$$(".sec",ccna).forEach(s=>{const m=((s.querySelector("h3")||{}).textContent||"").match(/^([1-6])\./);if(m)DOM_IDS[m[1]-1].push(...$$("input[data-id]",s).map(c=>c.dataset.id));});
+const TOPIC_IDS=DOM_IDS.flat();
+const dayTitle=d=>{const t=document.querySelector(`.vrow[data-day="${d}"] .vtitle`);return t?t.textContent:`Day ${d}`;};
+
+/* ---------- time helpers ---------- */
+const studySec=x=>x?((x.sec||0)+(x.focus||0)+(x.prac||0)):0;
+const isActive=x=>!!x&&(studySec(x)>=60||(x.ticks||0)>0);
+const keyTs=k=>{const [y,m,d]=k.split("-").map(Number);return new Date(y,m-1,d,12).getTime();};
+function lastDays(n){const out=[],t=new Date();t.setHours(12,0,0,0);for(let i=n-1;i>=0;i--){const x=new Date(t);x.setDate(t.getDate()-i);out.push(dk(x));}return out;}
+const daysSince=ts=>ts?Math.round((keyTs(dk(new Date()))-keyTs(dk(new Date(ts))))/864e5):Infinity;
+const dur=s=>{s=Math.round(s||0);if(!s)return "0 min";if(s<60)return "<1 min";const m=Math.round(s/60);return m<60?`${m} min`:`${Math.floor(m/60)} h${m%60?` ${m%60} min`:""}`;};
+const hrs=s=>{const h=(s||0)/3600;return (h>=10?Math.round(h):Math.round(h*10)/10)+" h";};
+const dayName=k=>new Date(keyTs(k)).toLocaleDateString(undefined,{weekday:"short",day:"numeric",month:"short"});
+const shortDate=ts=>new Date(ts).toLocaleDateString(undefined,{day:"numeric",month:"short",year:"numeric"});
+const agoDays=ts=>{const n=daysSince(ts);return n===Infinity?"Never":n<=0?"Today":n===1?"Yesterday":n<7?`${n} days ago`:n<14?"Last week":n<60?`${Math.round(n/7)} weeks ago`:shortDate(ts);};
+const agoTime=ts=>{if(!ts)return "never";const m=Math.round((Date.now()-ts)/60000);if(m<2)return "just now";if(m<60)return `${m} min ago`;const h=Math.round(m/60);if(h<24)return `${h} h ago`;return agoDays(ts).toLowerCase();};
+
+/* ---------- metrics from one student's saved progress ---------- */
+function metrics(st){
+  st=st||{}; const daily=st._daily||{};
+  const vDone=d=>!!st["net-v"+d];
+  const vPct=d=>vDone(d)?100:Math.min(99,Math.round((((st._v||{})[d]||{}).p)||0));
+  const videos=range(1,NDAYS).filter(vDone).length;
+  const nread=st._nread||{}, notes=range(1,NDAYS).filter(d=>nread[d]).length;
+  const labSet=st._labs||{}, labDone=x=>!!labSet[x.f], labs=P.L.filter(labDone).length;
+  const fc=st._fc||{}, cardB=(d,i)=>((fc[`${d}-${i}`]||{}).b)||0;
+  const known=d=>range(0,QPER-1).filter(i=>cardB(d,i)>=2).length;
+  let cardsKnown=0, cardsLearning=0;
+  range(1,NDAYS).forEach(d=>range(0,QPER-1).forEach(i=>{const b=cardB(d,i);if(b>=2)cardsKnown++;else if(b===1)cardsLearning++;}));
+  const prac=k=>Object.assign({n:0,ok:0,best:0},(st._prac||{})[k]);
+  const sub=prac("sub"), bin=prac("bin"), port=prac("port");
+  const topics=TOPIC_IDS.filter(i=>st[i]).length;
+  const dom=DOMS.map(([t,w],i)=>{
+    const ds=range(1,NDAYS).filter(d=>domOf(d)===i), parts=[];
+    if(DOM_IDS[i].length)parts.push(["Exam topics ticked",DOM_IDS[i].filter(x=>st[x]).length,DOM_IDS[i].length]);
+    parts.push(["Videos watched",ds.filter(vDone).length,ds.length]);
+    const lb=P.L.filter(x=>domOf(x.d)===i); if(lb.length)parts.push(["Labs done",lb.filter(labDone).length,lb.length]);
+    parts.push(["Quiz cards known",ds.reduce((a,d)=>a+known(d),0),ds.length*QPER]);
+    return {t,w,i,parts,pct:Math.round(parts.reduce((a,p)=>a+p[1]/p[2],0)/parts.length*100)};
+  });
+  const k30=lastDays(30), k7=k30.slice(-7), kp=k30.slice(-14,-7), sum=ks=>ks.reduce((a,k)=>a+studySec(daily[k]),0);
+  const act=Object.keys(daily).filter(k=>/^\d{4}-\d\d-\d\d$/.test(k)&&isActive(daily[k])).sort();
+  let streak=0;{const d=new Date();if(!isActive(daily[dk(d)]))d.setDate(d.getDate()-1);while(isActive(daily[dk(d)])){streak++;d.setDate(d.getDate()-1);}}
+  let best=0,run=0,prev=null; act.forEach(k=>{const t=keyTs(k);run=prev!==null&&Math.round((t-prev)/864e5)===1?run+1:1;best=Math.max(best,run);prev=t;});
+  const R=[
+    ["Videos watched",35,videos/NDAYS,`${videos} of ${NDAYS} videos`],
+    ["Labs done",20,P.L.length?labs/P.L.length:0,`${labs} of ${P.L.length} labs`],
+    ["Exam topics ticked",15,TOPIC_IDS.length?topics/TOPIC_IDS.length:0,`${topics} of ${TOPIC_IDS.length} topics`],
+    ["Quiz cards known",15,cardsKnown/QTOTAL,`${cardsKnown} of ${QTOTAL} cards`],
+    ["Subnetting accuracy",10,sub.n>=10?sub.ok/sub.n:0,sub.n>=10?`${Math.round(sub.ok/sub.n*100)}% over ${sub.n} questions`:`counts after 10 questions (${sub.n} so far)`],
+    ["Notes read",5,notes/NDAYS,`${notes} of ${NDAYS} Days`]];
+  const readiness=Math.round(R.reduce((a,r)=>a+r[1]*r[2],0));
+  return {daily,vDone,vPct,videos,notes,nread,labs,labDone,known,cardsKnown,cardsLearning,sub,bin,port,topics,dom,R,readiness,
+    next:range(1,NDAYS).find(d=>!vDone(d))||0,
+    s7:sum(k7),sp7:sum(kp),s30:sum(k30),days30:k30.filter(k=>isActive(daily[k])).length,
+    streak,best,act,lastDay:act.length?keyTs(act[act.length-1]):0,total:act.reduce((a,k)=>a+studySec(daily[k]),0),
+    any:!!(videos||labs||topics||cardsKnown||notes||act.length||sub.n)};
+}
+/* status rules, shown to the admin under the roster */
+const STATUS={ok:["On track","var(--ok)"],push:["Needs a push","var(--gold)"],idle:["Inactive","var(--bad)"],new:["Not started","var(--faint)"]};
+const STATUS_KEY="On track: studied 2 h or more in the last 7 days, most recently within 3 days. Needs a push: studied in the last week, but less than that. Inactive: no study for more than 7 days. CCNA readiness tracks course work, not a guaranteed exam result.";
+function statusOf(m){if(!m.any)return "new";const n=daysSince(m.lastDay);if(n>7)return "idle";if(n<=3&&m.s7>=7200)return "ok";return "push";}
+
+/* ---------- small pieces ---------- */
+const svg=(p,w=12)=>`<svg width="${w}" height="${w}" viewBox="0 0 12 12" aria-hidden="true">${p}</svg>`;
+const IC={
+  ok:svg('<path d="M2.5 6.3l2.3 2.3 4.7-5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>'),
+  push:svg('<circle cx="6" cy="6" r="4.6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M6 3.5V6l1.8 1.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>'),
+  idle:svg('<path d="M4.2 3v6M7.8 3v6" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>'),
+  new:svg('<circle cx="6" cy="6" r="4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2.2 2"/>'),
+  fire:svg('<path d="M6 1c.5 2.1-1.9 2.9-1.9 5.2A1.9 1.9 0 006 8.2a1.9 1.9 0 001.9-1.8c0-.8-.4-1.4-.4-1.4 1 .5 1.9 1.6 1.9 3A3.4 3.4 0 016 11.3 3.4 3.4 0 012.6 8C2.6 4.7 6 3.6 6 1z" fill="currentColor"/>'),
+  play:svg('<path d="M4 2.6v6.8L9.6 6z" fill="currentColor"/>',14),
+  lab:svg('<rect x="1" y="1.7" width="10" height="6.6" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M4 10.6h4M6 8.3v2.3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>',14),
+  notes:svg('<path d="M3 1h4l2.5 2.5V11H3z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M4.5 6h3M4.5 8h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>',14),
+  cards:svg('<rect x="1.5" y="3" width="7" height="7.5" rx="1.3" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M4 1.5h5.2c.7 0 1.3.6 1.3 1.3V9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>',14),
+  sub:svg('<path d="M1.5 4h9M1.5 8h9M4 1.5v9M8 1.5v9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>',14)
+};
+const pill=s=>`<span class="dsh-pill" style="--c:${STATUS[s][1]}">${IC[s]}${STATUS[s][0]}</span>`;
+const meter=v=>`<span class="dsh-meter"><i style="width:${Math.max(0,Math.min(100,v*100))}%"></i></span>`;
+const initials=n=>(String(n||"?").trim().split(/\s+/).map(w=>w[0]).join("").slice(0,2)||"?").toUpperCase();
+function ring(p){
+  const r=56,c=2*Math.PI*r;
+  return `<div class="dsh-ringw" data-tip="CCNA readiness: ${p}%\nBuilt from videos, labs, exam topics, quiz cards, subnetting accuracy and notes."><svg class="dsh-ring" viewBox="0 0 140 140" role="img" aria-label="CCNA readiness ${p} percent"><circle cx="70" cy="70" r="${r}" class="trk"/>${p>0?`<circle cx="70" cy="70" r="${r}" class="val" stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${(c*(1-p/100)).toFixed(1)}" transform="rotate(-90 70 70)"/>`:""}</svg><div class="dsh-ring-n"><b>${p}<small>%</small></b><span>CCNA ready</span></div></div>`;
+}
+function verdict(p){return p<10?"Just getting started. A short session every day builds the habit.":p<30?"Early days. Keep the daily rhythm and the score climbs fast.":p<55?"Good momentum. Keep pairing each video with its lab.":p<75?"Past halfway. Start mixing in timed practice.":p<90?"Nearly there. Time to take full practice exams.":"Exam-ready on course work. Book practice exams, then the real one.";}
+function delta(now,prev){
+  if(!now&&!prev)return `<em>No study in either week</em>`;
+  if(!prev)return `<em class="up">New this week</em>`;
+  const ch=Math.round((now-prev)/prev*100);
+  return ch===0?`<em>Same as last week</em>`:`<em class="${ch>0?"up":"down"}">${ch>0?"▲":"▼"} ${Math.abs(ch)}% vs last week</em>`;
+}
+
+/* ---------- charts ---------- */
+function domBars(dom,{avg,range:rg}={}){
+  const any=dom.some(d=>d.pct>0), weak=any?[...dom].sort((a,b)=>a.pct-b.pct||b.w-a.w)[0]:null;
+  return `<ul class="dsh-dom">${dom.map(d=>`<li data-tip="${esc(d.t)}: ${d.pct}%${avg?" class average":""}\n${(d.parts||[]).map(p=>`${p[0]}: ${p[1]} of ${p[2]}`).join("\n")}${rg?`\nLowest ${rg[d.i][0]}%, highest ${rg[d.i][1]}%`:""}"><div class="dsh-dom-t"><span>${esc(d.t)}${weak&&d===weak?"<em>Focus</em>":""}</span><small>${d.w}% of exam</small></div><span class="dsh-bar"><i style="width:${d.pct}%"></i></span><b>${d.pct}%</b></li>`).join("")}</ul>${weak?`<p class="dsh-callout">${avg?"The class is weakest in":"Weakest domain:"} <b>${esc(weak.t)}</b> at ${weak.pct}%. It’s ${weak.w}% of the exam${avg?", so it’s a good topic for a group session.":", so it’s worth extra quiz cards and labs."}</p>`:""}`;
+}
+function heat(daily){
+  const today=new Date(); today.setHours(12,0,0,0);
+  const start=new Date(today); start.setDate(today.getDate()-((today.getDay()+6)%7)-7*19);
+  let months="<span></span>", cols="", lastM=-1;
+  for(let w=0;w<20;w++){
+    const wk=new Date(start); wk.setDate(start.getDate()+w*7);
+    months+=`<span>${wk.getMonth()!==lastM?wk.toLocaleDateString(undefined,{month:"short"}):""}</span>`; lastM=wk.getMonth();
+    let cells="";
+    for(let i=0;i<7;i++){
+      const d=new Date(wk); d.setDate(wk.getDate()+i);
+      if(d>today){cells+='<i class="f"></i>';continue;}
+      const k=dk(d), x=daily[k], s=studySec(x), lv=!isActive(x)&&!s?0:s<900?1:s<2700?2:s<5400?3:4;
+      cells+=`<i class="l${lv}" data-tip="${dayName(k)}\n${s?dur(s)+" studied":"No study"}${x&&x.ticks?`\n${x.ticks} item${x.ticks>1?"s":""} ticked`:""}${x&&x.vids?`\n${x.vids} video${x.vids>1?"s":""} finished`:""}"></i>`;
+    }
+    cols+=`<div>${cells}</div>`;
+  }
+  return `<div class="dsh-heat"><div class="dsh-heat-g"><div class="dsh-heat-m">${months}</div><div class="dsh-heat-d"><span>Mon</span><span></span><span>Wed</span><span></span><span>Fri</span><span></span><span></span></div>${cols}</div></div><div class="dsh-heat-l"><span>Less</span>${[0,1,2,3,4].map(l=>`<i class="l${l}"></i>`).join("")}<span>More</span><span class="k">Steps: 15 min, 45 min, 1.5 h</span></div>`;
+}
+function weekly(daily){
+  const t=new Date(); t.setHours(12,0,0,0);
+  const mon=new Date(t); mon.setDate(t.getDate()-((t.getDay()+6)%7));
+  const wk=range(0,7).map(w=>{const s=new Date(mon);s.setDate(mon.getDate()-7*(7-w));let sec=0,n=0;for(let i=0;i<7;i++){const d=new Date(s);d.setDate(s.getDate()+i);const x=daily[dk(d)];sec+=studySec(x);if(isActive(x))n++;}return {s,sec,n};});
+  const mx=Math.max(...wk.map(w=>w.sec));
+  if(!mx)return "";
+  return `<h3 class="dsh-mini-h">Hours per week</h3><div class="dsh-cols dsh-wk"><span class="dsh-ymax">${hrs(mx)}</span>${wk.map((w,i)=>`<div data-tip="${i===7?"This week":"Week of "+w.s.toLocaleDateString(undefined,{day:"numeric",month:"short"})}\n${dur(w.sec)} studied on ${w.n} day${w.n===1?"":"s"}"><i class="${w.sec?"":"z"}" style="height:${w.sec?Math.max(3,w.sec/mx*100):0}%"></i><small>${i===7?"This wk":w.s.toLocaleDateString(undefined,{day:"numeric",month:"short"})}</small></div>`).join("")}</div>`;
+}
+function courseMap(m,click){
+  return `<div class="dsh-map">${range(1,NDAYS).map(d=>{
+    const p=m.vPct(d), dn=m.vDone(d), labs=P.L.filter(x=>x.d===d), ld=labs.filter(m.labDone).length, kn=m.known(d);
+    const tip=`Day ${d}: ${dayTitle(d)}\nVideo: ${dn?"done":p?p+"% watched":"not started"}\nNotes: ${m.nread[d]?"read":"not read yet"}\n${labs.length?`Lab: ${ld} of ${labs.length} done`:"No Packet Tracer lab for this Day"}\nQuiz cards: ${kn} of ${QPER} known${click?"\nClick to watch":""}`;
+    const tag=click?"button":"div";
+    return `<${tag} class="dsh-day ${dn?"d":p>=50?"p2":p>0?"p1":""}"${click?` data-play="${d}" aria-label="${esc(`Day ${d}: ${dayTitle(d)}`)}"`:""} data-tip="${esc(tip)}"><b>${d}</b><span><i class="n${m.nread[d]?" on":""}"></i>${labs.length?`<i class="lb${ld===labs.length?" on":ld?" half":""}"></i>`:""}<i class="q${kn===QPER?" on":kn?" half":""}"></i></span></${tag}>`;
+  }).join("")}</div>
+  <div class="dsh-legend"><span><i class="sw" style="background:var(--sunk);box-shadow:inset 0 0 0 1px var(--line)"></i>Not started</span><span><i class="sw" style="background:color-mix(in srgb,var(--net) 20%,var(--surface))"></i>Under 50%</span><span><i class="sw" style="background:color-mix(in srgb,var(--net) 46%,var(--surface))"></i>50% or more</span><span><i class="sw" style="background:var(--ok)"></i>Video done</span><span><i class="dsh-dot n on"></i>Notes read</span><span><i class="dsh-dot lb on"></i>Lab done</span><span><i class="dsh-dot q on"></i>All 4 quiz cards known</span><span><i class="dsh-dot q half"></i>Some</span></div>`;
+}
+function steps(m,self){
+  const out=[], todayOn=isActive(m.daily[dk(new Date())]);
+  if(m.streak&&!todayOn)out.push({c:"var(--gold)",ic:"fire",t:`Study today to keep your ${m.streak}-day streak`,s:"Even 15 minutes counts."});
+  if(m.next){const p=m.vPct(m.next);out.push({c:"var(--net)",ic:"play",t:`${p?"Finish":"Watch"} Day ${m.next}: ${dayTitle(m.next)}`,s:p?`${p}% watched so far.`:"The next video in the course.",a:`data-play="${m.next}"`,b:p?"Resume":"Watch"});}
+  const lab=P.L.find(x=>m.vDone(x.d)&&!m.labDone(x));
+  if(lab)out.push({c:"var(--lab)",ic:"lab",t:`Do the Day ${lab.d} lab: ${lab.t}`,s:`Day ${lab.d}’s video is done, so this lab is ready.`,a:`data-dsh-lab="${lab.d}"`,b:"Open lab"});
+  const unread=range(1,NDAYS).find(d=>m.vDone(d)&&!m.nread[d]);
+  if(unread)out.push({c:"var(--gold)",ic:"notes",t:`Read the Day ${unread} notes`,s:"A 10-minute read locks in what you watched.",a:`data-notes="${unread}"`,b:"Read"});
+  if(m.any){const w=[...m.dom].sort((a,b)=>a.pct-b.pct||b.w-a.w)[0];out.push({c:"var(--anki)",ic:"cards",t:`Strengthen ${w.t.toLowerCase()}`,s:`The weakest domain at ${w.pct}%, and ${w.w}% of the exam.`,a:'data-dsh-go="cards"',b:"Quiz cards"});}
+  if(m.sub.n<10)out.push({c:"var(--ok)",ic:"sub",t:"Answer 10 subnetting questions",s:`Unlocks the subnetting part of the readiness score (${m.sub.n} of 10 so far).`,a:'data-dsh-go="sub"',b:"Practice"});
+  else if(m.sub.ok/m.sub.n<.85)out.push({c:"var(--ok)",ic:"sub",t:"Push subnetting accuracy past 85%",s:`Currently ${Math.round(m.sub.ok/m.sub.n*100)}% over ${m.sub.n} questions.`,a:'data-dsh-go="sub"',b:"Practice"});
+  if(!out.length)return `<p class="dsh-empty">Nothing waiting. Every video is watched, so it’s time for timed practice exams.</p>`;
+  return `<ul class="dsh-steps">${out.slice(0,5).map(x=>`<li><span class="ic" style="--c:${x.c}">${IC[x.ic].replace(/width="12" height="12"/,'width="15" height="15"')}</span><span><b>${esc(x.t)}</b><small>${esc(x.s)}</small></span>${self&&x.a?`<button class="btn ghost" ${x.a}>${x.b}</button>`:""}</li>`).join("")}</ul>`;
+}
+function drills(m){
+  const row=(t,o)=>{const a=o.n?o.ok/o.n:null;return `<li data-tip="${t}: ${o.n?`${o.ok} of ${o.n} correct, best streak ${o.best||0}`:"not tried yet"}"><span>${t}<small>${o.n} answered</small></span>${meter(a||0)}<b>${a===null?"–":Math.round(a*100)+"%"}</b></li>`;};
+  const nw=QTOTAL-m.cardsKnown-m.cardsLearning, seg=(n,c,t)=>n?`<i style="flex:${n};--c:${c}" data-tip="${t}: ${n} cards"></i>`:"";
+  return `<ul class="dsh-drills">${row("Subnetting",m.sub)}${row("Binary and hex",m.bin)}${row("Port numbers",m.port)}</ul>
+  <div class="dsh-cards"><div class="dsh-ch"><h3>Quiz cards</h3><span>${m.cardsKnown} of ${QTOTAL} known</span></div><div class="dsh-stack" role="img" aria-label="${m.cardsKnown} known, ${m.cardsLearning} learning, ${nw} not yet known">${seg(m.cardsKnown,"var(--ok)","Known")}${seg(m.cardsLearning,"var(--gold)","Learning")}${seg(nw,"var(--rail)","Not yet known")}</div>
+  <div class="dsh-legend"><span><i class="sw" style="background:var(--ok)"></i>Known ${m.cardsKnown}</span><span><i class="sw" style="background:var(--gold)"></i>Learning ${m.cardsLearning}</span><span><i class="sw" style="background:var(--rail)"></i>Not yet ${nw}</span></div></div>`;
+}
+
+/* ---------- one student's dashboard (their own page, or the admin slide-over) ---------- */
+function dash(m,who,self){
+  const hour=new Date().getHours(), hi=hour<12?"Good morning":hour<18?"Good afternoon":"Good evening";
+  const title=self?(who.name?`${hi}, ${who.name.split(/\s+/)[0]}`:"Your CCNA progress"):(who.name||"Unnamed student");
+  return `<div class="dsh-hero card">
+    ${ring(m.readiness)}
+    <div class="dsh-hero-t"><span class="dsh-eyebrow">CCNA readiness</span><h2>${esc(title)}</h2>
+      <p>${m.videos} of ${NDAYS} videos watched, ${m.labs} of ${P.L.length} labs done and ${m.cardsKnown} of ${QTOTAL} quiz cards known. ${verdict(m.readiness)}</p>
+      <div class="dsh-pills">${pill(statusOf(m))}${m.streak?`<span class="dsh-pill" style="--c:var(--gold)">${IC.fire}${m.streak}-day streak</span>`:""}<span class="dsh-pill plain">${m.lastDay?`Last studied ${agoDays(m.lastDay).toLowerCase()}`:"No study logged yet"}</span></div></div>
+    <div class="dsh-build"><h3>How the score is built</h3><ul>${m.R.map(([k,w,v,t])=>`<li data-tip="${esc(k)}: ${esc(t)}\nWorth ${w} of 100 points"><span>${k}</span>${meter(v)}<b>${Math.round(w*v)}<small>/${w}</small></b></li>`).join("")}</ul><p>Tracks course work, not a guaranteed exam result.</p></div>
+  </div>
+  <div class="dsh-kpis card">
+    <div class="vstat"><small>Study, 7 days</small><b>${dur(m.s7)}</b>${delta(m.s7,m.sp7)}</div>
+    <div class="vstat"><small>Days studied</small><b>${m.days30}<small>/30</small></b><em>${dur(m.s30)} this month</em></div>
+    <div class="vstat"><small>Streak</small><b>${m.streak}<small> ${m.streak===1?"day":"days"}</small></b><em>Best ${m.best} ${m.best===1?"day":"days"}</em></div>
+    <div class="vstat"><small>Videos</small><b>${m.videos}<small>/${NDAYS}</small></b><em>${Math.round(m.videos/NDAYS*100)}% of the course</em></div>
+    <div class="vstat"><small>Labs</small><b>${m.labs}<small>/${P.L.length}</small></b><em>Packet Tracer</em></div>
+    <div class="vstat"><small>Quiz cards</small><b>${m.cardsKnown}<small>/${QTOTAL}</small></b><em>${m.notes} of ${NDAYS} notes read</em></div>
+  </div>
+  <div class="dsh-grid">
+    <section class="card dsh-c"><div class="dsh-ch"><h2>CCNA domain mastery</h2><span>Exam weight on the right</span></div><p class="dsh-sub">Topics ticked, videos, labs and quiz cards in each exam domain</p>${domBars(m.dom)}</section>
+    <section class="card dsh-c"><div class="dsh-ch"><h2>Study activity</h2><span>Last 20 weeks</span></div><p class="dsh-sub">Videos, focus timer and practice time per day</p>${heat(m.daily)}<div class="dsh-facts"><span><b>${m.act.length}</b> days studied in total</span><span><b>${dur(m.total)}</b> logged</span><span>Best streak <b>${m.best}</b></span></div>${weekly(m.daily)}</section>
+  </div>
+  <section class="card dsh-c"><div class="dsh-ch"><h2>Course map</h2><span>${m.videos} of ${NDAYS} Days done</span></div><p class="dsh-sub">Every Jeremy’s IT Lab Day: the video, its notes, its lab and its quiz cards.${self?" Select a Day to watch it.":""}</p>${courseMap(m,self)}</section>
+  <div class="dsh-grid">
+    <section class="card dsh-c"><div class="dsh-ch"><h2>${self?"Your next steps":"Suggested next steps"}</h2></div><p class="dsh-sub">${self?"The most useful things to do now, in order":"What this student should do next, in order"}</p>${steps(m,self)}</section>
+    <section class="card dsh-c"><div class="dsh-ch"><h2>Practice drills</h2></div><p class="dsh-sub">Accuracy in the Practice page drills</p>${drills(m)}</section>
+  </div>`;
+}
+
+/* ---------- reports: files students send to the admin ---------- */
+const RK="dualTrack.classReports";
+const PRIVATE=["_notes","_open","_stab","_pl","_lastBackup","_updated"];
+const clean=st=>{const o={};Object.keys(st||{}).forEach(k=>{if(!PRIVATE.includes(k))o[k]=st[k];});return o;};
+const hash=s=>{let h=5381;for(const c of String(s))h=((h<<5)+h+c.charCodeAt(0))|0;return (h>>>0).toString(36);};
+const slug=s=>String(s||"").toLowerCase().normalize("NFKD").replace(/[^\w]+/g,"-").replace(/^-|-$/g,"").slice(0,40);
+function download(name,data,type){
+  const u=URL.createObjectURL(new Blob([data],{type})), a=document.createElement("a");
+  a.href=u; a.download=name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(u),3000);
+}
+const myName=()=>window.DT_ME&&window.DT_ME.live?window.DT_ME.name:((state._profile||{}).name||"");
+function downloadReport(){
+  const name=myName().trim();
+  if(!name){toast("Add your name first so your teacher knows it’s you.");const i=$("#meName");if(i)i.focus();return;}
+  const data=JSON.stringify({app:"dual-track-report",kind:"progress-report",version:1,name,email:(window.DT_ME||{}).email||"",exportedAt:new Date().toISOString(),state:clean(state)});
+  download(`progress-report-${slug(name)||"student"}-${dk(new Date())}.json`,data,"application/json");
+  toast("Report downloaded. Send the file to your teacher.");
+}
+function parseReport(o,file){
+  const base=String(file||"").replace(/\.json$/i,"");
+  let st=null,name="",email="",at=0;
+  if(o&&o.app==="dual-track-report"&&o.state){st=o.state;name=o.name;email=o.email;at=Date.parse(o.exportedAt)||0;}
+  else if(o&&o.app==="dual-track-roadmap"&&o.state){st=o.state;name=(o.state._profile||{}).name||base;at=Date.parse(o.exported)||0;}
+  else if(o&&typeof o==="object"&&!Array.isArray(o)&&(o._daily||Object.keys(o).some(k=>/^net-/.test(k)))){st=o;name=(o._profile||{}).name||base;}
+  if(!st||typeof st!=="object"||Array.isArray(st))return null;
+  if(window.migrateState)try{st=migrateState(st);}catch(e){}
+  name=String(name||"Unnamed student").trim().slice(0,80); email=String(email||"").trim().slice(0,120);
+  return {id:"f-"+hash((email||name).toLowerCase()),name,email,exportedAt:at||Date.now(),file:String(file||"").slice(0,120),state:clean(st)};
+}
+const readReports=()=>{try{const a=JSON.parse(localStorage.getItem(RK)||"[]");return Array.isArray(a)?a:[];}catch(e){return [];}};
+function writeReports(a){try{localStorage.setItem(RK,JSON.stringify(a));return true;}catch(e){toast("This browser has no room for more reports. Remove a few first.");return false;}}
+async function importFiles(files){
+  const cur=readReports(); let added=0, updated=0, bad=[];
+  for(const f of files){
+    try{
+      const r=parseReport(JSON.parse(await f.text()),f.name); if(!r){bad.push(f.name);continue;}
+      const i=cur.findIndex(x=>x.id===r.id);
+      if(i<0){cur.push(r);added++;} else if((cur[i].exportedAt||0)<=r.exportedAt){cur[i]=r;updated++;}
+    }catch(e){bad.push(f.name);}
+  }
+  if(added||updated)if(!writeReports(cur))return;
+  toast([added&&`${added} student${added>1?"s":""} added`,updated&&`${updated} updated`,bad.length&&`${bad.length} file${bad.length>1?"s":""} couldn’t be read`].filter(Boolean).join(", ")||"No new reports.");
+  loadClass();
+}
+
+/* ---------- student page ---------- */
+let myNote=null, noteTried=false;
+function renderMe(){
+  const box=$("#meBody"); if(!box||document.body.dataset.view!=="me")return;
+  if(document.activeElement&&document.activeElement.id==="meName")return;
+  const live=!!(window.DT_ME&&window.DT_ME.live), name=myName(), m=metrics(state);
+  if(live&&!noteTried&&window.DT_CLASS){noteTried=true;DT_CLASS.loadNote().then(n=>{myNote=n;renderMe();}).catch(()=>{});}
+  box.innerHTML=(myNote&&myNote.text?`<section class="dsh-msg"><span class="dsh-eyebrow">Note from ${esc(myNote.by||"your teacher")}</span><p>${esc(myNote.text)}</p><small>${shortDate(myNote.updatedAt)}</small></section>`:"")
+    +dash(m,{name},true)
+    +`<section class="card dsh-share"><div><h2>Share with your teacher</h2><p>${live?"You’re signed in, so your teacher already sees this page live. You can still download a copy or print it.":"Download your progress report and send the file to your teacher by email or WhatsApp. They add it to their class dashboard."}</p></div>
+      <div class="dsh-share-b">${live?"":`<label class="dsh-name">Your name<input id="meName" value="${esc(name)}" placeholder="So your teacher knows it’s you" autocomplete="name" maxlength="80"></label>`}<button class="btn" id="meReport">Download progress report</button><button class="btn ghost" id="mePrint">Print</button></div></section>`;
+}
+$("#meBody").addEventListener("input",e=>{if(e.target.id!=="meName")return;state._profile=Object.assign({},state._profile,{name:e.target.value.slice(0,80)});clearTimeout(renderMe.t);renderMe.t=setTimeout(save,600);});
+$("#meBody").addEventListener("focusout",e=>{if(e.target.id==="meName")setTimeout(renderMe,0);});
+document.addEventListener("click",e=>{
+  if(e.target.closest("#meReport")){downloadReport();return;}
+  if(e.target.closest("#mePrint")){window.print();return;}
+  const lab=e.target.closest("[data-dsh-lab]"); if(lab){P.openLib(+lab.dataset.dshLab);return;}
+  const go=e.target.closest("[data-dsh-go]"); if(go){setView("practice",true);const b=$(`.pseg [data-drill="${go.dataset.dshGo}"]`);if(b)b.click();}
+});
+
+/* ---------- admin page ---------- */
+let roster=[], filter="all", loaded=false, liveErr="";
+const TODAY=()=>dk(new Date());
+async function loadClass(){
+  loaded=true; liveErr="";
+  let live=[];
+  if(window.DT_CLASS&&window.DT_ADMIN){
+    $("#aRows").innerHTML=`<tr><td colspan="10" class="aempty">Loading students…</td></tr>`;
+    try{live=await DT_CLASS.load();}catch(e){liveErr="Couldn’t load live students. Check that firestore.rules lists your admin email and that you’ve verified it.";}
+  }
+  const files=readReports().map(r=>({id:r.id,src:"file",name:r.name,email:r.email,exportedAt:r.exportedAt,file:r.file,state:r.state}));
+  roster=[...live,...files].map(s=>{const m=metrics(s.state);return Object.assign(s,{m,status:statusOf(m)});});
+  renderAdmin();
+}
+function classActivity(){
+  const ks=lastDays(30), vals=ks.map(k=>({k,s:roster.reduce((a,x)=>a+studySec(x.m.daily[k]),0),n:roster.filter(x=>isActive(x.m.daily[k])).length}));
+  const mx=Math.max(...vals.map(v=>v.s)), tot=vals.reduce((a,v)=>a+v.s,0);
+  $("#aActSum").textContent=tot?`${hrs(tot)} in 30 days`:"";
+  if(!mx)return `<p class="dsh-empty">No study logged by the class in the last 30 days.</p>`;
+  const top=[...roster].filter(x=>x.m.s7>0).sort((a,b)=>b.m.s7-a.m.s7).slice(0,3), tmx=top.length?top[0].m.s7:1;
+  return `<div class="dsh-cols"><span class="dsh-ymax">${hrs(mx)}</span>${vals.map((v,i)=>`<div data-tip="${dayName(v.k)}\n${dur(v.s)} studied\n${v.n} of ${roster.length} student${roster.length>1?"s":""} active"><i class="${v.s?"":"z"}" style="height:${v.s?Math.max(3,v.s/mx*100):0}%"></i>${(29-i)%7===0?`<small>${new Date(keyTs(v.k)).toLocaleDateString(undefined,{day:"numeric",month:"short"})}</small>`:""}</div>`).join("")}</div>
+  <h3 class="dsh-mini-h">Most active this week</h3>${top.length?`<ol class="dsh-top">${top.map(x=>`<li><button data-open-sid="${esc(x.id)}"><span class="dsh-av" aria-hidden="true">${esc(initials(x.name))}</span><span class="nm">${esc(x.name||"Unnamed")}</span>${meter(x.m.s7/tmx)}<b>${dur(x.m.s7)}</b></button></li>`).join("")}</ol>`:`<p class="dsh-empty">Nobody has studied in the last 7 days.</p>`}`;
+}
+function classFunnel(){
+  const n=roster.length, c=range(1,NDAYS).map(d=>roster.filter(x=>x.m.vDone(d)).length);
+  let drop=0,at=0; for(let d=2;d<=NDAYS;d++){const x=c[d-2]-c[d-1];if(x>drop){drop=x;at=d;}}
+  $("#aFunSum").textContent=drop?`Biggest drop: before Day ${at}`:"";
+  if(!c.some(Boolean))return `<p class="dsh-empty">No student has finished a video yet.</p>`;
+  return `<div class="dsh-cols"><span class="dsh-ymax">${n} student${n>1?"s":""}</span>${c.map((v,i)=>{const d=i+1;return `<div data-tip="Day ${d}: ${esc(dayTitle(d))}\n${v} of ${n} finished (${Math.round(v/n*100)}%)${d===at?`\n${drop} fewer than Day ${d-1}`:""}"><i class="${v?"":"z"}" style="height:${v?Math.max(3,v/n*100):0}%"></i>${d===at?`<em style="bottom:${Math.max(3,v/n*100)}%">▼ ${drop}</em>`:""}${d===1||d%7===0?`<small>Day ${d}</small>`:""}</div>`;}).join("")}</div>${drop?`<p class="dsh-callout"><b>${drop} student${drop>1?"s":""}</b> finished Day ${at-1} but not Day ${at}: ${esc(dayTitle(at))}. Check in with them about this topic.</p>`:""}`;
+}
+function classDomains(){
+  if(!roster.length)return `<p class="dsh-empty">No students yet.</p>`;
+  const dom=DOMS.map(([t,w],i)=>({t,w,i,pct:Math.round(roster.reduce((a,x)=>a+x.m.dom[i].pct,0)/roster.length),parts:[]}));
+  const rg=DOMS.map((_,i)=>{const v=roster.map(x=>x.m.dom[i].pct);return [Math.min(...v),Math.max(...v)];});
+  return domBars(dom,{avg:true,range:rg});
+}
+function renderAdmin(){
+  const cloud=!!window.DT_CLOUD, n=roster.length, t=TODAY(), k7=lastDays(7);
+  $("#aSetup").hidden=cloud;
+  $("#aLead").textContent=cloud?"Live progress for every student account, updated each time they study. Select a student for their full dashboard and to leave them a note.":"See who’s on track, who needs a push and where the class gets stuck. Add the progress reports your students send you below, or turn on live accounts.";
+  const cnt=k=>roster.filter(x=>x.status===k).length;
+  const avg=n?Math.round(roster.reduce((a,x)=>a+x.m.readiness,0)/n):0;
+  $("#aStats").innerHTML=`<div class="vstat"><small>Students</small><b>${n}</b><em>${roster.filter(x=>x.src==="live").length} live, ${roster.filter(x=>x.src==="file").length} from files</em></div>
+    <div class="vstat"><small>Studied today</small><b>${roster.filter(x=>isActive(x.m.daily[t])).length}</b><em>${roster.filter(x=>k7.some(k=>isActive(x.m.daily[k]))).length} this week</em></div>
+    <div class="vstat"><small>Average readiness</small><b>${avg}<small>%</small></b><em>CCNA course work</em></div>
+    <div class="vstat"><small>Study time, 7 days</small><b>${hrs(roster.reduce((a,x)=>a+x.m.s7,0))}</b>${delta(roster.reduce((a,x)=>a+x.m.s7,0),roster.reduce((a,x)=>a+x.m.sp7,0))}</div>
+    <div class="vstat"><small>Labs done</small><b>${roster.reduce((a,x)=>a+x.m.labs,0)}</b><em>Across the class</em></div>
+    <div class="vstat"><small>Need attention</small><b>${cnt("push")+cnt("idle")}</b><em>${cnt("idle")} inactive</em></div>`;
+  $("#aAct").innerHTML=classActivity();
+  $("#aDom").innerHTML=classDomains();
+  $("#aFunnel").innerHTML=classFunnel();
+  $("#aFilters").innerHTML=[["all","All",null,n],...Object.keys(STATUS).map(k=>[k,STATUS[k][0],STATUS[k][1],cnt(k)])].map(([k,l,c,v])=>`<button class="dsh-f" data-af="${k}" aria-pressed="${filter===k}">${c?`<i style="--c:${c}"></i>`:""}${l} <b>${v}</b></button>`).join("");
+  $("#aStatusKey").textContent=STATUS_KEY;
+  const reps=readReports();
+  $("#aRepCount").textContent=reps.length?`${reps.length} loaded`:"";
+  $("#aFileList").innerHTML=reps.map(r=>`<li title="${esc(r.file||"")}">${esc(r.name)} <small>${shortDate(r.exportedAt)}</small><button data-arm="${esc(r.id)}" aria-label="Remove ${esc(r.name)}">${svg('<path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>')}</button></li>`).join("");
+  renderRows();
+}
+function renderRows(){
+  const q=$("#aSearch").value.trim().toLowerCase(), sort=$("#aSort").value;
+  let list=roster.filter(x=>(filter==="all"||x.status===filter)&&(!q||(x.name||"").toLowerCase().includes(q)||(x.email||"").toLowerCase().includes(q)));
+  const by={active:(a,b)=>(b.m.lastDay-a.m.lastDay)||((b.lastActive||0)-(a.lastActive||0)),ready:(a,b)=>b.m.readiness-a.m.readiness,help:(a,b)=>a.m.readiness-b.m.readiness||(a.m.lastDay-b.m.lastDay),streak:(a,b)=>b.m.streak-a.m.streak||b.m.best-a.m.best,name:(a,b)=>(a.name||"").localeCompare(b.name||"")}[sort];
+  list.sort(by);
+  if(!list.length){
+    $("#aRows").innerHTML=`<tr><td colspan="10" class="aempty">${liveErr||(roster.length?"No students match this filter.":window.DT_CLOUD?"No students yet. Share your site link; students appear here after they create an account.":"No students yet. Ask each student to open the Progress page, press Download progress report and send you the file. Then drop the files into Student reports below.")}</td></tr>`;
+    return;
+  }
+  const d14=lastDays(14);
+  $("#aRows").innerHTML=list.map(x=>{const m=x.m, mx=Math.max(1,...d14.map(k=>studySec(m.daily[k])));
+    return `<tr data-sid="${esc(x.id)}" tabindex="0" aria-label="Open ${esc(x.name||"student")}">
+    <td><div class="dsh-who"><span class="dsh-av" aria-hidden="true">${esc(initials(x.name))}</span><span><b>${esc(x.name||"Unnamed")}${x.isMe?"<em>You</em>":""}</b><small>${esc(x.email||(x.src==="file"?"From a report file":""))}</small></span></div></td>
+    <td>${pill(x.status)}</td>
+    <td><span class="apct" style="--c:var(--net)"><span><i style="width:${m.readiness}%"></i></span>${m.readiness}%</span></td>
+    <td>${m.videos}<span class="dsh-of">/ ${NDAYS}</span></td>
+    <td>${m.labs}<span class="dsh-of">/ ${P.L.length}</span></td>
+    <td>${m.cardsKnown}<span class="dsh-of">/ ${QTOTAL}</span></td>
+    <td>${m.streak?`${m.streak}<span class="dsh-of">${m.streak===1?"day":"days"}</span>`:`<span class="dsh-of">None</span>`}</td>
+    <td>${dur(m.s7)}</td>
+    <td><div class="spark">${d14.map(k=>{const s=studySec(m.daily[k]);const h=s?Math.max(8,Math.round(s/mx*100)):0;return `<i class="${h?"":"z"}" style="height:${h||8}%" data-tip="${dayName(k)}: ${s?dur(s):"no study"}"></i>`;}).join("")}</div></td>
+    <td>${m.lastDay?agoDays(m.lastDay):"Never"}<span class="dsh-sm">${x.src==="file"?`Report ${new Date(x.exportedAt).toLocaleDateString(undefined,{day:"numeric",month:"short"})}`:x.lastActive?`Seen ${agoTime(x.lastActive)}`:""}</span></td></tr>`;}).join("");
+}
+function csv(){
+  const q=v=>{v=String(v==null?"":v);if(/^[=+\-@]/.test(v))v="'"+v;return /[",\r\n]/.test(v)?`"${v.replace(/"/g,'""')}"`:v;};
+  const rows=[["Name","Email","Source","Status","CCNA readiness %","Videos done","Labs done","Quiz cards known","Notes read","Exam topics ticked","Subnetting accuracy %","Subnetting questions","Current streak (days)","Best streak (days)","Study minutes, 7 days","Study minutes, 30 days","Days studied, 30 days","Last studied",...DOMS.map(d=>d[0]+" %")]];
+  roster.forEach(x=>{const m=x.m;rows.push([x.name,x.email,x.src==="live"?"Live account":"Report file",STATUS[x.status][0],m.readiness,m.videos,m.labs,m.cardsKnown,m.notes,m.topics,m.sub.n?Math.round(m.sub.ok/m.sub.n*100):"",m.sub.n,m.streak,m.best,Math.round(m.s7/60),Math.round(m.s30/60),m.days30,m.lastDay?dk(new Date(m.lastDay)):"",...m.dom.map(d=>d.pct)]);});
+  download(`class-progress-${TODAY()}.csv`,"﻿"+rows.map(r=>r.map(q).join(",")).join("\r\n"),"text/csv;charset=utf-8");
+}
+$("#aSearch").addEventListener("input",renderRows);
+$("#aSort").addEventListener("change",renderRows);
+$("#aRefresh").addEventListener("click",loadClass);
+$("#aCsv").addEventListener("click",()=>{if(!roster.length){toast("No students to export yet.");return;}csv();});
+$("#aFilters").addEventListener("click",e=>{const b=e.target.closest("[data-af]");if(!b)return;filter=b.dataset.af;$$("#aFilters [data-af]").forEach(x=>x.setAttribute("aria-pressed",x===b));renderRows();});
+$("#aRows").addEventListener("click",e=>{const tr=e.target.closest("tr[data-sid]");if(tr)openStudent(tr.dataset.sid);});
+$("#aAct").addEventListener("click",e=>{const b=e.target.closest("[data-open-sid]");if(b)openStudent(b.dataset.openSid);});
+$("#aRows").addEventListener("keydown",e=>{const tr=e.target.closest("tr[data-sid]");if(tr&&(e.key==="Enter"||e.key===" ")){e.preventDefault();openStudent(tr.dataset.sid);}});
+$("#aFiles").addEventListener("change",e=>{if(e.target.files.length)importFiles([...e.target.files]);e.target.value="";});
+const drop=$("#aDrop");
+["dragenter","dragover"].forEach(t=>drop.addEventListener(t,e=>{e.preventDefault();drop.classList.add("over");}));
+["dragleave","drop"].forEach(t=>drop.addEventListener(t,e=>{e.preventDefault();drop.classList.remove("over");}));
+drop.addEventListener("drop",e=>{const f=[...(e.dataTransfer.files||[])].filter(x=>/\.json$/i.test(x.name)||x.type==="application/json");if(f.length)importFiles(f);else toast("Drop .json report files here.");});
+$("#aFileList").addEventListener("click",e=>{const b=e.target.closest("[data-arm]");if(!b)return;writeReports(readReports().filter(r=>r.id!==b.dataset.arm));loadClass();});
+
+/* student slide-over */
+let sdFor=null, sdReturn=null;
+function openStudent(id){
+  const x=roster.find(r=>r.id===id); if(!x)return;
+  sdFor=x; sdReturn=document.activeElement;
+  $("#sdHead").innerHTML=`<span class="dsh-eyebrow">${x.src==="live"?"Live account":"Report file"}</span><h2 id="sdTitle">${esc(x.name||"Unnamed student")}</h2><p>${[x.email,x.src==="live"&&x.createdAt?`joined ${shortDate(x.createdAt)}`:"",x.src==="file"?`report of ${shortDate(x.exportedAt)}`:"",x.lastActive?`seen ${agoTime(x.lastActive)}`:""].filter(Boolean).map(esc).join(" · ")}</p>`;
+  const live=x.src==="live";
+  $("#sdBody").innerHTML=(live?`<section class="card dsh-c dsh-coach"><div class="dsh-ch"><h2>Note to ${esc((x.name||"this student").split(/\s+/)[0])}</h2><span id="sdNoteAt"></span></div><p class="dsh-sub">Shows at the top of their Progress page: encouragement, a goal for the week, or what to fix.</p><textarea id="sdNote" maxlength="2000" placeholder="Great week on OSPF. Next goal: Days 29 to 33 and the HSRP lab by Sunday." disabled>Loading…</textarea><div class="row"><button class="btn" id="sdSave" disabled>Save note</button><span id="sdMsg"></span></div></section>`:"")
+    +dash(x.m,{name:x.name},false)
+    +(live?"":`<div class="sd-foot"><button class="btn ghost" id="sdRemove">Remove this report</button></div>`);
+  $("#sd").hidden=false; document.body.style.overflow="hidden"; $(".sd-box").scrollTop=0; $("#sdClose").focus();
+  if(live&&window.DT_CLASS)DT_CLASS.loadNote(x.id).then(n=>{if(sdFor!==x)return;const ta=$("#sdNote");ta.value=(n&&n.text)||"";ta.disabled=false;$("#sdSave").disabled=false;$("#sdNoteAt").textContent=n&&n.updatedAt?`Saved ${shortDate(n.updatedAt)}`:"";})
+    .catch(()=>{const ta=$("#sdNote");ta.value="";ta.disabled=false;$("#sdSave").disabled=false;$("#sdMsg").textContent="Couldn’t load the saved note. Check that firestore.rules includes the notes rule.";});
+}
+function closeStudent(){if($("#sd").hidden)return;$("#sd").hidden=true;sdFor=null;if($("#nr").hidden&&$("#pl").hidden)document.body.style.overflow="";if(sdReturn&&sdReturn.focus)sdReturn.focus();}
+$("#sd").addEventListener("click",async e=>{
+  if(e.target.id==="sd"||e.target.closest("#sdClose")){closeStudent();return;}
+  if(e.target.closest("#sdRemove")&&sdFor){writeReports(readReports().filter(r=>r.id!==sdFor.id));closeStudent();loadClass();toast("Report removed.");return;}
+  if(e.target.closest("#sdSave")&&sdFor&&window.DT_CLASS){
+    const b=$("#sdSave"); b.disabled=true; $("#sdMsg").textContent="Saving…";
+    try{const n=await DT_CLASS.saveNote(sdFor.id,$("#sdNote").value.trim());$("#sdMsg").textContent="Saved. They’ll see it on their Progress page.";$("#sdNoteAt").textContent=`Saved ${shortDate(n.updatedAt)}`;}
+    catch(err){$("#sdMsg").textContent="Couldn’t save. Paste the latest firestore.rules into Firebase, then try again.";}
+    b.disabled=false;
+  }
+});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("#sd").hidden&&$("#pl").hidden&&$("#nr").hidden){closeStudent();e.stopPropagation();}},true);
+
+/* ---------- tooltips for every chart ---------- */
+const tip=$("#dtTip"); let tipFor=null;
+function showTip(el){
+  tipFor=el; tip.textContent=el.dataset.tip; tip.hidden=false;
+  const r=el.getBoundingClientRect(), w=tip.offsetWidth, h=tip.offsetHeight;
+  let top=r.top-h-8; if(top<8)top=r.bottom+8;
+  tip.style.top=top+"px"; tip.style.left=Math.max(8,Math.min(r.left+r.width/2-w/2,innerWidth-w-8))+"px";
+}
+const hideTip=()=>{tipFor=null;tip.hidden=true;};
+document.addEventListener("mouseover",e=>{const t=e.target.closest("[data-tip]");if(t){if(t!==tipFor)showTip(t);}else if(tipFor)hideTip();});
+document.addEventListener("focusin",e=>{const t=e.target.closest("[data-tip]");if(t)showTip(t);else hideTip();});
+document.addEventListener("scroll",hideTip,true);
+document.addEventListener("click",hideTip,true);
+
+/* ---------- views, refresh and search ---------- */
+if(!VIEWS.includes("me"))VIEWS.push("me");
+if(!window.DT_CLOUD&&!VIEWS.includes("admin"))VIEWS.push("admin");
+const _u6=update; update=function(){_u6();const v=document.body.dataset.view;if(v==="me")renderMe();else if(v==="admin"&&!loaded&&(!window.DT_CLOUD||window.DT_ADMIN))loadClass();};
+document.addEventListener("dt:me",()=>{noteTried=false;myNote=null;renderMe();});
+window.addEventListener("storage",e=>{if(e.key===RK&&document.body.dataset.view==="admin")loadClass();});
+window.DT_dash={loadClass,metrics};
+const _ix2=window.DT_extraIndex;
+window.DT_extraIndex=()=>{
+  const out=_ix2?_ix2():[];
+  out.push({type:"Page",c:"var(--ink)",t:"Your progress",s:"CCNA readiness, domain mastery, streak and next steps",go:()=>setView("me",true)});
+  if(VIEWS.includes("admin"))out.push({type:"Page",c:"var(--ink)",t:"Class dashboard",s:"Student progress, reports and coach notes",go:()=>setView("admin",true)});
+  return out;
+};
+{const h=(location.hash||window.DT_HASH0||"").slice(1);if((h==="me"||h==="admin")&&VIEWS.includes(h))setView(h,true);if(!window.DT_CLOUD)try{sessionStorage.removeItem("dt-hash0");}catch(e){}}
 })();
 
 </script>
