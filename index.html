@@ -1363,7 +1363,8 @@ button.mx-n:hover{color:var(--net-t)}
   .vsprint{padding-left:14px;padding-right:14px}
 }
 /* ---------- video player: the video, its tracking line underneath, and the notes ---------- */
-.pl-box{width:min(960px,100%,max(320px,calc((100dvh - 290px) * 16 / 9)));max-height:calc(100dvh - 40px);display:flex;flex-direction:column}
+.pl-box{width:min(1440px,100%,max(320px,calc((100dvh - 215px) * 16 / 9)));max-height:calc(100dvh - 24px);display:flex;flex-direction:column}
+@media (min-width:821px){.pl{padding:12px}}
 .pl-head{flex:none}
 .pl-nav{display:flex;gap:6px}
 .pl-nav .ibtn:disabled{opacity:.4;cursor:default}
@@ -1379,7 +1380,6 @@ button.mx-n:hover{color:var(--net-t)}
 .pl-row #plYT{margin-left:auto}
 .pl-auto{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;color:var(--muted);cursor:pointer}
 .pl-auto input{accent-color:var(--net);width:16px;height:16px;margin:0}
-.pl-foot .pl-note{margin-top:12px}
 .pl-up{position:absolute;inset:0;z-index:2;display:grid;place-items:center;text-align:center;padding:24px;background:rgba(12,12,16,.88);color:#fff}
 .pl-up[hidden]{display:none}
 .pl-up small{display:block;font-size:13px;font-weight:650;color:rgba(255,255,255,.7)}
@@ -1388,6 +1388,21 @@ button.mx-n:hover{color:var(--net-t)}
 .pl-up .btn.ghost{background:transparent;color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.45)}
 .pl-up p{margin-top:12px;font-size:13px;color:rgba(255,255,255,.7);font-variant-numeric:tabular-nums}
 @media (max-width:820px){.pl-box{max-height:100dvh}.pl-foot{padding:12px 14px 14px}}
+/* notes beside the playing video: the video keeps playing and stays usable */
+.pl-nr .nr{background:none;pointer-events:none}
+.pl-nr .nr-box{pointer-events:auto}
+@media (min-width:1000px){
+  :root{--nrw:min(520px,40vw)}
+  .pl-nr .pl{padding-right:calc(var(--nrw) + 12px)}
+  .pl-nr .nr-box{width:var(--nrw)}
+}
+@media (max-width:999px){
+  .pl-nr .pl{padding:0;place-items:start center}
+  .pl-nr .pl-box{width:min(100%,calc(42dvh * 16 / 9));max-height:none;border-radius:0 0 18px 18px}
+  .pl-nr .pl-foot{display:none}
+  .pl-nr .nr{top:var(--plh,50dvh)}
+  .pl-nr .nr-box{width:100%}
+}
 /* ---------- revision: every Anki deck as flashcards on the page ---------- */
 body[data-view="revision"]{--accent:var(--anki)}
 body[data-view="revision"] .tab[aria-selected="true"]::after{background:var(--anki)}
@@ -1504,10 +1519,9 @@ body[data-view="revision"] .tab[aria-selected="true"]::after{background:var(--an
   <div class="pl-main">
    <div class="pl-frame"><div id="plMount"></div><div class="pl-up" id="plUp" hidden></div></div>
    <div class="pl-foot">
-    <div class="pl-track" id="plTrack" role="slider" tabindex="0" aria-label="Watch tracking: the parts of this video you’ve watched" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0"><i class="pl-ph" id="plPh" hidden></i></div>
+    <div class="pl-track" id="plTrack" role="slider" tabindex="0" title="The line fills in as you watch, and the gaps are the parts still left. Only parts you actually play count, and a video marks itself done at 90%. Select any point to jump there." aria-label="Watch tracking: the parts of this video you’ve watched" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0"><i class="pl-ph" id="plPh" hidden></i></div>
     <div class="pl-tt"><span id="plTxt">0% watched</span><span id="plLeft"></span></div>
-    <div class="pl-row"><button class="btn ghost sm" id="plNotes" data-notes="1">Open notes</button><label class="pl-auto"><input type="checkbox" id="plAuto" checked>Play the next video automatically</label><a id="plYT" target="_blank" rel="noopener">Open on YouTube</a></div>
-    <p class="pl-note">The line fills in as you watch, and the gaps are the parts still left. Only parts you actually play count, and a video marks itself done at 90%. Select any point on the line to jump there. Opening the notes closes the video and keeps your place. Watching on youtube.com isn’t tracked.</p>
+    <div class="pl-row"><button class="btn ghost sm" id="plNotes" data-notes="1">Open notes</button><label class="pl-auto"><input type="checkbox" id="plAuto" checked>Play the next video automatically</label><button type="button" class="linkbtn" id="plRestart" hidden>Start from the beginning</button><a id="plYT" target="_blank" rel="noopener" title="Watching on youtube.com isn’t tracked">Open on YouTube</a></div>
    </div>
   </div>
  </div>
@@ -3337,12 +3351,14 @@ function ended(d){
 }
 function openVideo(d){
   d=+d; if(!DAYS[d])return;
+  /* already playing this one (for example "Watch Day N" in the notes beside it): keep it going */
+  if(d===curDay&&player&&!$("#pl").hidden){hideUp();return;}
   closeVideo(true); curDay=d;
   $("#plTitle").innerHTML=`<small>Day ${d} of ${NDAYS}</small>${esc(T(d))}`;
   const id=LINKS[d]; const mount=$("#plMount");
   $("#plYT").href=id?`https://www.youtube.com/watch?v=${id}`:search(d);
   $("#plNotes").dataset.notes=d; $("#plNotes").title=`Read the Day ${d} notes`;
-  $("#plPrev").disabled=d<=1; $("#plNext").disabled=d>=NDAYS;
+  $("#plPrev").disabled=d<=1; $("#plNext").disabled=d>=NDAYS; $("#plRestart").hidden=true;
   $("#pl").hidden=false; document.body.style.overflow="hidden"; plUpdate();
   if(!id&&!openVideo.retried){
     mount.innerHTML=`<div class="pl-empty"><div><p>Finding Day ${d} in Jeremy’s playlist…</p></div></div>`;
@@ -3357,6 +3373,7 @@ function openVideo(d){
   loadYT().then(()=>{
     if(curDay!==d)return;
     const v=V(d); const start=v.t&&v.d&&v.t<v.d-10?Math.floor(v.t):0;
+    if(start){$("#plRestart").hidden=false;toast(`Picking up Day ${d} where you left off, at ${hms(start)}`);}
     player=new YT.Player("plYTmount",{videoId:id,playerVars:{rel:0,playsinline:1,start,modestbranding:1},events:{
       onReady:e=>{try{const D=e.target.getDuration();if(D>0&&curDay===d&&!V(d).d){V(d).d=Math.round(D);plUpdate();videoRefresh();}}catch(_){}try{e.target.playVideo()}catch(_){}},
       onStateChange:e=>{if(e.data===0&&curDay===d)ended(d);}
@@ -3393,22 +3410,38 @@ function complete(d){
   save(); update();
   toast(`Day ${d} done${auto?`, and ${auto} CCNA topic${auto>1?"s":""} ticked`:""}`);
 }
+/* remember the exact spot, so the video picks up there next time, even after seeking while paused */
+function keepPlace(){if(!player||!curDay)return;try{const t=player.getCurrentTime();if(t>0)V(curDay).t=Math.round(t);}catch(e){}}
 function closeVideo(silent){
   clearInterval(timer); timer=null; hideUp();
-  if(player){try{player.destroy();}catch(e){} player=null;}
+  if(player){keepPlace();try{player.destroy();}catch(e){} player=null;}
   $("#plMount").innerHTML="";
-  if(!silent){$("#pl").hidden=true;document.body.style.overflow="";}
+  if(!silent){$("#pl").hidden=true;if($("#nr").hidden)document.body.style.overflow="";}
   if(curDay){sinceSave=0;save();update();}
   if(!silent)curDay=0;
 }
 document.addEventListener("click",e=>{
   const p=e.target.closest("[data-play]");
   if(p){e.preventDefault();e.stopPropagation();openVideo(p.dataset.play);return;}
-  if(e.target.closest("#plClose")||e.target.id==="pl")closeVideo();
+  /* the notes button opens the notes beside the video, and closes them again */
+  if(e.target.closest("#plNotes")&&!$("#nr").hidden){e.preventDefault();e.stopImmediatePropagation();$("#nrClose").click();return;}
+  /* only the × closes the video: clicks on the space around it don't */
+  if(e.target.closest("#plClose"))closeVideo();
 },true);
-/* the notes never open on top of a playing video: opening them closes the video, which keeps its place */
-new MutationObserver(()=>{if(!$("#nr").hidden&&!$("#pl").hidden){closeVideo();document.body.style.overflow="hidden";}}).observe($("#nr"),{attributes:true,attributeFilter:["hidden"]});
-document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("#pl").hidden)closeVideo();});
+/* notes and video together: the notes sit beside the video, which keeps playing */
+function dock(){
+  const on=!$("#nr").hidden&&!$("#pl").hidden, root=document.documentElement;
+  root.classList.toggle("pl-nr",on);
+  $("#plNotes").textContent=on?"Close notes":"Open notes";
+  if(on)root.style.setProperty("--plh",Math.round($(".pl-box").getBoundingClientRect().bottom)+"px");
+}
+const dockObs=new MutationObserver(dock);
+["#nr","#pl"].forEach(s=>dockObs.observe($(s),{attributes:true,attributeFilter:["hidden"]}));
+addEventListener("resize",()=>{if(document.documentElement.classList.contains("pl-nr"))dock();});
+/* keep the place if the page is closed or hidden while a video is open */
+addEventListener("pagehide",()=>{if(player){keepPlace();save();}});
+document.addEventListener("visibilitychange",()=>{if(document.hidden&&player){keepPlace();save();}});
+$("#plRestart").addEventListener("click",()=>{$("#plRestart").hidden=true;if(curDay)V(curDay).t=0;if(player){try{player.seekTo(0,true);player.playVideo();}catch(e){}}plUpdate();});
 /* move through the series */
 $("#plPrev").addEventListener("click",()=>{if(curDay>1)openVideo(curDay-1);});
 $("#plNext").addEventListener("click",()=>{if(curDay&&curDay<NDAYS)openVideo(curDay+1);});
