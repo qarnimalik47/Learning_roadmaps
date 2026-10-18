@@ -1266,6 +1266,19 @@ button.mx-n:hover{color:var(--net-t)}
 .ss-in{margin-left:8px;font-size:11px;font-weight:700;color:var(--net-t);background:color-mix(in srgb,var(--net) 12%,transparent);padding:1px 8px;border-radius:999px}
 .dsh-msg-all{background:color-mix(in srgb,var(--ai) 7%,var(--surface));box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--ai) 28%,var(--line))}
 .dsh-msg+.dsh-msg{margin-top:12px}
+.gate-card h1{font-stretch:118%;font-weight:780;letter-spacing:-.035em}
+/* account pill and menu */
+.acct-btn{width:auto;height:38px;border-radius:999px;padding:3px 14px 3px 3px;display:flex;align-items:center;gap:9px;background:var(--surface);color:var(--ink);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--ink) 15%,var(--line));font-size:14px;font-weight:650}
+.acct-btn:hover{background:var(--sunk)}
+.acct-btn i{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--net);color:#17171C;font-style:normal;font-weight:800;font-stretch:112%}
+.acct-btn span{max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.acct-menu{width:272px;border-radius:18px;top:48px}
+.acct-nav{display:grid;gap:2px;margin:12px -6px;padding:8px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.acct-nav a{text-decoration:none;font-size:14px;font-weight:600;padding:8px 10px;border-radius:10px;color:var(--ink)}
+.acct-nav a:hover{background:var(--sunk)}
+.acct-nav a[hidden]{display:none}
+.acct-menu .btn+.btn{margin-top:8px}
+@media (max-width:1180px){.acct-btn{padding:3px}.acct-btn span{display:none}}
 .ss-all{margin-top:12px}
 .ut{max-height:250px;margin-top:8px}
 @media (min-width:561px){
@@ -1373,7 +1386,7 @@ button.mx-n:hover{color:var(--net-t)}
   </div>
   <div class="acct" id="acct" hidden>
    <button class="acct-btn" id="acctBtn" aria-haspopup="true" aria-expanded="false" aria-label="Account"></button>
-   <div class="acct-menu card" id="acctMenu" hidden><b id="acctName"></b><small id="acctEmail"></small><span class="role" id="acctRole"></span><button class="btn ghost" id="signOut">Sign out</button></div>
+   <div class="acct-menu card" id="acctMenu" hidden><b id="acctName"></b><small id="acctEmail"></small><span class="role" id="acctRole"></span><nav class="acct-nav"><a href="#me">Your progress</a><a href="#admin" id="acctAdmin" hidden>Class dashboard</a></nav><button class="btn" id="switchAcct">Switch account</button><button class="btn ghost" id="signOut">Sign out</button></div>
   </div>
  </div>
 </div>
@@ -1596,15 +1609,14 @@ button.mx-n:hover{color:var(--net-t)}
    </section>
    <section class="card dsh-setup" id="aSetup" hidden>
     <details>
-     <summary><span><b>Turn on live student accounts</b><small>Optional, about 15 minutes, free. Students sign in and their progress appears here automatically, with no files to send.</small></span></summary>
+     <summary><span><b>Turn on live student accounts</b><small>Optional, about 10 minutes, free. Students create an account with an email and password, and their progress appears here automatically, with no files to send.</small></span></summary>
      <ol>
-      <li>Open the <a href="https://console.firebase.google.com/" target="_blank" rel="noopener">Firebase console</a> and add a project. The free Spark plan is enough.</li>
-      <li><b>Build › Authentication › Get started</b>, then enable <b>Email/Password</b>.</li>
-      <li>In Authentication › <b>Settings › Authorized domains</b>, add <code>qarnimalik47.github.io</code>.</li>
-      <li><b>Build › Firestore Database › Create database</b> in production mode.</li>
-      <li>In Firestore › <b>Rules</b>, paste the contents of <code>firestore.rules</code> from your repository, with your own email in place of <code>your-email@example.com</code>, then <b>Publish</b>.</li>
-      <li><b>Project settings › Your apps › Web (&lt;/&gt;)</b>, register the app and copy the <code>firebaseConfig</code> values into <code>config.js</code> as <code>firebase: { … }</code>. Put your email in <code>adminEmails</code> too, then commit.</li>
-      <li>Open the site, create an account with that email and verify it. The Admin tab appears, and every student who signs up shows up here live.</li>
+      <li>Go to <a href="https://supabase.com/dashboard" target="_blank" rel="noopener">supabase.com</a>, sign in (your GitHub account works) and create a new project. The free plan is enough. Save the database password it asks for somewhere safe.</li>
+      <li><b>SQL Editor › New query</b>: paste <code>supabase/setup.sql</code> from your repository, put your own email on the <code>ADMIN EMAIL</code> line, then press <b>Run</b>.</li>
+      <li><b>Authentication › Sign In / Providers › Email</b>: turn off <b>Confirm email</b>, then <b>Save</b>.</li>
+      <li><b>Authentication › URL Configuration</b>: set <b>Site URL</b> to <code>https://qarnimalik47.github.io/Learning_roadmaps/</code> so password reset links come back to your site.</li>
+      <li><b>Project Settings › API</b>: copy the <b>Project URL</b> and the <b>anon public</b> key into <code>config.js</code> as <code>supabase: { url: "…", anonKey: "…" }</code>, then commit.</li>
+      <li>Open the site and create your account with that email first. The Admin tab appears, and every student who signs up shows up here live.</li>
      </ol>
     </details>
    </section>
@@ -2411,7 +2423,7 @@ const PHASES=[
 <script>
 
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
-const KEY="dualTrackRoadmap.v1"+(()=>{try{const u=window.DUAL_TRACK_CONFIG&&window.DUAL_TRACK_CONFIG.firebase&&localStorage.getItem("dualTrack.uid");return u?":"+u:""}catch(e){return ""}})();
+const KEY="dualTrackRoadmap.v1"+(()=>{try{const u=window.DUAL_TRACK_CONFIG&&window.DUAL_TRACK_CONFIG.supabase&&localStorage.getItem("dualTrack.uid");return u?":"+u:""}catch(e){return ""}})();
 let state={};
 /* remember a deep link to a page that only exists after sign-in, across the sign-in reloads */
 window.DT_HASH0=location.hash;
@@ -2734,7 +2746,7 @@ function openStage(tk,id,target){
     el.classList.remove("flash"); void el.offsetWidth; el.classList.add("flash");
   });
 }
-const VIEWS=["plan","net","ai","videos","practice","courses","me"].concat(window.DUAL_TRACK_CONFIG&&window.DUAL_TRACK_CONFIG.firebase?[]:["admin"]);
+const VIEWS=["plan","net","ai","videos","practice","courses","me"].concat(window.DUAL_TRACK_CONFIG&&window.DUAL_TRACK_CONFIG.supabase?[]:["admin"]);
 function setView(v,top){
   if(!VIEWS.includes(v))v="plan";
   document.body.dataset.view=v;
@@ -2882,7 +2894,7 @@ requestAnimationFrame(()=>requestAnimationFrame(()=>$("#lanes").classList.remove
 (function(){
 const CFG=window.DUAL_TRACK_CONFIG||{};
 const ADMINS=(CFG.adminEmails||[]).map(e=>String(e).trim().toLowerCase()).filter(Boolean);
-const DONE_AT=90, SEG=5, FB="https://www.gstatic.com/firebasejs/10.12.2/";
+const DONE_AT=90, SEG=5;
 
 const DAYS={1:"Network Devices",2:"Interfaces and Cables",3:"OSI Model and TCP/IP Suite",4:"Intro to the CLI",5:"Ethernet LAN Switching (Part 1)",6:"Ethernet LAN Switching (Part 2)",7:"IPv4 Addressing (Part 1)",8:"IPv4 Addressing (Part 2)",9:"Switch Interfaces",10:"The IPv4 Header",11:"Routing Fundamentals",12:"The Life of a Packet",13:"Subnetting (Part 1)",14:"Subnetting (Part 2)",15:"Subnetting (Part 3, VLSM)",16:"VLANs (Part 1)",17:"VLANs (Part 2)",18:"VLANs (Part 3)",19:"DTP and VTP",20:"Spanning Tree Protocol (Part 1)",21:"Spanning Tree Protocol (Part 2)",22:"Rapid Spanning Tree Protocol",23:"EtherChannel",24:"Dynamic Routing",25:"RIP and EIGRP",26:"OSPF (Part 1)",27:"OSPF (Part 2)",28:"OSPF (Part 3)",29:"First Hop Redundancy Protocols",30:"TCP and UDP",31:"IPv6 (Part 1)",32:"IPv6 (Part 2)",33:"IPv6 (Part 3)",34:"Standard ACLs",35:"Extended ACLs",36:"CDP and LLDP",37:"NTP",38:"DNS",39:"DHCP",40:"SNMP",41:"Syslog",42:"SSH",43:"FTP and TFTP",44:"NAT (Part 1)",45:"NAT (Part 2)",46:"QoS (Part 1)",47:"QoS (Part 2)",48:"Security Fundamentals",49:"Port Security",50:"DHCP Snooping",51:"Dynamic ARP Inspection",52:"LAN Architectures",53:"WAN Architectures",54:"Virtualization and Cloud",55:"Wireless Fundamentals",56:"Wireless Architectures",57:"Wireless Security",58:"Wireless Configuration",59:"Intro to Network Automation",60:"JSON, XML and YAML",61:"REST APIs",62:"Software-Defined Networking",63:"Ansible, Puppet and Chef"};
 const NDAYS=63;
@@ -3135,50 +3147,137 @@ const STAGES={net:[],ai:[]};
 STAGES.net.forEach(s=>{if(/^CCNA/.test(s.t))s.ids=s.ids.concat(range(1,NDAYS).map(d=>"net-v"+d));});
 
 /* =========================================================
-   Accounts (only when config.js has Firebase settings)
+   Accounts (only when config.js has Supabase settings)
    ========================================================= */
-if(!CFG.firebase)return;
+if(!CFG.supabase)return;
 window.DT_CLOUD=true;
 const BASE="dualTrackRoadmap.v1", UIDK="dualTrack.uid";
 document.body.classList.add("gated"); $("#gate").hidden=false;
-let A,F,auth,db,me=null,pushT=null,isAdmin=false,signingUp=false,synced=false;
+let A,F,auth,db,me=null,pushT=null,isAdmin=false,serverAdmin=false,signingUp=false,synced=false;
+/* opened from a password reset email: the link carries a recovery token */
+let recovering=/type=recovery/.test(window.DT_HASH0||"");
 
 function gateMsg(t,ok){const m=$("#aMsg");m.textContent=t||"";m.classList.toggle("ok",!!ok);}
 let mode="in";
-function setMode(m){mode=m;$$(".segt button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.mode===m));$("#fName").hidden=m!=="up";$("#aSubmit").textContent=m==="up"?"Create account":"Sign in";$("#aPass").autocomplete=m==="up"?"new-password":"current-password";$("#aForgot").hidden=m==="up";gateMsg("");}
+function setMode(m){
+  mode=m;$$(".segt button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.mode===m));
+  $("#gateTitle").textContent=m==="up"?"Create your account":"Welcome back";
+  $("#gateLead").textContent=m==="up"?"Choose an email and a password. Your progress is saved to your account and follows you to any device.":"Sign in with your email and password.";
+  $("#aSubmit").textContent=m==="up"?"Create account":"Sign in";$("#aPass").autocomplete=m==="up"?"new-password":"current-password";$("#aForgot").hidden=m==="up";gateMsg("");
+}
 $$(".segt button").forEach(b=>b.addEventListener("click",()=>setMode(b.dataset.mode)));
-const ERR={"auth/invalid-credential":"Email or password is wrong.","auth/wrong-password":"Email or password is wrong.","auth/user-not-found":"No account with that email. Create one instead.","auth/email-already-in-use":"An account with this email already exists. Sign in instead.","auth/weak-password":"Use a password of at least 6 characters.","auth/invalid-email":"That email address doesn’t look right.","auth/too-many-requests":"Too many attempts. Wait a few minutes and try again.","auth/network-request-failed":"No connection. Check your internet and try again."};
+/* first visit on this browser: start on Create account; afterwards: Sign in */
+const SEEN="dualTrack.seen";
+setMode((()=>{try{return localStorage.getItem(SEEN)?"in":"up";}catch(_){return "up";}})());
+/* a readable name from the email until the student sets one: ayesha.khan99@… → Ayesha Khan */
+const nameFromEmail=e=>String(e||"").split("@")[0].replace(/\d+/g," ").split(/[._\-+\s]+/).filter(Boolean).map(w=>w[0].toUpperCase()+w.slice(1)).join(" ")||"Student";
+const ERR={"auth/invalid-credential":"Email or password is wrong.","auth/wrong-password":"Email or password is wrong.","auth/user-not-found":"No account with that email. Create one instead.","auth/email-already-in-use":"An account with this email already exists. Sign in instead.","auth/weak-password":"Use a password of at least 6 characters.","auth/invalid-email":"That email address doesn’t look right.","auth/too-many-requests":"Too many attempts. Wait a few minutes and try again.","auth/network-request-failed":"No connection. Check your internet and try again.","auth/confirm-email":"Email confirmation is still switched on in Supabase. Turn off Confirm email under Authentication, then try again."};
 const errText=e=>ERR[e&&e.code]||"Something went wrong. Try again.";
 
 async function start(){
   try{
-    [A,F]=await Promise.all([import(FB+"firebase-auth.js"),import(FB+"firebase-firestore.js")]);
-    const {initializeApp}=await import(FB+"firebase-app.js");
-    const app=initializeApp(CFG.firebase); auth=A.getAuth(app); db=F.getFirestore(app);
+    /* the page router may already have replaced a reset link's #access_token=… with #plan; put it back for Supabase to read */
+    if(/access_token=/.test(window.DT_HASH0||"")&&!/access_token=/.test(location.hash))history.replaceState(null,"",location.pathname+location.search+window.DT_HASH0);
+    const {createClient}=await import(SB_JS);
+    const sb=createClient(CFG.supabase.url,CFG.supabase.anonKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+    ({A,F}=supabaseLayer(sb)); auth={}; db={};
+    A.onRecovery(showRecovery);
   }catch(e){
-    $("#gateLoad").textContent="Couldn’t reach the account service. Check your connection and reload the page. If this keeps happening, the Firebase settings in config.js may be wrong.";
+    $("#gateLoad").textContent="Couldn’t reach the account service. Check your connection and reload the page. If this keeps happening, the Supabase settings in config.js may be wrong.";
     return;
   }
   A.onAuthStateChanged(auth,onUser);
 }
+
+/* ---------- PostgreSQL through Supabase, behind the small API the rest of this code uses ---------- */
+const SB_JS="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/+esm";
+function supabaseLayer(sb){
+  /* app collection → table: users→profiles, progress→progress, notes→notes, config→settings */
+  const TABLE={users:"profiles",progress:"progress",notes:"notes",config:"settings"};
+  const keyCol=c=>c==="config"?"key":"id";
+  const toRow=(c,id,d)=>c==="users"?{id,email:d.email,name:d.name,created_at:d.createdAt||null,last_active:d.lastActive||null,summary:d.summary||{},daily:d.daily||{}}
+    :c==="progress"?{id,state:d.state||{},updated_at:Date.now()}
+    :c==="notes"?{id,text:d.text||"",by_name:d.by||null,updated_at:d.updatedAt||Date.now()}
+    :{key:id,value:d,updated_at:Date.now()};
+  const fromRow=(c,r)=>c==="users"?{name:r.name,email:r.email,createdAt:+r.created_at||0,lastActive:+r.last_active||0,summary:r.summary||{},daily:r.daily||{}}
+    :c==="progress"?{state:r.state||{}}
+    :c==="notes"?{text:r.text,by:r.by_name,updatedAt:+r.updated_at||0}
+    :r.value;
+  const fail=e=>{const x=new Error(e.message||"Database error");x.code=e.code;throw x;};
+  const user=u=>u?{uid:u.id,email:u.email,displayName:(u.user_metadata||{}).name||null,metadata:{creationTime:u.created_at},reload:async()=>{},getIdToken:async()=>""}:null;
+  const authErr=e=>{
+    const m=String(e&&e.message||"").toLowerCase(), c=String(e&&e.code||"");
+    const code=c==="user_already_exists"||m.includes("already registered")?"auth/email-already-in-use"
+      :c==="invalid_credentials"||m.includes("invalid login")?"auth/invalid-credential"
+      :c==="weak_password"||m.includes("password should")?"auth/weak-password"
+      :c==="email_not_confirmed"||m.includes("not confirmed")?"auth/confirm-email"
+      :c==="email_address_invalid"||(m.includes("email")&&m.includes("invalid"))?"auth/invalid-email"
+      :c.startsWith("over_")||m.includes("rate limit")?"auth/too-many-requests"
+      :m.includes("fetch")||m.includes("network")?"auth/network-request-failed":c;
+    return {code,message:e&&e.message};
+  };
+  let cur=null, onRec=null;
+  const A={
+    onAuthStateChanged(_,cb){sb.auth.onAuthStateChange((ev,s)=>{
+      const u=user(s&&s.user);
+      if(ev==="PASSWORD_RECOVERY"){if(onRec)setTimeout(onRec,0);return;}
+      if(ev==="INITIAL_SESSION"){cur=u;setTimeout(()=>cb(u),0);}
+      else if(ev==="SIGNED_IN"&&(!cur||!u||cur.uid!==u.uid)){cur=u;setTimeout(()=>cb(u),0);}
+      else if(ev==="SIGNED_OUT"){cur=null;setTimeout(()=>cb(null),0);}
+    });},
+    onRecovery(f){onRec=f;},
+    async createUserWithEmailAndPassword(_,email,password){const {data,error}=await sb.auth.signUp({email,password});if(error)throw authErr(error);if(!data.session)throw {code:"auth/confirm-email"};cur=user(data.user);return {user:cur};},
+    async signInWithEmailAndPassword(_,email,password){const {data,error}=await sb.auth.signInWithPassword({email,password});if(error)throw authErr(error);return {user:user(data.user)};},
+    async updateProfile(u,p){const {error}=await sb.auth.updateUser({data:{name:p.displayName}});if(error)throw authErr(error);u.displayName=p.displayName;if(cur&&cur!==u)cur.displayName=p.displayName;},
+    async setPassword(p){const {error}=await sb.auth.updateUser({password:p});if(error)throw authErr(error);},
+    async sendPasswordResetEmail(_,email){const {error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});if(error)throw authErr(error);},
+    async signOut(){await sb.auth.signOut();}
+  };
+  const F={
+    doc:(_,c,id)=>({c,id}), collection:(_,c)=>({c}),
+    async getDoc(r){const {data,error}=await sb.from(TABLE[r.c]).select("*").eq(keyCol(r.c),r.id).maybeSingle();if(error)fail(error);return {exists:()=>!!data,data:()=>data?fromRow(r.c,data):undefined};},
+    async setDoc(r,d){const {error}=await sb.from(TABLE[r.c]).upsert(toRow(r.c,r.id,d));if(error)fail(error);},
+    async getDocs(q){const {data,error}=await sb.from(TABLE[q.c]).select("*");if(error)fail(error);return {docs:(data||[]).map(row=>({id:row[keyCol(q.c)],data:()=>fromRow(q.c,row)}))};},
+    async isAdmin(){const {data,error}=await sb.rpc("is_admin");return !error&&data===true;}
+  };
+  return {A,F};
+}
 start();
+
+/* set a new password after following a reset link */
+function showRecovery(){
+  recovering=true; document.body.classList.add("gated"); $("#gate").hidden=false; $("#gateLoad").hidden=true; $("#gateForm").hidden=false;
+  $("#gateTitle").textContent="Set a new password"; $("#gateLead").textContent="Choose a new password for your account. You’ll stay signed in afterwards.";
+  $(".segt").hidden=true; $("#aEmail").closest("label").hidden=true; $("#aForgot").hidden=true;
+  $("#aSubmit").textContent="Save new password"; $("#aPass").value=""; $("#aPass").autocomplete="new-password"; gateMsg("");
+}
 
 $("#authForm").addEventListener("submit",async e=>{
   e.preventDefault();
-  const email=$("#aEmail").value.trim(), pass=$("#aPass").value, name=$("#aName").value.trim();
-  if(mode==="up"&&!name){gateMsg("Add your name so your admin knows who you are.");return;}
-  if(!email||!pass){gateMsg("Enter your email and password.");return;}
+  const email=$("#aEmail").value.trim(), pass=$("#aPass").value, name=nameFromEmail(email);
+  if(recovering){
+    if(pass.length<6){gateMsg("Use a password of at least 6 characters.");return;}
+    $("#aSubmit").disabled=true;
+    try{await A.setPassword(pass);gateMsg("Password saved. Opening your account…",true);setTimeout(()=>location.replace(location.pathname),900);}
+    catch(err){gateMsg(errText(err));$("#aSubmit").disabled=false;}
+    return;
+  }
+  if(!email||!pass){gateMsg("Enter your email and a password.");return;}
+  if(mode==="up"&&pass.length<6){gateMsg("Use a password of at least 6 characters.");return;}
   $("#aSubmit").disabled=true; gateMsg("");
   try{
     if(mode==="up"){
       signingUp=true;
       const cred=await A.createUserWithEmailAndPassword(auth,email,pass);
       await A.updateProfile(cred.user,{displayName:name});
-      if(ADMINS.includes(email.toLowerCase())){try{await A.sendEmailVerification(cred.user);}catch(_){}}
       await F.setDoc(F.doc(db,"users",cred.user.uid),{name,email,createdAt:Date.now(),lastActive:Date.now(),summary:{},daily:{}});
       signingUp=false; onUser(cred.user);
     }else await A.signInWithEmailAndPassword(auth,email,pass);
-  }catch(err){signingUp=false;gateMsg(errText(err));}
+  }catch(err){
+    signingUp=false;
+    if(mode==="up"&&err&&err.code==="auth/email-already-in-use"){setMode("in");gateMsg("You already have an account with this email. Enter your password to sign in.");}
+    else gateMsg(errText(err));
+  }
   $("#aSubmit").disabled=false;
 });
 $("#aForgot").addEventListener("click",async()=>{
@@ -3188,6 +3287,7 @@ $("#aForgot").addEventListener("click",async()=>{
 
 async function onUser(u){
   if(signingUp)return;
+  if(recovering){if(u)showRecovery();return;}
   if(!u){
     if(localStorage.getItem(UIDK)){localStorage.removeItem(UIDK);location.reload();return;}
     $("#gateLoad").hidden=true; $("#gateForm").hidden=false; return;
@@ -3212,19 +3312,22 @@ async function onUser(u){
     const lk=await F.getDoc(F.doc(db,"config","videos"));
     if(lk.exists())setShared(lk.data());
   }catch(e){toast("Couldn’t load your saved progress. Working from this device for now.");}
+  /* admins are listed in the database (supabase/setup.sql) */
+  try{serverAdmin=await F.isAdmin();}catch(_){serverAdmin=false;}
   enter();
   push(true);
 }
 function enter(){
   synced=true;
-  isAdmin=ADMINS.includes((me.email||"").toLowerCase());
-  window.DT_ADMIN=isAdmin&&me.emailVerified;
+  isAdmin=serverAdmin||ADMINS.includes((me.email||"").toLowerCase());
+  window.DT_ADMIN=isAdmin;
+  try{localStorage.setItem(SEEN,"1");}catch(_){}
   document.body.classList.remove("gated"); $("#gate").hidden=true;
-  const name=me.displayName||me.email.split("@")[0];
-  $("#acct").hidden=false; $("#acctBtn").textContent=name.trim().charAt(0).toUpperCase();
-  $("#acctName").textContent=name; $("#acctEmail").textContent=me.email;
+  const name=me.displayName||nameFromEmail(me.email);
+  $("#acct").hidden=false; showName(name);
+  $("#acctEmail").textContent=me.email;
   const r=$("#acctRole"); r.textContent=isAdmin?"Admin":"Student"; r.classList.toggle("admin",isAdmin);
-  $("#adminTab").hidden=!isAdmin;
+  $("#adminTab").hidden=!isAdmin; $("#acctAdmin").hidden=!isAdmin;
   VIEWS_EXTRA();
   window.DT_ME={uid:me.uid,name,email:me.email,live:true};
   document.dispatchEvent(new Event("dt:me"));
@@ -3233,9 +3336,18 @@ function enter(){
   try{sessionStorage.removeItem("dt-hash0");}catch(e){}
 }
 function VIEWS_EXTRA(){if(!VIEWS.includes("admin")&&isAdmin)VIEWS.push("admin");}
+function showName(name){
+  const esc1=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  $("#acctBtn").innerHTML=`<i aria-hidden="true">${esc1(name.trim().charAt(0).toUpperCase()||"?")}</i><span>${esc1(name.trim().split(/\s+/)[0])}</span>`;
+  $("#acctBtn").setAttribute("aria-label",`Account: ${name}`);
+  $("#acctName").textContent=name;
+}
 $("#acctBtn").addEventListener("click",e=>{e.stopPropagation();const m=$("#acctMenu");m.hidden=!m.hidden;$("#acctBtn").setAttribute("aria-expanded",!m.hidden);});
-document.addEventListener("click",e=>{if(!e.target.closest("#acct"))$("#acctMenu").hidden=true;});
-$("#signOut").addEventListener("click",async()=>{await push(true);try{localStorage.removeItem(UIDK);}catch(_){}await A.signOut(auth);location.reload();});
+document.addEventListener("click",e=>{if(!e.target.closest("#acct")||e.target.closest("#acctMenu a"))$("#acctMenu").hidden=true;});
+async function leave(){await push(true);try{localStorage.removeItem(UIDK);}catch(_){}await A.signOut(auth);location.reload();}
+$("#signOut").addEventListener("click",leave);
+/* switching account signs this one out and opens the sign-in screen */
+$("#switchAcct").addEventListener("click",leave);
 
 /* ---------- sync ---------- */
 function summary(){return {net:trackCount("net"),ai:trackCount("ai"),vids:{done:range(1,NDAYS).filter(vDone).length,total:NDAYS},watchSec:state._watch||0};}
@@ -3260,7 +3372,6 @@ document.addEventListener("visibilitychange",()=>{if(document.hidden&&me)push(tr
 let adminReady=false;
 const normDaily=d=>{const o={};Object.entries(d||{}).forEach(([k,x])=>{o[k]=Object.assign({},x||{});});return o;};
 function initAdmin(){
-  if(!me.emailVerified){$("#aVerify").hidden=false;$("#aBody").hidden=true;return;}
   $("#aVerify").hidden=true;$("#aBody").hidden=false;$("#aLinks").hidden=false;
   if(adminReady)return; adminReady=true;
   buildLinkGrid();
@@ -3287,6 +3398,7 @@ window.DT_CLASS={
   async loadNote(uid){const s=await F.getDoc(F.doc(db,"notes",uid||me.uid));return s.exists()?s.data():null;},
   async saveNote(uid,text){const n={text:String(text||"").slice(0,2000),updatedAt:Date.now(),by:me.displayName||me.email.split("@")[0]};await F.setDoc(F.doc(db,"notes",uid),n);return n;},
   /* one message for the whole class, kept with the shared settings */
+  async setName(n){n=String(n||"").trim().slice(0,60);if(!n)return;await A.updateProfile(me,{displayName:n});window.DT_ME.name=n;showName(n);push(true);},
   async loadAnnounce(){const s=await F.getDoc(F.doc(db,"config","announce"));return s.exists()?s.data():null;},
   async saveAnnounce(text){const n={text:String(text||"").slice(0,2000),updatedAt:Date.now(),by:me.displayName||me.email.split("@")[0]};await F.setDoc(F.doc(db,"config","announce"),n);return n;}
 };
@@ -3330,7 +3442,7 @@ $("#aSaveLinks").addEventListener("click",async()=>{
   const labs=Object.assign({},LABS), titles=Object.assign({},TITLES);
   $("#aLinkMsg").textContent="Saving…";
   try{await F.setDoc(F.doc(db,"config","videos"),{links,labs,titles,updatedAt:Date.now()});setShared({links,labs,titles});$("#aLinkMsg").textContent=`Saved ${Object.keys(links).length} links for every student.`;}
-  catch(e){$("#aLinkMsg").textContent="Couldn’t save. Check that your admin email is in firestore.rules and verified.";}
+  catch(e){$("#aLinkMsg").textContent="Couldn’t save. Check that your email is on the ADMIN EMAIL line of supabase/setup.sql and that you ran it.";}
 });
 })();
 
@@ -4504,9 +4616,15 @@ function renderMe(){
   box.innerHTML=(classMsg&&classMsg.text?`<section class="dsh-msg dsh-msg-all"><span class="dsh-eyebrow">To the whole class, from ${esc(classMsg.by||"your teacher")}</span><p>${esc(classMsg.text)}</p><small>${shortDate(classMsg.updatedAt)}</small></section>`:"")+(myNote&&myNote.text?`<section class="dsh-msg"><span class="dsh-eyebrow">Note from ${esc(myNote.by||"your teacher")}</span><p>${esc(myNote.text)}</p><small>${shortDate(myNote.updatedAt)}</small></section>`:"")
     +dash(m,{name},true,progressCard(state,m,"me")+doneCard(state,m))
     +`<section class="card dsh-share"><div><h2>Share with your teacher</h2><p>${live?"You’re signed in, so your teacher already sees this page live. You can still download a copy or print it.":"Download your progress report and send the file to your teacher by email or WhatsApp. They add it to their class dashboard."}</p></div>
-      <div class="dsh-share-b">${live?"":`<label class="dsh-name">Your name<input id="meName" value="${esc(name)}" placeholder="So your teacher knows it’s you" autocomplete="name" maxlength="80"></label>`}<button class="btn" id="meReport">Download progress report</button><button class="btn ghost" id="mePrint">Print</button></div></section>`;
+      <div class="dsh-share-b"><label class="dsh-name">Your name<input id="meName" value="${esc(name)}" placeholder="So your teacher knows it’s you" autocomplete="name" maxlength="60"></label><button class="btn" id="meReport">Download progress report</button><button class="btn ghost" id="mePrint">Print</button></div></section>`;
 }
-$("#meBody").addEventListener("input",e=>{if(e.target.id!=="meName")return;state._profile=Object.assign({},state._profile,{name:e.target.value.slice(0,80)});clearTimeout(renderMe.t);renderMe.t=setTimeout(save,600);});
+$("#meBody").addEventListener("input",e=>{
+  if(e.target.id!=="meName")return;
+  const v=e.target.value.slice(0,60);
+  clearTimeout(renderMe.t);
+  if(window.DT_ME&&window.DT_ME.live){renderMe.t=setTimeout(()=>{if(v.trim()&&window.DT_CLASS)DT_CLASS.setName(v).then(()=>toast("Name saved")).catch(()=>toast("Couldn’t save your name. Try again."));},800);return;}
+  state._profile=Object.assign({},state._profile,{name:v});renderMe.t=setTimeout(save,600);
+});
 $("#meBody").addEventListener("focusout",e=>{if(e.target.id==="meName")setTimeout(renderMe,0);});
 document.addEventListener("click",e=>{
   if(e.target.closest("#meReport")){downloadReport();return;}
@@ -4523,7 +4641,7 @@ async function loadClass(){
   let live=[];
   if(window.DT_CLASS&&window.DT_ADMIN){
     $("#aRows").innerHTML=`<tr><td colspan="10" class="aempty">Loading students…</td></tr>`;
-    try{live=await DT_CLASS.load();}catch(e){liveErr="Couldn’t load live students. Check that firestore.rules lists your admin email and that you’ve verified it.";}
+    try{live=await DT_CLASS.load();}catch(e){liveErr="Couldn’t load live students. Check that your email is on the ADMIN EMAIL line of supabase/setup.sql and that you ran it.";}
   }
   const files=readReports().map(r=>({id:r.id,src:"file",name:r.name,email:r.email,exportedAt:r.exportedAt,file:r.file,state:r.state}));
   roster=[...live,...files].map(s=>{const m=metrics(s.state);return Object.assign(s,{m,status:statusOf(m)});});
@@ -4710,7 +4828,7 @@ $("#aBody").addEventListener("click",e=>{
 $("#aAnnSave").addEventListener("click",async()=>{
   if(!window.DT_CLASS)return; const b=$("#aAnnSave"); b.disabled=true; $("#aAnnMsg").textContent="Posting…";
   try{const a=await DT_CLASS.saveAnnounce($("#aAnn").value.trim());$("#aAnnMsg").textContent=a.text?"Posted. Every student sees it on their Progress page.":"Removed from every Progress page.";$("#aAnnAt").textContent=a.text?`Posted ${shortDate(a.updatedAt)}`:"";}
-  catch(err){$("#aAnnMsg").textContent="Couldn’t post. Check that your admin email is in firestore.rules and verified.";}
+  catch(err){$("#aAnnMsg").textContent="Couldn’t post. Check that your email is on the ADMIN EMAIL line of supabase/setup.sql and that you ran it.";}
   b.disabled=false;
 });
 /* highlight the section being read in the section menu */
@@ -4735,7 +4853,7 @@ function openStudent(id){
     +(live?"":`<div class="sd-foot"><button class="btn ghost" id="sdRemove">Remove this report</button></div>`);
   $("#sd").hidden=false; document.body.style.overflow="hidden"; $(".sd-box").scrollTop=0; $("#sdClose").focus();
   if(live&&window.DT_CLASS)DT_CLASS.loadNote(x.id).then(n=>{if(sdFor!==x)return;const ta=$("#sdNote");ta.value=(n&&n.text)||"";ta.disabled=false;$("#sdSave").disabled=false;$("#sdNoteAt").textContent=n&&n.updatedAt?`Saved ${shortDate(n.updatedAt)}`:"";})
-    .catch(()=>{const ta=$("#sdNote");ta.value="";ta.disabled=false;$("#sdSave").disabled=false;$("#sdMsg").textContent="Couldn’t load the saved note. Check that firestore.rules includes the notes rule.";});
+    .catch(()=>{const ta=$("#sdNote");ta.value="";ta.disabled=false;$("#sdSave").disabled=false;$("#sdMsg").textContent="Couldn’t load the saved note. Run the latest supabase/setup.sql in Supabase.";});
 }
 function closeStudent(){if($("#sd").hidden)return;$("#sd").hidden=true;sdFor=null;if($("#nr").hidden&&$("#pl").hidden)document.body.style.overflow="";if(sdReturn&&sdReturn.focus)sdReturn.focus();}
 $("#sd").addEventListener("click",async e=>{
@@ -4745,7 +4863,7 @@ $("#sd").addEventListener("click",async e=>{
   if(e.target.closest("#sdSave")&&sdFor&&window.DT_CLASS){
     const b=$("#sdSave"); b.disabled=true; $("#sdMsg").textContent="Saving…";
     try{const n=await DT_CLASS.saveNote(sdFor.id,$("#sdNote").value.trim());$("#sdMsg").textContent="Saved. They’ll see it on their Progress page.";$("#sdNoteAt").textContent=`Saved ${shortDate(n.updatedAt)}`;}
-    catch(err){$("#sdMsg").textContent="Couldn’t save. Paste the latest firestore.rules into Firebase, then try again.";}
+    catch(err){$("#sdMsg").textContent="Couldn’t save. Run the latest supabase/setup.sql in Supabase, then try again.";}
     b.disabled=false;
   }
 });
@@ -4768,6 +4886,9 @@ document.addEventListener("click",hideTip,true);
 /* ---------- views, refresh and search ---------- */
 if(!VIEWS.includes("me"))VIEWS.push("me");
 if(!window.DT_CLOUD&&!VIEWS.includes("admin"))VIEWS.push("admin");
+/* students never see the teacher link once accounts are on */
+const ftSet=()=>{const f=$(".ft-teach");if(f)f.hidden=!!window.DT_CLOUD&&!window.DT_ADMIN;};
+ftSet(); document.addEventListener("dt:me",ftSet);
 const _u6=update; update=function(){_u6();const v=document.body.dataset.view;if(v==="me")renderMe();else if(v==="admin"&&!loaded&&(!window.DT_CLOUD||window.DT_ADMIN))loadClass();};
 document.addEventListener("dt:me",()=>{noteTried=false;myNote=null;renderMe();});
 window.addEventListener("storage",e=>{if(e.key===RK&&document.body.dataset.view==="admin")loadClass();});

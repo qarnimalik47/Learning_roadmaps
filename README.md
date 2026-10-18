@@ -22,7 +22,7 @@ An interactive study roadmap for two careers at once:
 - The site records study sessions (start time, last activity, length) so the admin can see when each student signs in. Sessions are recorded from the first visit after this update.
 - The class dashboard works in two ways:
   - **Without accounts:** open `#admin` (there's a link in the footer) and drop in the report files students send you. Reports stay in that browser.
-  - **With accounts (Firebase):** every student appears live, and coach notes and class messages show at the top of their Progress page.
+  - **With accounts (Supabase, PostgreSQL):** every student appears live, and coach notes and class messages show at the top of their Progress page.
 - Light and dark modes in a premium theme: Archivo type, Arancio orange and Viola violet accents, chart colors checked for colour-blind readability.
 - Study notes for every CCNA Day, linked from each topic, with quiz cards
 - Anki flashcard decks (70) and Packet Tracer labs (48) on every CCNA topic, in the notes reader, and in Practice > Anki and labs, with a "lab done" tick that counts as progress
@@ -35,11 +35,32 @@ An interactive study roadmap for two careers at once:
 | --- | --- |
 | `index.html` | The whole app |
 | `notes.js` | CCNA study notes for Days 1–63, opened from topics, videos and search |
-| `config.js` | Your Firebase settings, admin emails and optional video links |
-| `firestore.rules` | Database security rules to paste into Firebase (includes coach notes) |
+| `config.js` | Your Supabase project URL and public key, and optional video links |
+| `supabase/setup.sql` | The PostgreSQL tables and security rules. Run it once in Supabase's SQL Editor |
 | `CCNA-Flashcards/` | Anki decks (`.apkg`), one or more per Day |
 | `CCNA-Labs/` | Packet Tracer labs (`.pkt`), one or more per Day |
 
 Upload both folders next to `index.html`, keeping the file names exactly as they are. The site links to each file by name. If you add or rename a deck or lab, update the `ANKI` or `LABF` list near the end of `index.html` to match.
 
-Without Firebase settings in `config.js`, the site still works: everyone's progress is saved in their own browser, with no accounts.
+Without Supabase settings in `config.js`, the site still works: everyone's progress is saved in their own browser, with no accounts.
+
+## Accounts (PostgreSQL with Supabase)
+
+GitHub Pages only serves files, so the site can't connect to a database by itself. Supabase hosts a real PostgreSQL database with email/password sign-in, and its row-level security rules let the page talk to it safely.
+
+To turn accounts on (about 10 minutes, free):
+
+1. Create a project at [supabase.com](https://supabase.com/dashboard). Signing in with GitHub works.
+2. **SQL Editor > New query**: paste `supabase/setup.sql`, put your own email on the `ADMIN EMAIL` line, and press **Run**.
+3. **Authentication > Sign In / Providers > Email**: turn off **Confirm email**.
+4. **Authentication > URL Configuration**: set **Site URL** to `https://qarnimalik47.github.io/Learning_roadmaps/`.
+5. **Project Settings > API**: copy the **Project URL** and the **anon public** key into `config.js` as `supabase: { url: "…", anonKey: "…" }`, then commit.
+6. Open the site and create your own account with the admin email first.
+
+What visitors see once accounts are on:
+
+- **First visit:** the site opens on **Create account**, which asks only for an email and a password, with no confirmation email. Returning visitors on that browser see **Sign in**.
+- **Account menu:** the name pill at the top right shows the user's name and role, with links to their progress (and the class dashboard for admins), **Switch account** and **Sign out**.
+- **Names** come from the email address and can be changed on the Progress page.
+- **Forgot password** sends a reset link that opens a "Set a new password" screen on the site.
+- **Data:** students can only read and change their own data. Admins, listed in the `admins` table, see everyone and can write coach notes and the class message.
