@@ -354,6 +354,195 @@ main.route-wrap{padding:30px 0 96px}
 .mp-link:hover{box-shadow:inset 0 0 0 1px var(--c)}
 .mp-hint{display:none;color:var(--faint);font-size:13px;padding:10px 28px 0}
 @media (max-width:820px){.mp-hint{display:block}.mp-info{grid-template-columns:1fr;padding:20px}}
+/* ---------- backup ---------- */
+.backup-wrap{margin-top:96px}
+.backup{padding:26px 28px;display:flex;gap:20px 32px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.backup h2{font-size:19px}
+.backup p{color:var(--muted);font-size:15px;margin-top:6px;max-width:58ch}
+.bk-btns{display:flex;gap:10px;flex-wrap:wrap}
+.bk-last{font-size:13px!important;color:var(--faint)!important}
+.bk-msg{font-weight:600;font-size:14px!important}
+.bk-msg:empty,.bk-last:empty{display:none}
+.bk-msg[data-tone="ok"]{color:var(--ok)!important}
+.bk-msg[data-tone="warn"]{color:var(--ai)!important}
+.backup-wrap + footer{margin-top:40px}
+/* ---------- videos ---------- */
+body[data-view="videos"]{--accent:var(--net)}
+.vstats{display:grid;grid-template-columns:repeat(3,1fr);margin-top:30px}
+.vstat{padding:18px 22px;border-left:1px solid var(--line)}
+.vstat:first-child{border-left:0}
+.vstat small{display:block;color:var(--muted);font-size:13px;font-weight:600}
+.vstat b{display:block;font-size:24px;font-weight:700;letter-spacing:-.02em;margin-top:2px;font-variant-numeric:tabular-nums}
+.vcont{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;margin-top:18px}
+.vcont p{color:var(--muted);font-size:15px}
+.vlinks-note{margin-top:18px;padding:14px 18px;border-radius:12px;background:color-mix(in srgb,var(--gold) 10%,var(--surface));box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--gold) 35%,var(--line));font-size:14.5px;color:var(--ink)}
+.vlinks-note:empty{display:none}
+.vgroups{margin:34px 0 96px;display:grid;gap:16px}
+.vgroup{overflow:hidden}
+.vg-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:16px 20px;border-bottom:1px solid var(--line)}
+.vg-head h2{font-size:16.5px}
+.vg-head h2 small{display:block;font-size:13px;font-weight:600;color:var(--faint);margin-bottom:2px}
+.vg-head span{font-size:13px;font-weight:650;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.vlist{list-style:none;margin:0;padding:0}
+.vrow{display:grid;grid-template-columns:20px 1fr 150px auto;gap:14px;align-items:center;padding:11px 20px;border-top:1px solid var(--line)}
+.vrow:first-child{border-top:0}
+.vrow .item{padding:0}
+.vplay{border:0;background:none;padding:4px 0;text-align:left;cursor:pointer;display:flex;align-items:center;gap:12px;min-width:0}
+.vplay i{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:color-mix(in srgb,var(--net) 11%,transparent);color:var(--net)}
+.vplay:hover i{background:var(--net);color:var(--surface)}
+.vplay span{min-width:0}
+.vday{display:block;font-size:12.5px;font-weight:700;color:var(--faint)}
+.vtitle{display:block;font-weight:600;line-height:1.3}
+.vrow.done .vtitle{color:var(--faint)}
+.vprog{display:flex;align-items:center;gap:10px}
+.vbar{flex:1;height:5px;border-radius:99px;background:var(--rail);overflow:hidden}
+.vbar i{display:block;height:100%;width:0;background:var(--net);border-radius:99px;transition:width .4s}
+.vrow.done .vbar i{background:var(--ok)}
+.vpct{width:42px;text-align:right;font-size:13px;font-weight:650;color:var(--muted);font-variant-numeric:tabular-nums}
+.vrow.done .vpct{color:var(--ok)}
+.vyt{font-size:12.5px;font-weight:650;color:var(--muted);text-decoration:none;padding:5px 9px;border-radius:8px;box-shadow:inset 0 0 0 1px var(--line)}
+.vyt:hover{color:var(--ink)}
+.vchips{display:flex;flex-wrap:wrap;gap:6px;padding:0 0 8px 34px}
+.sp .vchips{padding:0 16px 14px 54px}
+.vchip{border:0;cursor:pointer;font-size:12.5px;font-weight:650;padding:3px 9px 3px 7px;border-radius:7px;background:color-mix(in srgb,var(--net) 9%,transparent);color:var(--net);display:inline-flex;align-items:center;gap:5px;font-variant-numeric:tabular-nums}
+.vchip:hover{background:color-mix(in srgb,var(--net) 17%,transparent)}
+.vchip.part{box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--net) 45%,transparent)}
+.vchip.done{background:color-mix(in srgb,var(--ok) 12%,transparent);color:var(--ok)}
+.vchip svg{flex:none}
+
+/* player */
+.pl{position:fixed;inset:0;z-index:30;display:grid;place-items:center;padding:20px;background:rgba(8,12,22,.72);backdrop-filter:blur(4px)}
+.pl[hidden]{display:none}
+.pl-box{width:min(960px,100%);background:var(--surface);border-radius:18px;overflow:hidden;box-shadow:0 30px 80px -20px rgba(0,0,0,.6)}
+.pl-head{display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid var(--line)}
+.pl-head h2{font-size:17px;flex:1;min-width:0}
+.pl-head h2 small{display:block;font-size:12.5px;color:var(--faint);font-weight:650}
+.pl-x{border:0;background:var(--sunk);width:34px;height:34px;border-radius:10px;cursor:pointer;font-size:20px;line-height:1;color:var(--muted)}
+.pl-x:hover{color:var(--ink)}
+.pl-frame{position:relative;aspect-ratio:16/9;background:#000}
+.pl-frame > div,.pl-frame iframe{position:absolute;inset:0;width:100%;height:100%}
+.pl-empty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:24px;color:#d8deea;background:#0d1320}
+.pl-empty p{max-width:46ch;margin:0 auto 16px}
+.pl-foot{display:flex;flex-wrap:wrap;align-items:center;gap:10px 20px;padding:14px 18px}
+.pl-foot .prog{flex:1 1 260px}
+.pl-foot .prog-fill{background:var(--net)}
+.pl-foot a{font-size:13.5px;font-weight:650;color:var(--muted)}
+.pl-note{font-size:13px;color:var(--faint);width:100%}
+
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(20px);opacity:0;z-index:40;background:var(--ink);color:var(--surface);padding:11px 18px;border-radius:12px;font-weight:600;font-size:14.5px;box-shadow:0 12px 30px -10px rgba(0,0,0,.5);transition:opacity .25s,transform .25s;pointer-events:none;max-width:90vw}
+.toast.on{opacity:1;transform:translateX(-50%)}
+
+/* account */
+.acct{position:relative;flex:none}
+.acct[hidden]{display:none}
+.acct-btn{width:34px;height:34px;border-radius:50%;border:0;cursor:pointer;font-weight:700;font-size:14px;background:var(--ink);color:var(--surface)}
+.acct-menu{position:absolute;right:0;top:44px;width:250px;padding:16px;z-index:8}
+.acct-menu[hidden]{display:none}
+.acct-menu b{display:block;font-weight:650}
+.acct-menu small{display:block;color:var(--muted);font-size:13px;word-break:break-all}
+.role{display:inline-block;margin:10px 0 14px;font-size:12px;font-weight:700;padding:2px 9px;border-radius:99px;background:var(--sunk);box-shadow:inset 0 0 0 1px var(--line);color:var(--muted)}
+.role.admin{color:var(--gold);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--gold) 50%,var(--line))}
+.acct-menu .btn{width:100%;justify-content:center}
+
+/* auth gate */
+body.gated > :not(#gate):not(script):not(.toast){display:none!important}
+.gate{min-height:100vh;display:grid;place-items:center;padding:24px}
+.gate[hidden]{display:none}
+.gate-card{width:min(420px,100%);padding:32px}
+.gate-card .brand{margin-bottom:22px}
+.gate-card h1{font-size:28px;letter-spacing:-.03em}
+.gate-card > p{color:var(--muted);margin-top:8px}
+.segt{display:grid;grid-template-columns:1fr 1fr;padding:3px;background:var(--sunk);border:1px solid var(--line);border-radius:11px;margin:24px 0 18px}
+.segt button{border:0;background:none;padding:7px;border-radius:8px;font-weight:600;font-size:14px;cursor:pointer;color:var(--muted)}
+.segt button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(15,23,42,.08),0 0 0 1px var(--line)}
+.gate form{display:grid;gap:14px}
+.gate label{display:grid;gap:6px;font-size:13.5px;font-weight:600;color:var(--muted)}
+.gate label[hidden]{display:none}
+.gate input{border:1px solid var(--line);background:var(--sunk);border-radius:10px;padding:10px 12px;font-size:15px;color:var(--ink)}
+.gate .btn{justify-content:center;margin-top:4px}
+.linkbtn{border:0;background:none;color:var(--muted);font-size:13.5px;font-weight:600;cursor:pointer;justify-self:start;padding:0;text-decoration:underline;text-underline-offset:3px}
+.gate-msg{font-size:14px;font-weight:600;color:var(--ai)}
+.gate-msg.ok{color:var(--ok)}
+.gate-msg:empty{display:none}
+.gate-load{margin-top:22px;color:var(--muted)}
+
+/* admin */
+body[data-view="admin"]{--accent:var(--gold)}
+.astats{display:grid;grid-template-columns:repeat(4,1fr);margin-top:30px}
+.atools{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;margin:34px 0 14px}
+.atools input,.atools select{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:8px 12px;font-size:14.5px;color:var(--ink)}
+.atools input{flex:1 1 220px}
+.atable-wrap{overflow-x:auto}
+.atable{width:100%;border-collapse:collapse;font-size:14.5px;min-width:820px}
+.atable th{text-align:left;font-size:12.5px;font-weight:650;color:var(--faint);padding:12px 16px;border-bottom:1px solid var(--line);white-space:nowrap}
+.atable td{padding:12px 16px;border-top:1px solid var(--line);vertical-align:middle}
+.atable tr:first-child td{border-top:0}
+.atable tbody tr{cursor:pointer}
+.atable tbody tr:hover{background:var(--sunk)}
+.atable td b{display:block;font-weight:650}
+.atable td small{display:block;color:var(--muted);font-size:12.5px}
+.apct{display:flex;align-items:center;gap:8px;font-variant-numeric:tabular-nums;font-weight:600;font-size:13.5px}
+.apct span{width:60px;height:5px;border-radius:99px;background:var(--rail);overflow:hidden}
+.apct i{display:block;height:100%;background:var(--c)}
+.spark{display:flex;align-items:flex-end;gap:2px;height:28px}
+.spark i{width:6px;border-radius:2px;background:var(--net);min-height:2px;opacity:.85}
+.spark i.z{background:var(--rail);opacity:1}
+.aempty{padding:28px;color:var(--muted)}
+.adetail{margin-top:22px;padding:26px}
+.adetail[hidden]{display:none}
+.ad-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;align-items:flex-start}
+.ad-head h2{font-size:22px}
+.ad-head p{color:var(--muted);font-size:14px;margin-top:4px}
+.ad-sub{font-size:15px;font-weight:650;margin:28px 0 12px}
+.bars{display:flex;align-items:flex-end;gap:4px;height:120px;padding-bottom:22px;position:relative;border-bottom:1px solid var(--line)}
+.bars div{flex:1;position:relative;height:100%;display:flex;align-items:flex-end}
+.bars i{display:block;width:100%;background:var(--net);border-radius:4px 4px 0 0;min-height:2px}
+.bars i.z{background:var(--rail)}
+.bars small{position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);font-size:10.5px;color:var(--faint);white-space:nowrap}
+.ad-cols{display:grid;grid-template-columns:1fr 1fr;gap:10px 40px}
+.ad-stage{display:grid;grid-template-columns:1fr 110px;gap:10px;align-items:center;font-size:14px;padding:5px 0}
+.heat{display:grid;grid-template-columns:repeat(auto-fill,minmax(34px,1fr));gap:5px}
+.heat i{aspect-ratio:1;border-radius:6px;display:grid;place-items:center;font-size:11px;font-style:normal;font-weight:700;color:var(--muted);background:var(--sunk);box-shadow:inset 0 0 0 1px var(--line)}
+.heat i.p1{background:color-mix(in srgb,var(--net) 22%,var(--surface));color:var(--ink)}
+.heat i.p2{background:color-mix(in srgb,var(--net) 50%,var(--surface));color:var(--ink)}
+.heat i.d{background:var(--ok);color:#fff;box-shadow:none}
+.legend2{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;color:var(--muted);margin-top:10px}
+.legend2 span{display:inline-flex;align-items:center;gap:6px}
+.legend2 i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.alinks{margin:40px 0 96px;padding:26px}
+.alinks h2{font-size:19px}
+.alinks > p{color:var(--muted);font-size:14.5px;margin-top:6px;max-width:70ch}
+.alinks textarea{width:100%;min-height:90px;margin-top:14px;border:1px solid var(--line);background:var(--sunk);border-radius:12px;padding:10px 12px;font-size:14px;color:var(--ink)}
+.alink-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 24px;margin-top:18px;max-height:420px;overflow:auto;padding-right:6px}
+.alink-grid label{display:grid;grid-template-columns:150px 1fr;gap:10px;align-items:center;font-size:13.5px}
+.alink-grid label span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--muted)}
+.alink-grid label span b{color:var(--ink)}
+.alink-grid input{border:1px solid var(--line);background:var(--sunk);border-radius:8px;padding:6px 9px;font-size:13px;color:var(--ink);min-width:0}
+.alink-grid input.ok{border-color:color-mix(in srgb,var(--ok) 55%,var(--line))}
+.alink-grid input.bad{border-color:var(--ai)}
+.alinks .row{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin-top:16px}
+.alinks .row span{color:var(--muted);font-size:14px}
+.averify{margin-top:24px;padding:18px 20px;border-radius:14px;background:color-mix(in srgb,var(--gold) 10%,var(--surface));box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--gold) 35%,var(--line))}
+.averify[hidden]{display:none}
+.averify p{margin-bottom:12px}
+
+@media (max-width:820px){
+  .vstats,.astats{grid-template-columns:1fr 1fr}
+  .vstat:nth-child(3){border-left:0;border-top:1px solid var(--line)}
+  .astats .vstat:nth-child(3){border-top:1px solid var(--line)}
+  .astats .vstat:nth-child(4){border-top:1px solid var(--line)}
+  .vrow{grid-template-columns:20px 1fr;padding:12px 14px}
+  .vprog{grid-column:2}
+  .vyt{display:none}
+  .sp .vchips{padding-left:16px}
+  .vchips{padding-left:0}
+  .ad-cols{grid-template-columns:1fr}
+  .alink-grid{grid-template-columns:1fr}
+  .alink-grid label{grid-template-columns:110px 1fr}
+  .pl{padding:0;align-items:end}
+  .pl-box{border-radius:18px 18px 0 0}
+}
+.tab[hidden]{display:none}
 footer{padding:36px 0 64px;color:var(--faint);font-size:13px;border-top:1px solid var(--line);margin-top:96px}
 footer p{max-width:80ch;margin:0 0 8px}
 
@@ -402,8 +591,43 @@ footer p{max-width:80ch;margin:0 0 8px}
 }
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.lanes.pre .seg{transform:none}}
 </style>
+<script src="config.js"></script>
 </head>
 <body data-view="plan">
+<div class="gate" id="gate" hidden>
+ <div class="gate-card card">
+  <div class="brand"><svg width="28" height="28" viewBox="0 0 30 30" aria-hidden="true"><path d="M4 22 C10 22 10 8 15 8 S20 22 26 22" fill="none" stroke="var(--net)" stroke-width="3" stroke-linecap="round"/><path d="M4 8 C10 8 10 22 15 22 S20 8 26 8" fill="none" stroke="var(--ai)" stroke-width="3" stroke-linecap="round"/><circle cx="15" cy="15" r="3" fill="var(--gold)"/></svg>Dual Track</div>
+  <h1 id="gateTitle">Sign in to continue</h1>
+  <p id="gateLead">Your progress and watch time are saved to your account, so they follow you to any device.</p>
+  <p class="gate-load" id="gateLoad">Connecting…</p>
+  <div id="gateForm" hidden>
+   <div class="segt"><button type="button" data-mode="in" aria-pressed="true">Sign in</button><button type="button" data-mode="up" aria-pressed="false">Create account</button></div>
+   <form id="authForm" novalidate>
+    <label id="fName" hidden>Your name<input id="aName" autocomplete="name" maxlength="60"></label>
+    <label>Email<input type="email" id="aEmail" autocomplete="email" required></label>
+    <label>Password<input type="password" id="aPass" autocomplete="current-password" required minlength="6"></label>
+    <button class="btn" type="submit" id="aSubmit">Sign in</button>
+    <button type="button" class="linkbtn" id="aForgot">Forgot password?</button>
+    <p class="gate-msg" id="aMsg" role="alert"></p>
+   </form>
+  </div>
+ </div>
+</div>
+
+<div class="pl" id="pl" hidden role="dialog" aria-modal="true" aria-labelledby="plTitle">
+ <div class="pl-box">
+  <div class="pl-head"><h2 id="plTitle"></h2><button class="pl-x" id="plClose" aria-label="Close video">×</button></div>
+  <div class="pl-frame"><div id="plMount"></div></div>
+  <div class="pl-foot">
+   <div class="prog"><div class="prog-track"><div class="prog-fill" id="plFill"></div></div><span class="prog-txt" id="plTxt">0% watched</span></div>
+   <a id="plYT" target="_blank" rel="noopener">Open on YouTube</a>
+   <p class="pl-note">Only parts you actually play count, and it marks itself done at 90%. Watching on youtube.com isn’t tracked.</p>
+  </div>
+ </div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+
 <div class="bar">
  <div class="wrap bar-in">
   <a class="brand" href="#plan" data-go="plan" aria-label="Dual Track home">
@@ -414,8 +638,14 @@ footer p{max-width:80ch;margin:0 0 8px}
    <button class="tab" role="tab" data-go="plan">Plan</button>
    <button class="tab" role="tab" data-go="net"><svg class="ring" viewBox="0 0 20 20" aria-hidden="true"><circle class="r0" cx="10" cy="10" r="7.5"/><circle class="r1" cx="10" cy="10" r="7.5" stroke="var(--net)" data-ring="net"/></svg>Networking</button>
    <button class="tab" role="tab" data-go="ai"><svg class="ring" viewBox="0 0 20 20" aria-hidden="true"><circle class="r0" cx="10" cy="10" r="7.5"/><circle class="r1" cx="10" cy="10" r="7.5" stroke="var(--ai)" data-ring="ai"/></svg>AI Automation</button>
+   <button class="tab" role="tab" data-go="videos"><svg class="ring" viewBox="0 0 20 20" aria-hidden="true"><circle class="r0" cx="10" cy="10" r="7.5"/><circle class="r1" cx="10" cy="10" r="7.5" stroke="var(--net)" data-ring="vid"/></svg>Videos</button>
    <button class="tab" role="tab" data-go="courses">Courses</button>
+   <button class="tab" role="tab" data-go="admin" id="adminTab" hidden>Admin</button>
   </nav>
+  <div class="acct" id="acct" hidden>
+   <button class="acct-btn" id="acctBtn" aria-haspopup="true" aria-expanded="false" aria-label="Account"></button>
+   <div class="acct-menu card" id="acctMenu" hidden><b id="acctName"></b><small id="acctEmail"></small><span class="role" id="acctRole"></span><button class="btn ghost" id="signOut">Sign out</button></div>
+  </div>
  </div>
 </div>
 
@@ -524,6 +754,49 @@ footer p{max-width:80ch;margin:0 0 8px}
 </section>
 
 <!-- COURSES -->
+<!-- VIDEOS -->
+<section class="panel" data-panel="videos" hidden>
+ <div class="wrap">
+  <header class="thead">
+   <h1>CCNA video course</h1>
+   <p>All 63 Jeremy’s IT Lab Days in sprint order. Videos play here so your watch time is tracked; a video is marked done automatically at 90% watched, and so are the CCNA topics it covers.</p>
+   <div class="vstats card">
+    <div class="vstat"><small>Videos done</small><b id="vsDone">0 of 63</b></div>
+    <div class="vstat"><small>Watch time</small><b id="vsTime">0 min</b></div>
+    <div class="vstat"><small>Watched today</small><b id="vsToday">0 min</b></div>
+   </div>
+   <div class="vcont"><button class="btn" style="--c:var(--net)" id="vContinue">Start Day 1</button><p id="vContinueTxt"></p></div>
+   <p class="vlinks-note" id="vLinksNote"></p>
+  </header>
+  <div class="vgroups" id="vidList"></div>
+ </div>
+</section>
+
+<!-- ADMIN -->
+<section class="panel" data-panel="admin" hidden>
+ <div class="wrap">
+  <header class="thead">
+   <h1 style="color:var(--ink)">Class progress</h1>
+   <p>Every student’s progress, daily watch time and videos, updated each time they study. Select a student for their full breakdown.</p>
+   <div class="averify" id="aVerify" hidden><p>Verify your email address to unlock admin access. Open the link we emailed you, then press the button below.</p><button class="btn" id="aVerified">I’ve verified my email</button> <button class="btn ghost" id="aResend">Resend email</button></div>
+   <div class="astats card" id="aStats"></div>
+  </header>
+  <div id="aBody">
+   <div class="atools"><input type="search" id="aSearch" placeholder="Search students by name or email" aria-label="Search students"><select id="aSort" aria-label="Sort students"><option value="active">Most recently active</option><option value="progress">Most progress</option><option value="name">Name</option></select><button class="tbtn" id="aRefresh">Refresh</button></div>
+   <div class="card atable-wrap"><table class="atable"><thead><tr><th>Student</th><th>Last active</th><th>Networking</th><th>AI automation</th><th>Videos</th><th>Last 7 days</th><th>Last 14 days</th></tr></thead><tbody id="aRows"></tbody></table></div>
+   <div class="adetail card" id="aDetail" hidden></div>
+   <div class="alinks card">
+    <h2>Video links</h2>
+    <p>Paste the YouTube link for each Jeremy’s IT Lab Day once, and every student’s page uses it. Topics without a link open a YouTube search instead, which can’t be tracked. You can also paste many links at once below, one per line, either in Day order or as “Day 13 https://youtu.be/…”.</p>
+    <textarea id="aBulk" placeholder="Day 1 https://youtu.be/...&#10;Day 2 https://youtu.be/..."></textarea>
+    <div class="row"><button class="btn ghost" id="aBulkApply">Fill from pasted list</button><span id="aLinkCount"></span></div>
+    <div class="alink-grid" id="aLinkGrid"></div>
+    <div class="row"><button class="btn" style="--c:var(--gold)" id="aSaveLinks">Save links for everyone</button><span id="aLinkMsg"></span></div>
+   </div>
+  </div>
+ </div>
+</section>
+
 <section class="panel" data-panel="courses" hidden>
  <div class="wrap">
   <header class="thead">
@@ -548,6 +821,18 @@ footer p{max-width:80ch;margin:0 0 8px}
   </section>
  </div>
 </section>
+
+<div class="wrap backup-wrap">
+ <div class="backup card">
+  <div>
+   <h2>Back up your progress</h2>
+   <p>Ticks and notes live only in this browser. Save a backup file now and then, and import it after clearing your browser or to continue on another device.</p>
+   <p class="bk-last" id="bkLast"></p>
+   <p class="bk-msg" id="bkMsg" role="status"></p>
+  </div>
+  <div class="bk-btns"><button class="btn" id="bkExport">Export progress</button><button class="btn ghost" id="bkImport">Import progress</button><input type="file" id="bkFile" accept=".json,application/json" hidden></div>
+ </div>
+</div>
 
 <footer>
  <div class="wrap">
@@ -1244,12 +1529,12 @@ const PHASES=[
 <script>
 
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
-const KEY="dualTrackRoadmap.v1";
+const KEY="dualTrackRoadmap.v1"+(()=>{try{const u=window.DUAL_TRACK_CONFIG&&window.DUAL_TRACK_CONFIG.firebase&&localStorage.getItem("dualTrack.uid");return u?":"+u:""}catch(e){return ""}})();
 let state={};
 try{state=JSON.parse(localStorage.getItem(KEY)||"{}")||{}}catch(e){state={}}
 if(typeof state!=="object"||Array.isArray(state))state={};
 state._notes=state._notes||{}; state._open=state._open||{};
-function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){} if(window.onStateSaved)window.onStateSaved();}
 const yt=q=>"https://www.youtube.com/results?search_query="+encodeURIComponent(q);
 const fmt=d=>d.toLocaleDateString(undefined,{month:"short",year:"numeric"});
 
@@ -1456,7 +1741,7 @@ function update(){
     const ms=cb.closest(".ms"); if(ms)ms.classList.toggle("done",cb.checked);
   });
   ["net","ai"].forEach(tk=>{
-    const all=$$(`#${tk}Route input[data-id]`), done=all.filter(c=>c.checked).length, pct=all.length?done/all.length:0;
+    const all=$$(`#${tk}Route input[data-id]`).concat(tk==="net"?$$("#vidList input[data-id]"):[]), done=all.filter(c=>c.checked).length, pct=all.length?done/all.length:0;
     $$(`[data-fill="${tk}"]`).forEach(f=>f.style.width=pct*100+"%");
     $$(`[data-txt="${tk}"]`).forEach(t=>t.textContent=`${done} of ${all.length} · ${Math.round(pct*100)}%`);
     const ring=$(`[data-ring="${tk}"]`); ring.style.strokeDasharray=CIRC; ring.style.strokeDashoffset=CIRC*(1-pct);
@@ -1487,7 +1772,7 @@ function update(){
 /* ---------- interactions ---------- */
 document.addEventListener("change",e=>{
   const id=e.target.dataset&&e.target.dataset.id; if(!id)return;
-  if(e.target.checked)state[id]=1; else delete state[id];
+  if(e.target.checked){state[id]=1;if(window.onTick)window.onTick(id);} else delete state[id];
   save(); update();
 });
 function toggleHop(hop,force){
@@ -1546,7 +1831,7 @@ function openStage(tk,id,target){
     el.classList.remove("flash"); void el.offsetWidth; el.classList.add("flash");
   });
 }
-const VIEWS=["plan","net","ai","courses"];
+const VIEWS=["plan","net","ai","videos","courses"];
 function setView(v,top){
   if(!VIEWS.includes(v))v="plan";
   document.body.dataset.view=v;
@@ -1639,9 +1924,454 @@ function buildMap(){
 }
 buildMap();
 const _upd=update; update=function(){_upd(); if(window.mapRefresh)mapRefresh();};
+/* ---------- backup ---------- */
+(function(){
+  const msg=$("#bkMsg"), last=$("#bkLast");
+  const say=(t,ok)=>{msg.textContent=t;msg.dataset.tone=ok?"ok":"warn"};
+  const showLast=()=>{last.textContent=state._lastBackup?`Last backup: ${new Date(state._lastBackup).toLocaleDateString(undefined,{day:"numeric",month:"short",year:"numeric"})}`:"No backup saved yet."};
+  const done=()=>{state._lastBackup=Date.now();save();showLast();};
+  showLast();
+  $("#bkExport").addEventListener("click",async()=>{
+    const data=JSON.stringify({app:"dual-track-roadmap",version:1,exported:new Date().toISOString(),state:{...state,_lastBackup:Date.now()}},null,1);
+    const name=`dual-track-progress-${new Date().toISOString().slice(0,10)}.json`;
+    if(window.claude&&typeof window.claude.use==="function"){
+      let dl=null;
+      try{dl=await Promise.race([window.claude.use("downloads"),new Promise(r=>setTimeout(()=>r(null),4000))])}catch(e){dl=null}
+      if(dl){
+        try{await dl.save({filename:name,data});done();say("Backup saved. Keep the file somewhere safe.",true)}
+        catch(e){say(e&&e.code==="declined"?"Backup cancelled.":e&&e.code==="rate_limited"?"A save prompt is already open. Finish that one first.":"Couldn’t save a backup here. Open the GitHub version of the page and export from there.")}
+        return;
+      }
+    }
+    try{
+      const url=URL.createObjectURL(new Blob([data],{type:"application/json"}));
+      const a=document.createElement("a");a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url),3000);
+      done();say("Backup saved to your downloads folder.",true);
+    }catch(e){say("Couldn’t create the backup file in this browser.")}
+  });
+  const fi=$("#bkFile");
+  $("#bkImport").addEventListener("click",()=>fi.click());
+  fi.addEventListener("change",async()=>{
+    const f=fi.files&&fi.files[0]; fi.value=""; if(!f)return;
+    let obj;
+    try{obj=JSON.parse(await f.text())}catch(e){obj=null}
+    if(!obj||obj.app!=="dual-track-roadmap"||!obj.state||typeof obj.state!=="object"||Array.isArray(obj.state)){
+      say("That file isn’t a Dual Track backup. Choose a file you exported from this page.");return;
+    }
+    const n=Object.keys(obj.state).filter(k=>!k.startsWith("_")).length;
+    if(!confirm(`Replace your current progress with this backup? It has ${n} ticked item${n===1?"":"s"}.`))return;
+    state=obj.state; state._updated=Date.now(); save();
+    say("Progress restored. Reloading…",true);
+    setTimeout(()=>location.reload(),700);
+  });
+})();
 setView(location.hash.slice(1)||"plan",false);
 applyPrefs(); plan();
 requestAnimationFrame(()=>requestAnimationFrame(()=>$("#lanes").classList.remove("pre")));
+
+</script>
+<script>
+
+/* =========================================================
+   Videos, watch tracking, accounts and admin
+   ========================================================= */
+(function(){
+const CFG=window.DUAL_TRACK_CONFIG||{};
+const ADMINS=(CFG.adminEmails||[]).map(e=>String(e).trim().toLowerCase()).filter(Boolean);
+const DONE_AT=90, SEG=5, FB="https://www.gstatic.com/firebasejs/10.12.2/";
+
+const DAYS={1:"Network Devices",2:"Interfaces and Cables",3:"OSI Model and TCP/IP Suite",4:"Intro to the CLI",5:"Ethernet LAN Switching (Part 1)",6:"Ethernet LAN Switching (Part 2)",7:"IPv4 Addressing (Part 1)",8:"IPv4 Addressing (Part 2)",9:"Switch Interfaces",10:"The IPv4 Header",11:"Routing Fundamentals",12:"The Life of a Packet",13:"Subnetting (Part 1)",14:"Subnetting (Part 2)",15:"Subnetting (Part 3, VLSM)",16:"VLANs (Part 1)",17:"VLANs (Part 2)",18:"VLANs (Part 3)",19:"DTP and VTP",20:"Spanning Tree Protocol (Part 1)",21:"Spanning Tree Protocol (Part 2)",22:"Rapid Spanning Tree Protocol",23:"EtherChannel",24:"Dynamic Routing",25:"RIP and EIGRP",26:"OSPF (Part 1)",27:"OSPF (Part 2)",28:"OSPF (Part 3)",29:"First Hop Redundancy Protocols",30:"TCP and UDP",31:"IPv6 (Part 1)",32:"IPv6 (Part 2)",33:"IPv6 (Part 3)",34:"Standard ACLs",35:"Extended ACLs",36:"CDP and LLDP",37:"NTP",38:"DNS",39:"DHCP",40:"SNMP",41:"Syslog",42:"SSH",43:"FTP and TFTP",44:"NAT (Part 1)",45:"NAT (Part 2)",46:"QoS (Part 1)",47:"QoS (Part 2)",48:"Security Fundamentals",49:"Port Security",50:"DHCP Snooping",51:"Dynamic ARP Inspection",52:"LAN Architectures",53:"WAN Architectures",54:"Virtualization and Cloud",55:"Wireless Fundamentals",56:"Wireless Architectures",57:"Wireless Security",58:"Wireless Configuration",59:"Intro to Network Automation",60:"Software-Defined Networking",61:"REST APIs",62:"Data Formats (JSON, XML, YAML)",63:"Ansible, Puppet and Chef"};
+const NDAYS=63;
+const SPRINT_DAYS=[[1,4],[5,8],[9,12],[13,15],[16,19],[20,23],[24,28],[29,33],[34,36],[37,45],[46,51],[52,58],[59,63]];
+const TOPIC_DAYS={"0-0":[1],"0-1":[52,53],"0-2":[2],"0-3":[9],"0-4":[7,8,13,14,15],"0-5":[44],"0-6":[31,32,33],"0-8":[55],"0-9":[54],"0-10":[5,6],
+ "1-0":[16,17,18],"1-1":[17,19],"1-2":[36],"1-3":[23],"1-4":[20,21,22],"1-5":[56],"1-6":[42,48],"1-7":[58],
+ "2-0":[11],"2-1":[11,24],"2-2":[11,33],"2-3":[26,27,28],"2-4":[29],
+ "3-0":[44,45],"3-1":[37],"3-2":[38,39],"3-3":[40,41],"3-4":[46,47],"3-5":[42,43],
+ "4-0":[48],"4-1":[48],"4-2":[53],"4-3":[34,35],"4-4":[49,50,51],"4-5":[48],"4-6":[57],
+ "5-0":[59,60],"5-1":[60],"5-3":[61],"5-4":[63],"5-5":[62]};
+
+const range=(a,b)=>Array.from({length:b-a+1},(_,i)=>a+i);
+const pad=n=>String(n).padStart(2,"0");
+const dateKey=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const today=()=>dateKey(new Date());
+const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const dur=sec=>{sec=Math.round(sec||0);if(sec>0&&sec<60)return "under 1 min";const h=Math.floor(sec/3600),m=Math.round((sec%3600)/60);return h?`${h} h ${m} min`:`${m} min`;};
+const clock=sec=>{sec=Math.floor(sec||0);return `${Math.floor(sec/60)}:${pad(sec%60)}`;};
+const ytId=u=>{u=String(u||"").trim();if(!u)return "";const m=u.match(/(?:youtu\.be\/|[?&]v=|embed\/|shorts\/|live\/)([A-Za-z0-9_-]{11})/);if(m)return m[1];return /^[A-Za-z0-9_-]{11}$/.test(u)?u:"";};
+const search=d=>"https://www.youtube.com/results?search_query="+encodeURIComponent(`Jeremy's IT Lab CCNA Day ${d} ${DAYS[d]}`);
+const playIcon='<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1.8v8.4L10 6z" fill="currentColor"/></svg>';
+
+function toast(t){const el=$("#toast");el.textContent=t;el.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove("on"),2600);}
+
+/* ---------- state ---------- */
+function ensure(){state._v=state._v||{};state._daily=state._daily||{};state._watch=state._watch||0;}
+ensure();
+const V=d=>(state._v[d]=state._v[d]||{});
+const pctOf=d=>{const v=state._v[d];return v&&v.p?v.p:0;};
+const vDone=d=>!!state["net-v"+d];
+function dayStat(){ensure();const k=today();return (state._daily[k]=state._daily[k]||{sec:0,ticks:0,vids:0});}
+
+/* ---------- links ---------- */
+let LINKS={};
+Object.entries(CFG.videoLinks||{}).forEach(([d,u])=>{const id=ytId(u);if(id)LINKS[d]=id;});
+function setLinks(obj){Object.entries(obj||{}).forEach(([d,id])=>{if(ytId(id))LINKS[d]=ytId(id);else delete LINKS[d];});videoRefresh();}
+
+/* ---------- build the videos page ---------- */
+const ccnaPi=TRACKS.net.R.findIndex(p=>p.type==="hop"&&/^CCNA/.test(p.title));
+const ccna=TRACKS.net.R[ccnaPi]; const sprints=(ccna&&ccna.cm&&ccna.cm.sprints)||[];
+$("#vidList").innerHTML=SPRINT_DAYS.map(([a,b],k)=>`<section class="vgroup card" data-sprint="${k}"><div class="vg-head"><h2><small>Sprint ${k+1}</small>${esc(sprints[k]?sprints[k].t:"")}</h2><span data-vgc="${k}"></span></div><ul class="vlist">${
+  range(a,b).map(d=>`<li class="vrow" data-day="${d}"><label class="item"><input type="checkbox" data-id="net-v${d}" aria-label="Mark Day ${d} as watched"></label><button class="vplay" data-play="${d}"><i>${playIcon}</i><span><span class="vday">Day ${d}</span><span class="vtitle">${esc(DAYS[d])}</span></span></button><span class="vprog"><span class="vbar"><i></i></span><span class="vpct">0%</span></span><a class="vyt" data-yt="${d}" target="_blank" rel="noopener">YouTube</a></li>`).join("")
+}</ul></section>`).join("");
+
+const chipHTML=days=>`<div class="vchips">${days.map(d=>`<button class="vchip" data-play="${d}" data-chip="${d}" title="Day ${d}: ${esc(DAYS[d])}">${playIcon}Day ${d}</button>`).join("")}</div>`;
+if(ccnaPi>=0){
+  Object.entries(TOPIC_DAYS).forEach(([k,days])=>{
+    const [si,ii]=k.split("-");
+    const cb=document.querySelector(`input[data-id="net-i${ccnaPi}-${si}-${ii}"]`);
+    if(cb)cb.closest("li").insertAdjacentHTML("beforeend",chipHTML(days));
+  });
+  $$(`#net-s${ccnaPi} .sp`).forEach((li,k)=>{if(SPRINT_DAYS[k])li.insertAdjacentHTML("beforeend",chipHTML(range(...SPRINT_DAYS[k])));});
+}
+
+function nextVideo(){
+  for(let d=1;d<=NDAYS;d++){if(!vDone(d))return d;}
+  return 0;
+}
+function videoRefresh(){
+  ensure();
+  let done=0;
+  for(let d=1;d<=NDAYS;d++){
+    const p=pctOf(d), dn=vDone(d); if(dn)done++;
+    const row=document.querySelector(`.vrow[data-day="${d}"]`);
+    if(row){
+      row.classList.toggle("done",dn);
+      row.querySelector(".vbar i").style.width=(dn?100:p)+"%";
+      row.querySelector(".vpct").textContent=dn?"Done":p+"%";
+      const a=row.querySelector(".vyt"); a.href=LINKS[d]?`https://www.youtube.com/watch?v=${LINKS[d]}`:search(d);
+    }
+    $$(`[data-chip="${d}"]`).forEach(c=>{c.classList.toggle("done",dn);c.classList.toggle("part",!dn&&p>0);});
+  }
+  SPRINT_DAYS.forEach(([a,b],k)=>{const n=range(a,b).filter(vDone).length;const el=$(`[data-vgc="${k}"]`);if(el)el.textContent=`${n} of ${b-a+1} done`;});
+  $("#vsDone").textContent=`${done} of ${NDAYS}`;
+  $("#vsTime").textContent=dur(state._watch);
+  $("#vsToday").textContent=dur((state._daily[today()]||{}).sec);
+  const nx=nextVideo(), btn=$("#vContinue"), txt=$("#vContinueTxt");
+  if(nx){const p=pctOf(nx);btn.textContent=p>0?`Resume Day ${nx}`:`Start Day ${nx}`;btn.dataset.play=nx;txt.textContent=p>0?`${DAYS[nx]}, ${p}% watched, from ${clock((state._v[nx]||{}).t)}`:DAYS[nx];btn.hidden=false;}
+  else{btn.hidden=true;txt.textContent="Every video is done. Time for practice exams.";}
+  const linked=Object.keys(LINKS).filter(d=>+d>=1&&+d<=NDAYS).length;
+  $("#vLinksNote").textContent=linked>=NDAYS?"":linked===0?"Video links haven’t been added yet, so topics open a YouTube search and watch time can’t be tracked. An admin can add them from the Admin page."+(window.DT_CLOUD?"":" (Or add them in config.js.)"):`${linked} of ${NDAYS} videos have links. The rest open a YouTube search, which isn’t tracked.`;
+  const ring=$('[data-ring="vid"]'); if(ring){const C=2*Math.PI*7.5;ring.style.strokeDasharray=C;ring.style.strokeDashoffset=C*(1-done/NDAYS);}
+}
+
+/* ---------- player ---------- */
+let ytP=null, player=null, curDay=0, timer=null, sinceSave=0;
+function loadYT(){
+  if(ytP)return ytP;
+  ytP=new Promise((res,rej)=>{
+    if(window.YT&&window.YT.Player)return res();
+    const prev=window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady=()=>{if(prev)prev();res();};
+    const s=document.createElement("script");s.src="https://www.youtube.com/iframe_api";s.async=true;
+    s.onerror=()=>{ytP=null;rej(new Error("yt"));};
+    document.head.appendChild(s);
+    setTimeout(()=>{if(!(window.YT&&window.YT.Player)){ytP=null;rej(new Error("timeout"));}},15000);
+  });
+  return ytP;
+}
+function plUpdate(){
+  const v=state._v[curDay]||{}, p=vDone(curDay)?Math.max(v.p||0,100):(v.p||0);
+  $("#plFill").style.width=Math.min(100,p)+"%"; $("#plFill").style.background=vDone(curDay)?"var(--ok)":"";
+  $("#plTxt").textContent=vDone(curDay)?`Done${v.p?`, ${v.p}% watched`:""}`:`${v.p||0}% watched${v.d?` of ${clock(v.d)}`:""}`;
+}
+function openVideo(d){
+  d=+d; if(!DAYS[d])return;
+  closeVideo(true); curDay=d;
+  $("#plTitle").innerHTML=`<small>Day ${d}</small>${esc(DAYS[d])}`;
+  const id=LINKS[d]; const mount=$("#plMount");
+  $("#plYT").href=id?`https://www.youtube.com/watch?v=${id}`:search(d);
+  $("#pl").hidden=false; document.body.style.overflow="hidden"; plUpdate();
+  if(!id){
+    mount.innerHTML=`<div class="pl-empty"><div><p>This video’s link hasn’t been added yet, so it can’t play here or be tracked.${window.DT_ADMIN?" Add it under Admin, Video links.":" Ask your admin to add it."}</p><a class="btn" style="--c:var(--net)" href="${search(d)}" target="_blank" rel="noopener">Find it on YouTube</a></div></div>`;
+    return;
+  }
+  mount.innerHTML='<div id="plYTmount"></div>';
+  loadYT().then(()=>{
+    if(curDay!==d)return;
+    const v=V(d); const start=v.t&&v.d&&v.t<v.d-10?Math.floor(v.t):0;
+    player=new YT.Player("plYTmount",{videoId:id,playerVars:{rel:0,playsinline:1,start,modestbranding:1},events:{onReady:e=>{try{e.target.playVideo()}catch(_){}}}});
+    timer=setInterval(tick,1000);
+  }).catch(()=>{
+    mount.innerHTML=`<div class="pl-empty"><div><p>The YouTube player couldn’t load. Check your connection or any ad blocker, then try again.</p><a class="btn" style="--c:var(--net)" href="https://www.youtube.com/watch?v=${id}" target="_blank" rel="noopener">Open on YouTube instead</a></div></div>`;
+  });
+}
+function tick(){
+  if(!player||typeof player.getPlayerState!=="function")return;
+  let st; try{st=player.getPlayerState();}catch(e){return;}
+  if(st!==1||document.hidden)return;
+  const t=player.getCurrentTime(), D=player.getDuration(); if(!(D>0))return;
+  const v=V(curDay), n=Math.max(1,Math.ceil(D/SEG));
+  if(!v.s||v.s.length!==n)v.s=(v.s||"").padEnd(n,"0").slice(0,n);
+  const i=Math.min(n-1,Math.max(0,Math.floor(t/SEG)));
+  if(v.s[i]!=="1")v.s=v.s.slice(0,i)+"1"+v.s.slice(i+1);
+  v.d=Math.round(D); v.t=Math.round(t);
+  v.p=Math.min(100,Math.round(v.s.split("").filter(c=>c==="1").length/n*100));
+  dayStat().sec++; state._watch=(state._watch||0)+1;
+  if(v.p>=DONE_AT&&!vDone(curDay))complete(curDay);
+  plUpdate(); videoRefresh();
+  if(++sinceSave>=15){sinceSave=0;save();}
+}
+function complete(d){
+  state["net-v"+d]=1; V(d).done=Date.now(); dayStat().vids++;
+  let auto=0;
+  Object.entries(TOPIC_DAYS).forEach(([k,days])=>{
+    if(!days.includes(d))return;
+    const id=`net-i${ccnaPi}-${k}`;
+    if(!state[id]&&days.every(vDone)){state[id]=1;auto++;}
+  });
+  save(); update();
+  toast(`Day ${d} done${auto?`, and ${auto} CCNA topic${auto>1?"s":""} ticked`:""}`);
+}
+function closeVideo(silent){
+  clearInterval(timer); timer=null;
+  if(player){try{player.destroy();}catch(e){} player=null;}
+  $("#plMount").innerHTML="";
+  if(!silent){$("#pl").hidden=true;document.body.style.overflow="";}
+  if(curDay){sinceSave=0;save();update();}
+  if(!silent)curDay=0;
+}
+document.addEventListener("click",e=>{
+  const p=e.target.closest("[data-play]");
+  if(p){e.preventDefault();e.stopPropagation();openVideo(p.dataset.play);return;}
+  if(e.target.id==="plClose"||e.target.id==="pl")closeVideo();
+},true);
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("#pl").hidden)closeVideo();});
+
+/* ticks per day */
+window.onTick=()=>{dayStat().ticks++;};
+
+/* refresh on every update */
+const _u=update; update=function(){_u();videoRefresh();if(window.DT_afterUpdate)DT_afterUpdate();};
+update();
+
+/* ---------- summaries (used by the cloud sync and admin) ---------- */
+function trackCount(tk){const all=$$(`#${tk}Route input[data-id]`).concat(tk==="net"?$$("#vidList input[data-id]"):[]);return {done:all.filter(c=>c.checked).length,total:all.length};}
+const STAGES={net:[],ai:[]};
+["net","ai"].forEach(tk=>$$(`#${tk}Route .hop`).forEach((h,i)=>STAGES[tk].push({n:i+1,t:h.querySelector(".hop-head h2").textContent,ids:$$("input[data-id]",h).map(c=>c.dataset.id)})));
+STAGES.net.forEach(s=>{if(/^CCNA/.test(s.t))s.ids=s.ids.concat(range(1,NDAYS).map(d=>"net-v"+d));});
+
+/* =========================================================
+   Accounts (only when config.js has Firebase settings)
+   ========================================================= */
+if(!CFG.firebase)return;
+window.DT_CLOUD=true;
+const BASE="dualTrackRoadmap.v1", UIDK="dualTrack.uid";
+document.body.classList.add("gated"); $("#gate").hidden=false;
+let A,F,auth,db,me=null,pushT=null,isAdmin=false,signingUp=false;
+
+function gateMsg(t,ok){const m=$("#aMsg");m.textContent=t||"";m.classList.toggle("ok",!!ok);}
+let mode="in";
+function setMode(m){mode=m;$$(".segt button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.mode===m));$("#fName").hidden=m!=="up";$("#aSubmit").textContent=m==="up"?"Create account":"Sign in";$("#aPass").autocomplete=m==="up"?"new-password":"current-password";$("#aForgot").hidden=m==="up";gateMsg("");}
+$$(".segt button").forEach(b=>b.addEventListener("click",()=>setMode(b.dataset.mode)));
+const ERR={"auth/invalid-credential":"Email or password is wrong.","auth/wrong-password":"Email or password is wrong.","auth/user-not-found":"No account with that email. Create one instead.","auth/email-already-in-use":"An account with this email already exists. Sign in instead.","auth/weak-password":"Use a password of at least 6 characters.","auth/invalid-email":"That email address doesn’t look right.","auth/too-many-requests":"Too many attempts. Wait a few minutes and try again.","auth/network-request-failed":"No connection. Check your internet and try again."};
+const errText=e=>ERR[e&&e.code]||"Something went wrong. Try again.";
+
+async function start(){
+  try{
+    [A,F]=await Promise.all([import(FB+"firebase-auth.js"),import(FB+"firebase-firestore.js")]);
+    const {initializeApp}=await import(FB+"firebase-app.js");
+    const app=initializeApp(CFG.firebase); auth=A.getAuth(app); db=F.getFirestore(app);
+  }catch(e){
+    $("#gateLoad").textContent="Couldn’t reach the account service. Check your connection and reload the page. If this keeps happening, the Firebase settings in config.js may be wrong.";
+    return;
+  }
+  A.onAuthStateChanged(auth,onUser);
+}
+start();
+
+$("#authForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const email=$("#aEmail").value.trim(), pass=$("#aPass").value, name=$("#aName").value.trim();
+  if(mode==="up"&&!name){gateMsg("Add your name so your admin knows who you are.");return;}
+  if(!email||!pass){gateMsg("Enter your email and password.");return;}
+  $("#aSubmit").disabled=true; gateMsg("");
+  try{
+    if(mode==="up"){
+      signingUp=true;
+      const cred=await A.createUserWithEmailAndPassword(auth,email,pass);
+      await A.updateProfile(cred.user,{displayName:name});
+      if(ADMINS.includes(email.toLowerCase())){try{await A.sendEmailVerification(cred.user);}catch(_){}}
+      await F.setDoc(F.doc(db,"users",cred.user.uid),{name,email,createdAt:Date.now(),lastActive:Date.now(),summary:{},daily:{}});
+      signingUp=false; onUser(cred.user);
+    }else await A.signInWithEmailAndPassword(auth,email,pass);
+  }catch(err){signingUp=false;gateMsg(errText(err));}
+  $("#aSubmit").disabled=false;
+});
+$("#aForgot").addEventListener("click",async()=>{
+  const email=$("#aEmail").value.trim(); if(!email){gateMsg("Type your email first, then press Forgot password.");return;}
+  try{await A.sendPasswordResetEmail(auth,email);gateMsg("Password reset email sent. Check your inbox.",true);}catch(err){gateMsg(errText(err));}
+});
+
+async function onUser(u){
+  if(signingUp)return;
+  if(!u){
+    if(localStorage.getItem(UIDK)){localStorage.removeItem(UIDK);location.reload();return;}
+    $("#gateLoad").hidden=true; $("#gateForm").hidden=false; return;
+  }
+  if(me&&me.uid===u.uid)return;
+  const key=BASE+":"+u.uid;
+  if(localStorage.getItem(UIDK)!==u.uid){
+    try{
+      if(!localStorage.getItem(key)&&localStorage.getItem(BASE))localStorage.setItem(key,localStorage.getItem(BASE));
+      localStorage.setItem(UIDK,u.uid);
+    }catch(_){}
+    location.reload(); return;
+  }
+  me=u; $("#gateForm").hidden=true; $("#gateLoad").hidden=false; $("#gateLoad").textContent="Loading your progress…";
+  try{
+    const snap=await F.getDoc(F.doc(db,"progress",u.uid));
+    const cloud=snap.exists()?snap.data().state:null;
+    if(cloud&&(cloud._updated||0)>(state._updated||0)&&sessionStorage.getItem("dt-sync")!==String(cloud._updated)){
+      sessionStorage.setItem("dt-sync",String(cloud._updated));
+      localStorage.setItem(key,JSON.stringify(cloud)); location.reload(); return;
+    }
+    const lk=await F.getDoc(F.doc(db,"config","videos"));
+    if(lk.exists())setLinks(lk.data().links||{});
+  }catch(e){toast("Couldn’t load your saved progress. Working from this device for now.");}
+  enter();
+  push(true);
+}
+function enter(){
+  isAdmin=ADMINS.includes((me.email||"").toLowerCase());
+  window.DT_ADMIN=isAdmin&&me.emailVerified;
+  document.body.classList.remove("gated"); $("#gate").hidden=true;
+  const name=me.displayName||me.email.split("@")[0];
+  $("#acct").hidden=false; $("#acctBtn").textContent=name.trim().charAt(0).toUpperCase();
+  $("#acctName").textContent=name; $("#acctEmail").textContent=me.email;
+  const r=$("#acctRole"); r.textContent=isAdmin?"Admin":"Student"; r.classList.toggle("admin",isAdmin);
+  $("#adminTab").hidden=!isAdmin;
+  VIEWS_EXTRA();
+  if(isAdmin)initAdmin();
+  if(location.hash==="#admin")setView("admin",true);
+}
+function VIEWS_EXTRA(){if(!VIEWS.includes("admin")&&isAdmin)VIEWS.push("admin");}
+$("#acctBtn").addEventListener("click",e=>{e.stopPropagation();const m=$("#acctMenu");m.hidden=!m.hidden;$("#acctBtn").setAttribute("aria-expanded",!m.hidden);});
+document.addEventListener("click",e=>{if(!e.target.closest("#acct"))$("#acctMenu").hidden=true;});
+$("#signOut").addEventListener("click",async()=>{await push(true);try{localStorage.removeItem(UIDK);}catch(_){}await A.signOut(auth);location.reload();});
+
+/* ---------- sync ---------- */
+function summary(){return {net:trackCount("net"),ai:trackCount("ai"),vids:{done:range(1,NDAYS).filter(vDone).length,total:NDAYS},watchSec:state._watch||0};}
+function trimmedDaily(){const ks=Object.keys(state._daily||{}).sort().slice(-60);const o={};ks.forEach(k=>o[k]=state._daily[k]);state._daily=o;return o;}
+async function push(now){
+  if(!me)return; clearTimeout(pushT);
+  if(!now){pushT=setTimeout(()=>push(true),4000);return;}
+  try{
+    state._updated=Date.now(); localStorage.setItem(BASE+":"+me.uid,JSON.stringify(state));
+    const clean=JSON.parse(JSON.stringify(state));
+    await F.setDoc(F.doc(db,"progress",me.uid),{state:clean});
+    await F.setDoc(F.doc(db,"users",me.uid),{name:me.displayName||me.email.split("@")[0],email:me.email,lastActive:Date.now(),createdAt:Date.parse(me.metadata.creationTime)||Date.now(),summary:summary(),daily:trimmedDaily()});
+  }catch(e){}
+}
+window.onStateSaved=()=>push(false);
+document.addEventListener("visibilitychange",()=>{if(document.hidden&&me)push(true);});
+
+/* =========================================================
+   Admin
+   ========================================================= */
+let students=[], adminReady=false;
+function initAdmin(){
+  if(!me.emailVerified){$("#aVerify").hidden=false;$("#aBody").hidden=true;$("#aStats").hidden=true;return;}
+  $("#aVerify").hidden=true;$("#aBody").hidden=false;$("#aStats").hidden=false;
+  if(adminReady)return; adminReady=true;
+  buildLinkGrid(); loadStudents();
+}
+$("#aVerified").addEventListener("click",async()=>{
+  try{await me.reload();me=auth.currentUser;await me.getIdToken(true);}catch(_){}
+  if(me.emailVerified){window.DT_ADMIN=true;toast("Email verified. Admin unlocked.");initAdmin();videoRefresh();}
+  else toast("Not verified yet. Open the link in the email first.");
+});
+$("#aResend").addEventListener("click",async()=>{try{await A.sendEmailVerification(me);toast("Verification email sent.");}catch(e){toast(errText(e));}});
+
+async function loadStudents(){
+  $("#aRows").innerHTML=`<tr><td colspan="7" class="aempty">Loading students…</td></tr>`;
+  try{
+    const snap=await F.getDocs(F.collection(db,"users"));
+    students=snap.docs.map(d=>({id:d.id,...d.data()}));
+    renderStudents();
+  }catch(e){$("#aRows").innerHTML=`<tr><td colspan="7" class="aempty">Couldn’t load students. Check that firestore.rules has your admin email and that you’ve verified it.</td></tr>`;}
+}
+const lastDays=n=>{const out=[];const d=new Date();for(let i=n-1;i>=0;i--){const x=new Date(d);x.setDate(d.getDate()-i);out.push(dateKey(x));}return out;};
+const ago=t=>{if(!t)return "Never";const m=Math.round((Date.now()-t)/60000);if(m<2)return "Just now";if(m<60)return `${m} min ago`;const h=Math.round(m/60);if(h<24)return `${h} h ago`;const d=Math.round(h/24);return d===1?"Yesterday":`${d} days ago`;};
+const pc=o=>o&&o.total?Math.round(o.done/o.total*100):0;
+const pctCell=(o,c)=>`<span class="apct" style="--c:${c}"><span><i style="width:${pc(o)}%"></i></span>${pc(o)}%</span>`;
+function renderStudents(){
+  const q=$("#aSearch").value.trim().toLowerCase(), sort=$("#aSort").value, d7=lastDays(7), d14=lastDays(14), t=today();
+  const sumSec=(s,ks)=>ks.reduce((a,k)=>a+((((s.daily||{})[k]||{}).sec)||0),0);
+  const all=students;
+  const activeToday=all.filter(s=>((s.daily||{})[t]||{}).sec||((s.daily||{})[t]||{}).ticks||(s.lastActive&&dateKey(new Date(s.lastActive))===t)).length;
+  $("#aStats").innerHTML=`<div class="vstat"><small>Students</small><b>${all.length}</b></div><div class="vstat"><small>Active today</small><b>${activeToday}</b></div><div class="vstat"><small>Watch time, last 7 days</small><b>${dur(all.reduce((a,s)=>a+sumSec(s,d7),0))}</b></div><div class="vstat"><small>Videos completed</small><b>${all.reduce((a,s)=>a+((((s.summary||{}).vids||{}).done)||0),0)}</b></div>`;
+  let list=all.filter(s=>!q||(s.name||"").toLowerCase().includes(q)||(s.email||"").toLowerCase().includes(q));
+  list.sort(sort==="name"?(a,b)=>(a.name||"").localeCompare(b.name||""):sort==="progress"?(a,b)=>(pc((b.summary||{}).net)+pc((b.summary||{}).ai))-(pc((a.summary||{}).net)+pc((a.summary||{}).ai)):(a,b)=>(b.lastActive||0)-(a.lastActive||0));
+  if(!list.length){$("#aRows").innerHTML=`<tr><td colspan="7" class="aempty">${all.length?"No students match that search.":"No students yet. Share your site link; students appear here after they create an account."}</td></tr>`;return;}
+  $("#aRows").innerHTML=list.map(s=>{
+    const sm=s.summary||{}, mx=Math.max(1,...d14.map(k=>((s.daily||{})[k]||{}).sec||0));
+    return `<tr data-uid="${esc(s.id)}" tabindex="0"><td><b>${esc(s.name||"Unnamed")}</b><small>${esc(s.email||"")}</small></td><td>${ago(s.lastActive)}</td><td>${pctCell(sm.net,"var(--net)")}</td><td>${pctCell(sm.ai,"var(--ai)")}</td><td>${(sm.vids||{}).done||0} of ${NDAYS}</td><td>${dur(sumSec(s,d7))}</td><td><div class="spark">${d14.map(k=>{const x=(s.daily||{})[k]||{};const h=x.sec?Math.max(8,Math.round(x.sec/mx*100)):0;return `<i class="${h?"":"z"}" style="height:${h||8}%" title="${k}: ${dur(x.sec)} watched, ${x.ticks||0} items ticked, ${x.vids||0} videos done"></i>`;}).join("")}</div></td></tr>`;
+  }).join("");
+}
+$("#aSearch").addEventListener("input",renderStudents);
+$("#aSort").addEventListener("change",renderStudents);
+$("#aRefresh").addEventListener("click",loadStudents);
+$("#aRows").addEventListener("click",e=>{const tr=e.target.closest("tr[data-uid]");if(tr)showStudent(tr.dataset.uid);});
+$("#aRows").addEventListener("keydown",e=>{const tr=e.target.closest("tr[data-uid]");if(tr&&e.key==="Enter")showStudent(tr.dataset.uid);});
+
+async function showStudent(uid){
+  const s=students.find(x=>x.id===uid); if(!s)return;
+  const box=$("#aDetail"); box.hidden=false; box.innerHTML=`<p>Loading ${esc(s.name||"student")}…</p>`;
+  box.scrollIntoView({behavior:"smooth",block:"start"});
+  let st={};
+  try{const snap=await F.getDoc(F.doc(db,"progress",uid));st=snap.exists()?(snap.data().state||{}):{};}catch(e){box.innerHTML="<p>Couldn’t load this student’s progress.</p>";return;}
+  const d30=lastDays(30), daily=st._daily||s.daily||{}, mx=Math.max(1,...d30.map(k=>(daily[k]||{}).sec||0));
+  const stages=tk=>STAGES[tk].map(g=>{const p=g.ids.length?Math.round(g.ids.filter(i=>st[i]).length/g.ids.length*100):0;return `<div class="ad-stage"><span>${g.n}. ${esc(g.t)}</span><span class="apct" style="--c:var(--${tk})"><span><i style="width:${p}%"></i></span>${p}%</span></div>`;}).join("");
+  const v=st._v||{};
+  const sum30=d30.reduce((a,k)=>a+((daily[k]||{}).sec||0),0), ticks30=d30.reduce((a,k)=>a+((daily[k]||{}).ticks||0),0), days30=d30.filter(k=>(daily[k]||{}).sec||(daily[k]||{}).ticks).length;
+  box.innerHTML=`<div class="ad-head"><div><h2>${esc(s.name||"Unnamed")}</h2><p>${esc(s.email||"")}. Joined ${s.createdAt?new Date(s.createdAt).toLocaleDateString():"unknown"}, last active ${ago(s.lastActive).toLowerCase()}.</p></div><button class="btn ghost" id="aClose">Close</button></div>
+   <div class="astats card" style="margin-top:20px"><div class="vstat"><small>Watch time, 30 days</small><b>${dur(sum30)}</b></div><div class="vstat"><small>Days studied, 30 days</small><b>${days30}</b></div><div class="vstat"><small>Items ticked, 30 days</small><b>${ticks30}</b></div><div class="vstat"><small>Total watch time</small><b>${dur(st._watch)}</b></div></div>
+   <h3 class="ad-sub">Minutes watched per day, last 30 days</h3>
+   <div class="bars">${d30.map((k,i)=>{const x=daily[k]||{};const h=x.sec?Math.max(3,Math.round(x.sec/mx*100)):0;return `<div title="${k}: ${dur(x.sec)} watched, ${x.ticks||0} items ticked, ${x.vids||0} videos done"><i class="${h?"":"z"}" style="height:${h||2}%"></i>${i%5===0||i===29?`<small>${k.slice(5)}</small>`:""}</div>`;}).join("")}</div>
+   <h3 class="ad-sub">CCNA videos</h3>
+   <div class="heat">${range(1,NDAYS).map(d=>{const p=(v[d]||{}).p||0,dn=st["net-v"+d];return `<i class="${dn?"d":p>=50?"p2":p>0?"p1":""}" title="Day ${d}: ${esc(DAYS[d])}, ${dn?"done":p+"% watched"}">${d}</i>`;}).join("")}</div>
+   <div class="legend2"><span><i style="background:var(--sunk);box-shadow:inset 0 0 0 1px var(--line)"></i>Not started</span><span><i style="background:color-mix(in srgb,var(--net) 22%,var(--surface))"></i>Under 50%</span><span><i style="background:color-mix(in srgb,var(--net) 50%,var(--surface))"></i>50% or more</span><span><i style="background:var(--ok)"></i>Done</span></div>
+   <div class="ad-cols"><div><h3 class="ad-sub" style="color:var(--net)">Networking stages</h3>${stages("net")}</div><div><h3 class="ad-sub" style="color:var(--ai)">AI automation stages</h3>${stages("ai")}</div></div>`;
+  $("#aClose").onclick=()=>{box.hidden=true;};
+}
+
+/* video links editor */
+function buildLinkGrid(){
+  $("#aLinkGrid").innerHTML=range(1,NDAYS).map(d=>`<label><span><b>Day ${d}</b> ${esc(DAYS[d])}</span><input data-link="${d}" placeholder="YouTube link" value="${LINKS[d]?"https://youtu.be/"+LINKS[d]:""}"></label>`).join("");
+  linkCount();
+}
+function linkCount(){
+  let n=0; $$("[data-link]").forEach(i=>{const ok=!!ytId(i.value);i.classList.toggle("ok",ok);i.classList.toggle("bad",!!i.value.trim()&&!ok);if(ok)n++;});
+  $("#aLinkCount").textContent=`${n} of ${NDAYS} linked`;
+}
+$("#aLinkGrid").addEventListener("input",linkCount);
+$("#aBulkApply").addEventListener("click",()=>{
+  const lines=$("#aBulk").value.split(/\n+/).map(l=>l.trim()).filter(Boolean);
+  let seq=1, filled=0;
+  lines.forEach(l=>{
+    const id=ytId((l.match(/\S*(?:youtu\.be|youtube\.com)\S*/)||[l])[0]); if(!id)return;
+    const m=l.match(/day\s*(\d{1,2})/i); const d=m?+m[1]:seq; seq=d+1;
+    const inp=$(`[data-link="${d}"]`); if(inp){inp.value="https://youtu.be/"+id;filled++;}
+  });
+  linkCount(); toast(filled?`Filled ${filled} link${filled>1?"s":""}. Check them, then save.`:"No YouTube links found in the pasted text.");
+});
+$("#aSaveLinks").addEventListener("click",async()=>{
+  const links={}; $$("[data-link]").forEach(i=>{const id=ytId(i.value);if(id)links[i.dataset.link]=id;});
+  $("#aLinkMsg").textContent="Saving…";
+  try{await F.setDoc(F.doc(db,"config","videos"),{links,updatedAt:Date.now()});LINKS={};setLinks(links);$("#aLinkMsg").textContent=`Saved ${Object.keys(links).length} links for every student.`;}
+  catch(e){$("#aLinkMsg").textContent="Couldn’t save. Check that your admin email is in firestore.rules and verified.";}
+});
+})();
 
 </script>
 </body>
