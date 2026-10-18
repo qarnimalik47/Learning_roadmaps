@@ -34,7 +34,11 @@ An interactive study roadmap for two careers at once:
 - The class dashboard works in two ways:
   - **Without accounts:** open `#admin` (there's a link in the footer) and drop in the report files students send you. Reports stay in that browser.
   - **With accounts (Supabase, PostgreSQL):** every student appears live, and coach notes and class messages show at the top of their Progress page.
-- Light and dark modes in a premium theme: Archivo type, Arancio orange and Viola violet accents, chart colors checked for colour-blind readability.
+- Light and dark modes: light grey and white with calm blue (Networking) and soft pink (AI) accents, Archivo type, wide pages, and chart colors checked for colour-blind readability.
+- **Leaderboard (every student):** XP for every video (100), lab (75), notes read (25), quiz card known (10), exam topic ticked (15), practice question answered (2) and day studied (20), with ten levels from Cable Rookie to Network Engineer.
+  - Rank the class by **This week**, **All time** or **Course progress**, with a top-3 podium, your rank and level, and how far you are behind the next person.
+  - Classmates see only each other's name, XP, level and progress counts, never emails. Anyone can untick **Show me on the leaderboard**.
+  - XP is worked out in each student's browser from their own saved work.
 - Study notes for every CCNA Day, linked from each topic, with quiz cards
 - Anki flashcard decks (70, revised in the Revision tab) and Packet Tracer labs (48, downloaded) on every CCNA topic, in the notes reader, and in Practice > Anki and labs, with a "lab done" tick that counts as progress
 - Skill map showing how the two tracks connect
