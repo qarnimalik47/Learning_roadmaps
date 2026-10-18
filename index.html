@@ -1709,16 +1709,16 @@ html.sv-open{overflow:hidden}
 }
 @media (max-width:700px) and (orientation:portrait){.sv-hint{display:block;position:absolute;left:0;right:0;bottom:10px;text-align:center;font-size:13.5px;color:var(--faint);pointer-events:none}}
 @media (prefers-reduced-motion:reduce){.sv{animation:none}.sl-t,.sl-t:hover{transition:none;transform:none}}
-/* home page background: a 3D network of nodes and links behind the headline */
-.panel[data-panel="plan"]{position:relative;isolation:isolate}
-.panel[data-panel="plan"] > .wrap{position:relative;z-index:1}
-.hero-net{position:absolute;left:0;top:0;width:100%;height:min(860px,100vh);z-index:0;pointer-events:none;-webkit-mask-image:linear-gradient(to bottom,#000 58%,transparent);mask-image:linear-gradient(to bottom,#000 58%,transparent)}
-@media (max-width:820px){.hero-net{height:600px;opacity:.6}}
+/* background on every page: a 3D network with stars, behind all content (see the script at the end) */
+.bg-net{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;display:block}
+html body.gated > canvas#bgNet.bg-net{display:block!important}
+@media print{.bg-net{display:none}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.lanes.pre .seg{transform:none}}
 </style>
 <script src="config.js"></script>
 </head>
 <body data-view="plan">
+<canvas class="bg-net" id="bgNet" aria-hidden="true"></canvas>
 <div class="gate" id="gate" hidden>
  <div class="gate-card card">
   <div class="brand"><svg width="28" height="28" viewBox="0 0 30 30" aria-hidden="true"><path d="M4 22 C10 22 10 8 15 8 S20 22 26 22" fill="none" stroke="var(--net)" stroke-width="3" stroke-linecap="round"/><path d="M4 8 C10 8 10 22 15 22 S20 8 26 8" fill="none" stroke="var(--ai)" stroke-width="3" stroke-linecap="round"/><circle cx="15" cy="15" r="3" fill="var(--gold)"/></svg>Dual Track</div>
@@ -1842,7 +1842,6 @@ html.sv-open{overflow:hidden}
 
 <!-- PLAN -->
 <section class="panel" data-panel="plan">
- <canvas class="hero-net" id="heroNet" aria-hidden="true"></canvas>
  <div class="wrap">
   <header class="hero">
    <h1><span class="l-net">Route the packets.</span><span class="l-ai">Automate the work.</span><span>One plan for both.</span></h1>
@@ -6434,96 +6433,202 @@ const _u8=update; update=function(){_u8();refreshChips();if(document.body.datase
 <script>
 
 /* =========================================================
-   Home page background: a slowly turning 3D network of nodes and links
+   Background on every page: a slowly drifting 3D network of nodes and links,
+   with twinkling stars, floating sparkles and the odd shooting star.
+   The scene tilts toward the mouse, and nodes near the pointer link to it.
    ========================================================= */
 (function(){
-const cv=document.getElementById("heroNet"); if(!cv||!cv.getContext)return;
-const ctx=cv.getContext("2d"), panel=cv.closest(".panel");
+const cv=document.getElementById("bgNet"); if(!cv||!cv.getContext)return;
+const ctx=cv.getContext("2d");
 const still=matchMedia("(prefers-reduced-motion: reduce)");
-let W=0,H=0,dpr=1,count=0,nodes=[],edges=[],packets=[],col={},raf=0,inView=true,born=performance.now(),last=0,spawn=0;
-let tx=0,ty=0,gx=0,gy=0;
+/* pause while the video player, notes reader or slide viewer covers the page */
+const covered=()=>["#pl","#nr","#sv"].some(q=>{const e=document.querySelector(q);return e&&!e.hidden;});
+const running=()=>!still.matches&&!document.hidden&&!covered();
 
-/* a repeatable pseudo-random sequence, so the network has the same shape on every visit */
-let seed=7; const rnd=()=>{seed=(seed*16807)%2147483647;return (seed-1)/2147483646;};
-/* nodes spread over a sphere (with a few inside), each linked to its nearest neighbours */
-function build(n){
-  seed=7; count=n; nodes=[]; edges=[]; packets=[];
-  for(let i=0;i<n;i++){
-    const k=i+.5, phi=Math.acos(1-2*k/n), th=Math.PI*(1+Math.sqrt(5))*k, inner=i%6===0, r=inner?.35+rnd()*.45:.92+rnd()*.16;
-    nodes.push({x:r*Math.cos(th)*Math.sin(phi),y:r*Math.sin(th)*Math.sin(phi),z:r*Math.cos(phi),hub:i%9===0});
-  }
-  const seen=new Set();
-  nodes.forEach((a,i)=>{
-    nodes.map((b,j)=>[j,(a.x-b.x)**2+(a.y-b.y)**2+(a.z-b.z)**2]).filter(p=>p[0]!==i).sort((p,q)=>p[1]-q[1]).slice(0,a.hub?5:3)
-      .forEach(([j])=>{const key=i<j?i+"-"+j:j+"-"+i;if(!seen.has(key)){seen.add(key);edges.push([i,j]);}});
-  });
-}
-/* colors come from the theme, so the network follows light and dark mode */
-const rgb=v=>{v=String(v).trim();if(/^#[0-9a-f]{6}$/i.test(v))return [1,3,5].map(i=>parseInt(v.slice(i,i+2),16));const m=v.match(/\d+/g);return m?m.slice(0,3).map(Number):[120,120,120];};
-function readColors(){const s=getComputedStyle(document.documentElement);col={net:rgb(s.getPropertyValue("--net")),ai:rgb(s.getPropertyValue("--ai")),dot:rgb(s.getPropertyValue("--muted")),dark:document.documentElement.style.colorScheme==="dark"||getComputedStyle(document.documentElement).colorScheme==="dark"};}
+/* a repeatable pseudo-random sequence, so the scene looks the same on every visit */
+let seed=1; const rnd=()=>{seed=(seed*16807)%2147483647;return (seed-1)/2147483646;};
+const rgb=v=>{v=String(v).trim();if(/^#[0-9a-f]{6}$/i.test(v))return [1,3,5].map(i=>parseInt(v.slice(i,i+2),16));const m=v.match(/\d+(\.\d+)?/g);return m?m.slice(0,3).map(Number):[120,120,120];};
 const rgba=(c,a)=>`rgba(${c[0]},${c[1]},${c[2]},${Math.max(0,Math.min(1,a)).toFixed(3)})`;
 
+let W=0,H=0,dpr=1,small=false,sizeKey="",quality=1,col={};
+let nodes=[],edges=[],stars=[],sparks=[],packets=[],meteor=null,nextMeteor=0,HX=2,HZ=1;
+const buckets=[[],[],[],[]];
+
+/* nodes fill a box a little larger than the screen, one per cell with jitter, so there are no gaps or clumps */
+function build(){
+  seed=11; nodes=[]; edges=[]; packets=[]; sparks=[]; stars=[];
+  /* world units are half the screen height; the box reaches past every edge of the screen */
+  const S=H*.5, HY=1.22, gap=(small?150:175)/quality; HX=W/H*1.1+.3; HZ=1;
+  const nx=Math.max(3,Math.round(2*HX*S/gap)), ny=Math.max(3,Math.round(2*HY*S/gap)), nz=2;
+  for(let i=0;i<nx;i++)for(let j=0;j<ny;j++)for(let k=0;k<nz;k++)
+    nodes.push({x:-HX+(i+.15+rnd()*.7)*2*HX/nx,y:-HY+(j+.15+rnd()*.7)*2*HY/ny,z:-HZ+(k+.1+rnd()*.8)*2*HZ/nz,ph:rnd()*6.283,sp:.25+rnd()*.35,hub:rnd()<.1,px:0,py:0,s:1,d:0,hot:0});
+  /* link each node to its nearest neighbours, never across the whole screen */
+  const seen=new Set(), max=.8*.8;
+  nodes.forEach((a,i)=>{
+    const near=[];
+    nodes.forEach((b,j)=>{if(i===j)return;const d=(a.x-b.x)**2+(a.y-b.y)**2+(a.z-b.z)**2;if(d<max)near.push([j,d]);});
+    near.sort((p,q)=>p[1]-q[1]).slice(0,a.hub?5:3).forEach(([j])=>{const key=i<j?i*4096+j:j*4096+i;if(!seen.has(key)){seen.add(key);edges.push([i,j]);}});
+  });
+  /* stars in three depths; nearer ones are bigger and move more with the mouse */
+  const ns=Math.min(260,Math.round(W*H/(small?6500:8000)*quality));
+  for(let i=0;i<ns;i++){const d=rnd(),c=rnd();stars.push({x:rnd(),y:rnd(),d,r:d>.85?1.7:d>.5?1.2:.85,tw:.5+rnd()*1.8,ph:rnd()*6.283,a:.35+rnd()*.65,tint:c<.12?"net":c<.2?"ai":""});}
+  const nsp=small?7:16;
+  for(let i=0;i<nsp;i++)sparks.push(newSpark(true));
+}
+function newSpark(anywhere){
+  const d=.35+rnd()*.65;
+  return {x:rnd()*W,y:anywhere?rnd()*H:H+20,d,r:(4.5+rnd()*5.5)*(.7+d*.5),vy:-(7+rnd()*14)*(.6+d*.6),sw:6+rnd()*12,sf:.2+rnd()*.35,ph:rnd()*6.283,tw:.6+rnd()*1.2,rot:rnd()*6.283,vr:(rnd()-.5)*.6,c:rnd()<.5?"net":rnd()<.6?"ai":"gold"};
+}
+function readColors(){
+  const s=getComputedStyle(document.documentElement), bg=rgb(s.getPropertyValue("--bg"));
+  const dark=(.2126*bg[0]+.7152*bg[1]+.0722*bg[2])/255<.4;
+  col={dark,net:rgb(s.getPropertyValue("--net")),ai:rgb(s.getPropertyValue("--ai")),gold:rgb(s.getPropertyValue("--gold")),dot:dark?[214,222,240]:rgb(s.getPropertyValue("--muted")),star:dark?[232,238,255]:rgb(s.getPropertyValue("--faint"))};
+}
 function size(){
   const w=cv.clientWidth, h=cv.clientHeight; if(!w||!h)return false;
-  dpr=Math.min(2,window.devicePixelRatio||1);
-  if(w!==W||h!==H){W=w;H=h;cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);}
-  const n=W<700?44:W<1100?64:84; if(n!==count)build(n);
+  small=w<700; dpr=Math.min(quality<1?1:small?1.5:2,window.devicePixelRatio||1);
+  if(w!==W||h!==H||cv.width!==Math.round(w*dpr)){W=w;H=h;cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);}
+  /* rebuild only when the shape of the screen really changes, not when a phone's address bar slides away */
+  const k=`${Math.round(W/80)}x${Math.round(H/160)}x${quality}`; if(k!==sizeKey){sizeKey=k;build();}
   return true;
 }
-function draw(now){
-  const t=still.matches?0:(now-born)/1000, small=W<820;
-  gx+=(tx-gx)*.05; gy+=(ty-gy)*.05;
-  const ry=.7+t*.07+gx*.6, rx=-.32+gy*.35, cy=Math.cos(ry),sy=Math.sin(ry),cx=Math.cos(rx),sx=Math.sin(rx);
-  const R=Math.min(W*(small?.46:.3),H*.46), CX=small?W*.5:W*.72, CY=H*(small?.42:.44), cam=3.4;
-  const fadeIn=still.matches?1:Math.min(1,(now-born)/1400);
-  /* the network fades out towards the headline on the left */
-  const side=x=>small?1:Math.max(.18,Math.min(1,(x-W*.32)/(W*.28)));
-  const P=nodes.map(p=>{const x=p.x*cy+p.z*sy, z=-p.x*sy+p.z*cy, y=p.y*cx-z*sx, z2=p.y*sx+z*cx, s=cam/(cam-z2);return {x:CX+x*R*s,y:CY+y*R*s,z:z2,s};});
+
+/* ---------- the mouse ---------- */
+let tx=0,ty=0,gx=0,gy=0,mx=0,my=0,cx=0,cy=0,ptr=0,ptrOn=false;
+window.addEventListener("pointermove",e=>{
+  tx=e.clientX/innerWidth-.5; ty=e.clientY/innerHeight-.5; mx=e.clientX; my=e.clientY;
+  if(!ptrOn&&ptr<.05){cx=mx;cy=my;} ptrOn=e.pointerType!=="touch"||e.buttons>0;
+},{passive:true});
+["pointerup","pointercancel"].forEach(ev=>window.addEventListener(ev,e=>{if(e.pointerType==="touch")ptrOn=false;},{passive:true}));
+document.addEventListener("mouseout",e=>{if(!e.relatedTarget)ptrOn=false;});
+window.addEventListener("blur",()=>{ptrOn=false;});
+
+/* ---------- drawing ---------- */
+let t0=performance.now(), last=0, raf=0, born=performance.now();
+function draw(now,dt){
+  const t=(now-t0)/1000, fade=still.matches?1:Math.min(1,(now-born)/1200), k=(col.dark?1.2:1)*fade;
+  /* ease toward the mouse so the scene follows it smoothly at any frame rate */
+  const e=1-Math.exp(-dt*4.5), ec=1-Math.exp(-dt*16);
+  gx+=(tx-gx)*e; gy+=(ty-gy)*e; cx+=(mx-cx)*ec; cy+=(my-cy)*ec; ptr+=((ptrOn?1:0)-ptr)*(1-Math.exp(-dt*5));
+  const sy=window.scrollY||0;
   ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,W,H);
-  const k=(col.dark?1.25:1)*fadeIn;
-  ctx.lineWidth=1;
-  for(const [a,b] of edges){const A=P[a],B=P[b],d=((A.z+B.z)/2+1)/2;ctx.strokeStyle=rgba(col.net,(.05+.26*d)*k*side((A.x+B.x)/2));ctx.beginPath();ctx.moveTo(A.x,A.y);ctx.lineTo(B.x,B.y);ctx.stroke();}
-  /* packets travelling along the links: blue for networking, pink for AI */
-  for(const q of packets){const A=P[edges[q.e][q.f?1:0]],B=P[edges[q.e][q.f?0:1]],u=q.u,v=Math.max(0,u-.18);
-    const x=A.x+(B.x-A.x)*u,y=A.y+(B.y-A.y)*u,x0=A.x+(B.x-A.x)*v,y0=A.y+(B.y-A.y)*v,a=Math.sin(Math.PI*u)*k*side(x);
-    ctx.strokeStyle=rgba(q.c,.55*a);ctx.lineWidth=1.6;ctx.beginPath();ctx.moveTo(x0,y0);ctx.lineTo(x,y);ctx.stroke();
-    ctx.fillStyle=rgba(q.c,.95*a);ctx.beginPath();ctx.arc(x,y,2.2,0,6.283);ctx.fill();}
-  ctx.lineWidth=1;
-  P.map((p,i)=>[p,i]).sort((a,b)=>a[0].z-b[0].z).forEach(([p,i])=>{
-    const n=nodes[i], d=(p.z+1)/2, a=(.28+.62*d)*k*side(p.x), r=(n.hub?3.1:1.7)*p.s;
-    ctx.fillStyle=rgba(n.hub?col.net:col.dot,a);ctx.beginPath();ctx.arc(p.x,p.y,r,0,6.283);ctx.fill();
-    if(n.hub){ctx.strokeStyle=rgba(col.net,.3*a);ctx.beginPath();ctx.arc(p.x,p.y,r*2.6,0,6.283);ctx.stroke();}
-  });
-}
-function step(now){
-  raf=0; if(!running())return;
-  if(now-last>=33){                       /* about 30 frames a second is plenty for a slow drift */
-    const dt=Math.min(.1,(now-last)/1000); last=now;
-    spawn-=dt; if(spawn<=0&&packets.length<14&&edges.length){spawn=.35+rnd()*.5;packets.push({e:Math.floor(rnd()*edges.length),f:rnd()<.5,u:0,v:.45+rnd()*.5,c:rnd()<.72?col.net:col.ai});}
-    packets.forEach(q=>q.u+=q.v*dt); packets=packets.filter(q=>q.u<1);
-    draw(now);
+
+  /* stars: twinkle, and shift with the mouse and the page scroll by depth */
+  for(const b of buckets)b.length=0;
+  for(const s of stars){
+    const a=s.a*(.55+.45*Math.sin(t*s.tw+s.ph));
+    let x=(s.x*W-gx*40*s.d)%W, y=(s.y*H-gy*28*s.d-sy*.04*s.d)%H; if(x<0)x+=W; if(y<0)y+=H;
+    s.px=x; s.py=y; s.al=a; if(!s.tint)buckets[Math.min(3,Math.floor(a*4))].push(s);
   }
-  raf=requestAnimationFrame(step);
+  buckets.forEach((b,i)=>{if(!b.length)return;ctx.fillStyle=rgba(col.star,(col.dark?.22+.2*i:.14+.09*i)*fade);ctx.beginPath();for(const s of b)ctx.rect(s.px-s.r/2,s.py-s.r/2,s.r,s.r);ctx.fill();});
+  /* a few stars carry the track colours */
+  for(const s of stars)if(s.tint){ctx.fillStyle=rgba(col[s.tint],(col.dark?.85:.55)*s.al*fade);ctx.fillRect(s.px-s.r/2,s.py-s.r/2,s.r+.4,s.r+.4);}
+
+  /* the network: rotate a little with time, the mouse and the scroll, then project with perspective */
+  const yaw=Math.sin(t*.045)*.2+gx*.5+Math.sin(sy*.0006)*.12, pitch=Math.sin(t*.037)*.08+gy*.4;
+  const cyw=Math.cos(yaw), syw=Math.sin(yaw), cp=Math.cos(pitch), sp=Math.sin(pitch);
+  const S=H*.5, CX=W/2, CY=H/2, cam=3.2, R=small?110:170, R2=R*R;
+  for(const n of nodes){
+    const x=n.x+Math.sin(t*n.sp+n.ph)*.035, y=n.y+Math.cos(t*n.sp*.8+n.ph)*.035, z=n.z+Math.sin(t*n.sp*.6+n.ph*2)*.03;
+    const x1=x*cyw+z*syw, z1=-x*syw+z*cyw, y1=y*cp-z1*sp, z2=y*sp+z1*cp, s=cam/Math.max(1.25,cam-z2);
+    n.px=CX+x1*S*s; n.py=CY+y1*S*s; n.s=s; n.d=Math.max(0,Math.min(1,(z2+HZ*1.3)/(HZ*2.6)));
+    const dx=n.px-cx, dy=n.py-cy, d2=dx*dx+dy*dy; n.hot=ptr>.01&&d2<R2?(1-Math.sqrt(d2)/R)*ptr:0;
+  }
+  /* links, in four depth bands so each band is one stroke */
+  for(const b of buckets)b.length=0;
+  const hotEdges=[];
+  for(const ed of edges){
+    const A=nodes[ed[0]], B=nodes[ed[1]];
+    if((A.px<-40&&B.px<-40)||(A.px>W+40&&B.px>W+40)||(A.py<-40&&B.py<-40)||(A.py>H+40&&B.py>H+40))continue;
+    if(A.hot>.05||B.hot>.05)hotEdges.push(ed); else buckets[Math.min(3,Math.floor((A.d+B.d)*2))].push(ed);
+  }
+  ctx.lineWidth=1;
+  buckets.forEach((b,i)=>{if(!b.length)return;ctx.strokeStyle=rgba(col.net,(col.dark?.06+.075*i:.04+.055*i)*k);ctx.beginPath();for(const ed of b){const A=nodes[ed[0]],B=nodes[ed[1]];ctx.moveTo(A.px,A.py);ctx.lineTo(B.px,B.py);}ctx.stroke();});
+  for(const ed of hotEdges){const A=nodes[ed[0]],B=nodes[ed[1]],h=Math.max(A.hot,B.hot);ctx.strokeStyle=rgba(col.net,(.12+.3*(A.d+B.d)/2+.35*h)*k);ctx.beginPath();ctx.moveTo(A.px,A.py);ctx.lineTo(B.px,B.py);ctx.stroke();}
+  /* links from the pointer to the nodes around it */
+  if(ptr>.01){
+    ctx.lineWidth=1;
+    for(const n of nodes)if(n.hot>0){ctx.strokeStyle=rgba(col.net,n.hot*.55*k);ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(n.px,n.py);ctx.stroke();}
+  }
+  /* packets running along the links: blue for networking, pink for AI */
+  ctx.lineWidth=1.6;
+  for(const q of packets){
+    const ed=edges[q.e]; if(!ed)continue; const A=nodes[ed[q.f?1:0]],B=nodes[ed[q.f?0:1]],u=q.u,v=Math.max(0,u-.2);
+    const x=A.px+(B.px-A.px)*u,y=A.py+(B.py-A.py)*u,a=Math.sin(Math.PI*u)*k*(.45+.55*(A.d+B.d)/2);
+    ctx.strokeStyle=rgba(q.c,.5*a);ctx.beginPath();ctx.moveTo(A.px+(B.px-A.px)*v,A.py+(B.py-A.py)*v);ctx.lineTo(x,y);ctx.stroke();
+    ctx.fillStyle=rgba(q.c,.95*a);ctx.beginPath();ctx.arc(x,y,2.1,0,6.283);ctx.fill();
+  }
+  /* nodes, far to near, in depth bands; hubs get a ring; nodes near the pointer light up */
+  for(const b of buckets)b.length=0;
+  for(const n of nodes)if(n.px>-20&&n.px<W+20&&n.py>-20&&n.py<H+20)buckets[Math.min(3,Math.floor(n.d*4))].push(n);
+  buckets.forEach((b,i)=>{
+    if(!b.length)return;
+    ctx.fillStyle=rgba(col.dot,(col.dark?.22+.16*i:.16+.13*i)*k);ctx.beginPath();
+    for(const n of b){const r=(n.hub?2.5:1.45)*n.s;ctx.moveTo(n.px+r,n.py);ctx.arc(n.px,n.py,r,0,6.283);}ctx.fill();
+  });
+  ctx.lineWidth=1;
+  for(const n of nodes){
+    if(n.hub){ctx.fillStyle=rgba(col.net,(.3+.45*n.d)*k);ctx.beginPath();ctx.arc(n.px,n.py,2.5*n.s,0,6.283);ctx.fill();ctx.strokeStyle=rgba(col.net,(.1+.22*n.d)*k);ctx.beginPath();ctx.arc(n.px,n.py,6.5*n.s,0,6.283);ctx.stroke();}
+    if(n.hot>.02){ctx.fillStyle=rgba(col.net,(.35+.5*n.hot)*k);ctx.beginPath();ctx.arc(n.px,n.py,(1.8+1.8*n.hot)*n.s,0,6.283);ctx.fill();}
+  }
+
+  /* floating sparkles: four-point stars that drift upward, sway and twinkle */
+  for(const p of sparks){
+    const a=(col.dark?.75:.68)*(.5+.5*Math.sin(t*p.tw+p.ph))*fade;
+    const x=p.x+Math.sin(t*p.sf+p.ph)*p.sw-gx*60*p.d, y=p.y-gy*40*p.d, r=p.r*(.85+.15*Math.sin(t*p.tw*1.3+p.ph));
+    const c=col[p.c]; ctx.fillStyle=rgba(c,a);
+    ctx.save();ctx.translate(x,y);ctx.rotate(p.rot+t*p.vr);ctx.beginPath();
+    ctx.moveTo(0,-r);ctx.quadraticCurveTo(0,0,r,0);ctx.quadraticCurveTo(0,0,0,r);ctx.quadraticCurveTo(0,0,-r,0);ctx.quadraticCurveTo(0,0,0,-r);ctx.fill();
+    ctx.restore();
+  }
+
+  /* the odd shooting star */
+  if(meteor){
+    const m=meteor, u=m.age/m.dur, hx=m.x+m.vx*m.age, hy=m.y+m.vy*m.age, len=m.len*Math.sin(Math.PI*Math.min(1,u));
+    const n=Math.hypot(m.vx,m.vy), ex=hx-m.vx/n*len, ey=hy-m.vy/n*len;
+    const g=ctx.createLinearGradient(hx,hy,ex,ey), a=(col.dark?.9:.55)*Math.sin(Math.PI*Math.min(1,u))*fade, c=col.dark?col.star:col.net;
+    g.addColorStop(0,rgba(c,a));g.addColorStop(1,rgba(c,0));
+    ctx.strokeStyle=g;ctx.lineWidth=1.6;ctx.beginPath();ctx.moveTo(hx,hy);ctx.lineTo(ex,ey);ctx.stroke();
+    ctx.fillStyle=rgba(c,a);ctx.beginPath();ctx.arc(hx,hy,1.7,0,6.283);ctx.fill();
+  }
 }
-/* pause while the video player, notes reader or slide viewer covers the page, so videos stay smooth */
-const covered=()=>["#pl","#nr","#sv"].some(q=>{const e=document.querySelector(q);return e&&!e.hidden;});
-const running=()=>!still.matches&&inView&&!document.hidden&&!panel.hidden&&!covered();
+/* move everything on by dt seconds */
+function step(dt,now){
+  for(const p of sparks){p.y+=p.vy*dt; if(p.y<-24){Object.assign(p,newSpark(false));p.x=Math.random()*W;}}
+  if(edges.length&&packets.length<(small?7:16)&&Math.random()<dt*(small?2.2:4.5))
+    packets.push({e:Math.floor(Math.random()*edges.length),f:Math.random()<.5,u:0,v:.35+Math.random()*.45,c:Math.random()<.72?col.net:col.ai});
+  for(const q of packets)q.u+=q.v*dt; packets=packets.filter(q=>q.u<1);
+  if(meteor){meteor.age+=dt;if(meteor.age>meteor.dur)meteor=null;}
+  else if(now>nextMeteor){
+    if(nextMeteor){const dir=Math.random()<.5?-1:1, sp=small?520:820;meteor={x:W*(.15+Math.random()*.7),y:H*(.05+Math.random()*.3),vx:dir*sp*.82,vy:sp*.57,age:0,dur:.85+Math.random()*.4,len:small?90:170};}
+    nextMeteor=now+7000+Math.random()*9000;
+  }
+}
+/* if the device struggles, draw at 1x and with fewer nodes and stars */
+let fN=0,fT=0,tuned=false;
+function watch(dt){
+  if(tuned)return; fN++; fT+=dt;
+  if(fT>=2.5){const avg=fT/fN;fN=0;fT=0;if(avg>.024){quality=.7;tuned=true;sizeKey="";size();}else if(avg<.02)tuned=true;}
+}
+function frame(now){
+  raf=0; if(!running())return;
+  const dt=Math.min(.05,(now-(last||now))/1000); last=now;
+  step(dt,now); draw(now,dt); watch(dt);
+  raf=requestAnimationFrame(frame);
+}
 function kick(){
   if(!size())return;
   readColors();
-  if(still.matches||!running()){draw(performance.now());return;}  /* reduced motion: one still frame */
-  if(!raf){last=0;raf=requestAnimationFrame(step);}
+  if(!running()){last=0;if(raf){cancelAnimationFrame(raf);raf=0;}draw(performance.now(),0);return;}  /* reduced motion or covered: one still frame */
+  if(!raf){last=0;raf=requestAnimationFrame(frame);}
 }
-if("ResizeObserver" in window)new ResizeObserver(kick).observe(cv);
-if("IntersectionObserver" in window)new IntersectionObserver(es=>{inView=es[0].isIntersecting;kick();}).observe(cv);
-new MutationObserver(kick).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme","class","style"]});
+let rzT; window.addEventListener("resize",()=>{cancelAnimationFrame(rzT);rzT=requestAnimationFrame(kick);});
+new MutationObserver(kick).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme","class"]});
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change",kick);
 still.addEventListener("change",kick);
 document.addEventListener("visibilitychange",kick);
 ["#pl","#nr","#sv"].forEach(q=>{const e=document.querySelector(q);if(e)new MutationObserver(kick).observe(e,{attributes:true,attributeFilter:["hidden"]});});
-window.addEventListener("pointermove",e=>{if(panel.hidden||still.matches)return;tx=e.clientX/innerWidth-.5;ty=e.clientY/innerHeight-.5;},{passive:true});
-/* start and stop with the Plan page */
-const _u7=update; update=function(){_u7();kick();};
+window.addEventListener("scroll",()=>{if(!raf&&!still.matches&&!document.hidden&&!covered())kick();},{passive:true});
 kick();
 })();
 
